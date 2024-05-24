@@ -1,12 +1,20 @@
-import GongNav from "./components/navbar";
+import GongNav from "./components/navbar/navbar";
 import Image from "next/image";
+import ItemsList from "./test/page";
+
+
 
 
 export default function Home() {
+
+
+
+
   return (
     <main>
-      <GongNav/>
-          <h1 className="text-slate-500">asdjoasjd</h1>
+      <ItemsList></ItemsList>
+
+      
 
 
 
