@@ -1,24 +1,10 @@
-import GongNav from "./components/navbar/navbar";
-import Image from "next/image";
-import ItemsList from "./test/page";
-
-
-
+import DrinksList from "./components/drinks/drinksList";
 
 export default function Home() {
-
-
-
-
   return (
-    <main>
-      <ItemsList></ItemsList>
+    <main className="flex-grow">
 
-      
-
-
-
-
+      <DrinksList />
     </main>
   );
 }

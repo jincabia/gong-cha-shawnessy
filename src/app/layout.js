@@ -12,14 +12,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <GongNav/>
+      
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
+      <GongNav />
+
+
+        <div className="flex-grow">{children}</div>
         
-        
-        {children}
-        
-        
-        </body>
+      </body>
     </html>
   );
 }
