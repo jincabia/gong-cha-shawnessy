@@ -33,7 +33,7 @@ const Drink = ({ name, price }) => {
       </div>
       <div className='flex flex-col items-start justify-start flex-grow mt-4'>
           <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{name}</h1>
-          <p className='text-black text-sm'>${price}</p>
+          {/* <p className='text-black text-sm'>${price}</p> */}
         </div>
 
 
