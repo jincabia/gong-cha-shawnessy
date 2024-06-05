@@ -3,6 +3,45 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getToppings } from '../../components/drinks/toppings/retrieveToppings';
 
+/*
+The folder /order we can change the name if it is mis leading
+
+[name] - is for dynamic routing for each drink
+
+
+
+Maybe change the params to the id and then use it to search into db?
+
+there are 2 params when using this 
+name
+price
+
+TODO 
+- add customization 
+- add to cart
+- add to order
+
+*/ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const CustomizeDrink = () => {
   const params = useParams();
   const searchParams = useSearchParams();
