@@ -10,7 +10,7 @@ export default function GongNav() {
   };
 
   return (
-    <main className="bg-white-500">
+    <main className="bg-red-700">
         {/* Mobile Nav bar */}
       {hidden ? (
         <div
