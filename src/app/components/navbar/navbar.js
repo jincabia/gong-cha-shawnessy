@@ -48,7 +48,7 @@ export default function GongNav() {
         <div className="flex justify-between items-center border-b-2 border-opacity-50 border-gray-400">
           <div className="justify-start">
             <Image
-              src="/logoWithTagline.png"
+              src="/logowhite.png"
               width={175}
               height={175}
               className="p-2"
