@@ -10,7 +10,7 @@ export default function GongNav() {
   };
 
   return (
-    <main className="bg-white-500">
+    <main className="bg-red-700">
         {/* Mobile Nav bar */}
       {hidden ? (
         <div
@@ -67,10 +67,10 @@ export default function GongNav() {
           </button>
 
           <div className="hidden md:flex space-x-10">
-            <h1 className="text-black w-fit">Home</h1>
-            <h1 className="text-black w-fit">Menu</h1>
-            <h1 className="text-black w-fit">Order</h1>
-            <h1 className="text-black w-fit">Where to find us!</h1>
+            <h1 className="text-white w-fit">Home</h1>
+            <h1 className="text-white w-fit">Menu</h1>
+            <h1 className="text-white w-fit">Order</h1>
+            <h1 className="text-white w-fit">Where to find us!</h1>
           </div>
 
           <div className="hidden md:flex space-x-10 pr-10">
