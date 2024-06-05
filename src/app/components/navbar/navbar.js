@@ -25,19 +25,19 @@ export default function GongNav() {
           </div>
 
           <div className="text-center content-center justify-center bg-gray-400 w-2/5 mx-auto m-4">
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
+            <h1 className="text-white w-fit mx-auto mb-4 border-b-2 border-slate-300">
               Home
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
+            <h1 className="text-white w-fit mx-auto mb-4 border-b-2 border-slate-300">
               Menu
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
+            <h1 className="text-white w-fit mx-auto mb-4 border-b-2 border-slate-300">
               Order
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
+            <h1 className="text-white w-fit mx-auto mb-4 border-b-2 border-slate-300">
               Where to find us!
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
+            <h1 className="text-white w-fit mx-auto mb-4 border-b-2 border-slate-300">
               Account
             </h1>
           </div>
