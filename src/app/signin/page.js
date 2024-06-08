@@ -1,9 +1,10 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { writeUserData } from '../components/writeuserdata/writeuserdata';
 
-const firebaseConfig = {
+  const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -26,10 +27,12 @@ const Auth = () => {
   const signUpWithEmail = (event) => {
     event.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setUser(userCredential.user);
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        setUser(user);
         setError(null); // Clear any previous errors
-        console.log('Signed up user:', userCredential.user);
+        console.log('Signed up user:', user);
+        await writeUserData(user);
       })
       .catch((error) => {
         setError(error.message);
@@ -39,13 +42,12 @@ const Auth = () => {
 
   const signInWithGoogle = () => {
     signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        setUser(result.user);
+      .then(async (result) => {
+        const user = result.user;
+        setUser(user);
         setError(null); // Clear any previous errors
-        console.log('Signed in user:', result.user);
-        console.log('Access token:', token);
+        console.log('Signed in user:', user);
+        await writeUserData(user);
       })
       .catch((error) => {
         setError(error.message);
