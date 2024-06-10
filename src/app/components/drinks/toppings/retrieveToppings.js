@@ -8,6 +8,6 @@ export async function getToppings() {
   const querySnapshot = await getDocs(toppingsQuery); // Execute the query and get a snapshot of the results
   // Convert the snapshot to an array of workout objects
   const toppings = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  console.log(toppings)
   return toppings;
 }
+

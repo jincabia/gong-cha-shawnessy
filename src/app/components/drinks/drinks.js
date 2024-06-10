@@ -22,11 +22,10 @@ Add customized drink to cart
 
 
 // Drink Component
-const Drink = ({ name, price }) => {
+const Drink = ({ name, price, id }) => {
   const router = useRouter();
 
   const handleClick = () => {
-
 
 
     /**
@@ -35,8 +34,9 @@ const Drink = ({ name, price }) => {
      * maybe just pass in the ID and then find it in database?
      *
      */
-    router.push(`/order/${name}?name=${name}&price=${price}`);
+    router.push(`/menu/${id}`);
   };
+  
 
 
   // Styling and showing any needed info

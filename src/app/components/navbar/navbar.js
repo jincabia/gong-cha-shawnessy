@@ -1,13 +1,21 @@
 'use client'
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function GongNav() {
   const [hidden, setHidden] = useState(false);
+  const router = useRouter();
+
 
   const toggleHidden = () => {
     setHidden((prevState) => !prevState);
   };
+
+  const handleNavigation = (path) => {
+    toggleHidden();
+    router.push(path)
+  }
 
   return (
     <main className="bg-white-500">
@@ -23,22 +31,23 @@ export default function GongNav() {
               <Image src="/close.png" width={40} height={40} alt="Exit button" />
             </button>
           </div>
+          {/* router.push(`/menu/${id}`); */}
 
           <div className="text-center content-center justify-center bg-gray-400 w-2/5 mx-auto m-4">
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
+            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300" onClick={() => handleNavigation('/')}>
               Home
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Menu
+            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300" onClick={() => handleNavigation('/menu')}>
+              Menu 
             </h1>
             <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Order
+              Order Not done
             </h1>
             <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Where to find us!
+              Where to find us! Not done
             </h1>
             <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Account
+              Account Not done
             </h1>
           </div>
         </div>
