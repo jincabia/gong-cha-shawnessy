@@ -4,13 +4,21 @@ import { useState } from "react";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { grey, red } from "@mui/material/colors";
+import { useRouter } from "next/navigation";
 
 export default function GongNav() {
   const [hidden, setHidden] = useState(false);
+  const router = useRouter();
+
 
   const toggleHidden = () => {
     setHidden((prevState) => !prevState);
   };
+
+  const handleNavigation = (path) => {
+    toggleHidden();
+    router.push(path)
+  }
 
   return (
     <main className="bg-white">
@@ -26,6 +34,7 @@ export default function GongNav() {
               <Image src="/close.png" width={60} height={60} alt="Exit button" className="pr-5 pt-5" />
             </button>
           </div>
+          {/* router.push(`/menu/${id}`); */}
 
           <div className="text-center content-center justify-center bg-white w-full mx-auto m-4">
             <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
