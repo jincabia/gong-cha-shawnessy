@@ -42,9 +42,12 @@ const DrinksList = () => {
 
 
 
-  // TODO Maybe loading animation
   if (loading) {
-    return <p className="text-center text-gray-500">Loading...</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="spinner" style={{ width: 100, height: 100 }}></div>
+      </div>
+    );
   }
 
   if (error) {
@@ -57,6 +60,8 @@ const DrinksList = () => {
       {/* <button onClick={()=> console.log(drinks)}>CLick here </button> */}
 
       <ul className="grid grid-cols-2 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-4">
+
+        {!drinks} 
 
         {drinks.map((drink) => (
           <li key={drink.id} className="list-none flex justify-center items-center">
