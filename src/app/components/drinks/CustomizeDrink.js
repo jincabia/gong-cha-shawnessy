@@ -225,7 +225,7 @@ const CustomizeDrink = () => {
 
 
       {/* Display the final Price after adjustments */}
-      <div className='flex justify-between items-center mt-5 mx-5'>
+      <div className='flex justify-between items-center my-5 mx-5 '>
         <h1 className='underline'>${price.toFixed(2)}</h1>
         <button 
           onClick={handleToCart} 

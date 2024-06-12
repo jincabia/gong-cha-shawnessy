@@ -18,7 +18,7 @@ const Toppings = ({ name, price, onChange, disableIncrement }) => {
   };
 
   return (
-    <div className="flex flex-col items-center mx-5 py-4">
+    <div className="flex flex-col items-center mx-5 py-4 border-b border-black">
       <div className="w-full flex justify-between items-center">
         <div className="flex items-center">
           <h1 className="text-md font-semibold">{name}</h1>
