@@ -8,6 +8,7 @@ export default function Footer() {
                    width={150} 
                    height={50}
                    className="pb-3"
+                   alt="Gong Cha Logo"
             />
             <p className="text-stone-400 text-sm">GONG CHA GLOBAL LTD ALL RIGHTS RESERVED</p>
             <p className="text-stone-400 text-sm">70 SHAWVILLE BLVD SE #228, CALGARY, AB T2Y 2Z3</p>

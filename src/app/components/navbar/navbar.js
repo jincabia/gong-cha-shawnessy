@@ -6,15 +6,19 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import { grey, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
 
+// TODO Start filling up pages
+
 export default function GongNav() {
   const [hidden, setHidden] = useState(false);
   const router = useRouter();
 
 
+  // Only for mobile
   const toggleHidden = () => {
     setHidden((prevState) => !prevState);
   };
 
+  // Navigation method only for mobile
   const handleNavigation = (path) => {
     toggleHidden();
     router.push(path)
@@ -37,22 +41,22 @@ export default function GongNav() {
           {/* router.push(`/menu/${id}`); */}
 
           <div className="text-center content-center justify-center bg-white w-full mx-auto m-4">
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" >
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/')} >
               Our Story
             </h1>
             <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
               Our Menu
             </h1>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
               Our Philosophy
             </h1>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
               Our Tea
             </h1>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
               Our Location
             </h1>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
               Contact Us
             </h1>
           </div>
@@ -61,7 +65,7 @@ export default function GongNav() {
     //   Desktop nav
       (
         <div className="flex justify-between items-center shadow-md">
-          <div className="justify-start">
+          <div className="justify-start" >
             <Image
               src="/logoWithTagline.png"
               width={175}
