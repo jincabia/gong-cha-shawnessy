@@ -9,6 +9,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { grey, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
 
+// TODO Start filling up pages
+
 export default function GongNav() {
   const [hidden, setHidden] = useState(false);
   const router = useRouter();
@@ -25,10 +27,12 @@ export default function GongNav() {
     router.push("/store");
   };
 
+  // Only for mobile
   const toggleHidden = () => {
     setHidden((prevState) => !prevState);
   };
 
+  // Navigation method only for mobile
   const handleNavigation = (path) => {
     toggleHidden();
     router.push(path)
@@ -62,7 +66,7 @@ export default function GongNav() {
     //   Desktop nav
       (
         <div className="flex justify-between items-center shadow-md">
-          <button className="justify-start" onClick={navToHome}>
+          <div className="justify-start">
             <Image
               src="/logoWithTagline.png"
               width={175}
@@ -70,7 +74,7 @@ export default function GongNav() {
               className="p-7"
               alt="Gong Cha"
             />
-          </button>
+          </div>
 
           <button onClick={toggleHidden} className="md:hidden pr-5">
             <MenuIcon sx={{ color: grey[900], fontSize: 40 }}/>
