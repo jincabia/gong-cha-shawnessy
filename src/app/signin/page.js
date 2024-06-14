@@ -58,7 +58,7 @@ const Auth = () => {
   };
 
   return (
-    <div style ={{color: 'black'}}>
+    <div className='text-black text-xl'>
       <button onClick={signInWithGoogle}>Sign in with Google</button>
       {user && <div>Signed in as: {user.displayName}</div>}
       {error && <div style={{ color: 'red' }}>Error: {error}</div>}

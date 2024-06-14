@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { getOrders } from './retrieveOrders';
 import Order from './orders';
+import { or } from 'firebase/firestore';
 
 
 // Menu component as well
@@ -43,7 +44,7 @@ const OrdersList = () => {
       <ul className="grid grid-cols-2 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-4">
         {orders.map((order) => (
           <li key={order.id} className="list-none flex justify-center items-center">
-            <Order name={order.product_name} price={order.Total_Price} />
+            <Order name={order.product_name} toppings={order.toppings} price={order.Total_Price} user_name={order.first_name + " " + order.last_name} />
           </li>
         ))}
       </ul>

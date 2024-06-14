@@ -1,12 +1,13 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Toppings from '../topping/Topping';
 
 
 
 // Drink Component
 // TODO onclick component then customize drink then add to cart then order
-const Order = ({ name, price }) => {
+const Order = ({ name, price, user_name, toppings }) => {
 
   // Milk Tea w/ Pearls
 
@@ -34,7 +35,8 @@ const Order = ({ name, price }) => {
       <div className='flex flex-col items-start justify-start flex-grow mt-4'>
           <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{name}</h1>
           <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{price}</h1>
-          {/* <p className='text-black text-sm'>${price}</p> */}
+          <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{user_name}</h1>
+          <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{toppings}</h1>          {/* <p className='text-black text-sm'>${price}</p> */}
         </div>
 
 
