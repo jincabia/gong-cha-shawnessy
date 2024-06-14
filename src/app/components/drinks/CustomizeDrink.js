@@ -306,6 +306,9 @@ const CustomizeDrink = () => {
         
       </div>
 
+      <div className='text-center'>
+        <p className='text-sm text-gray-700 underline'>Max 4 Toppings</p>
+      </div>
       {/* When adding toppings only have 4 max */}
       {/* Display all toppings from DB */}
       {toppings.map((topping) => (
