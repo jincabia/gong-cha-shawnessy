@@ -16,6 +16,8 @@ import { writeUserData } from '../components/writeuserdata/writeuserdata';
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+
+
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
