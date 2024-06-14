@@ -5,7 +5,8 @@ import { getToppings } from '../../components/drinks/toppings/retrieveToppings';
 import Image from 'next/image';
 import { getDrinkById } from '@/app/components/drinks/retrieveDrink';
 import Toppings from '../topping/Topping';
-
+import ProtectedRoute from '../ProtectedRoutes/ProtectedRoute';
+import { useAuth } from '@/app/authContext/AuthContext';
 /*
 [name] - is for dynamic routing for each drink
 
@@ -43,6 +44,11 @@ const CustomizeDrink = () => {
   // Num of toppings
   const [toppingCount, setToppingCount] = useState(0);
 
+  // User 
+  const {user} = useAuth();
+
+  const [cart, setCart] = useState([])
+
   // Fetches Toppings from the database
   const fetchToppings = async () => {
     try {
@@ -65,9 +71,24 @@ const CustomizeDrink = () => {
     }
   };
 
+  const fetchCart = async () => 
+    {
+      try {
+        // getDrinkByID works by having a collection then a certain id passed 
+        // so we can use it here
+        const cartData = await getDrinkById('users', user.uid);
+        // cartData returns the UID, ID and email UID == ID they are the same
+        setCart(cartData.cart)
+      } catch (error) {
+        console.error('Error fetching Cart:', error);
+
+      }
+    };
+
   useEffect(() => {
     fetchDrink();
     fetchToppings();
+    fetchCart();
   }, []);
 
   // When a new Size is selected
@@ -141,6 +162,7 @@ const CustomizeDrink = () => {
 
   return (
     // Image of the drink or Spinner/Loading
+  <ProtectedRoute>
     <div className='text-black'>
       <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
         {drink.product_name ? (
@@ -329,6 +351,9 @@ const CustomizeDrink = () => {
 
 
 
+      <button onClick={()=> console.log(user)}>Click</button>
+      <button onClick={()=> console.log(cart)}>Click for cart</button>
+
 
 
 
@@ -350,6 +375,7 @@ const CustomizeDrink = () => {
         
       </div>
     </div>
+  </ProtectedRoute>
   );
 };
 

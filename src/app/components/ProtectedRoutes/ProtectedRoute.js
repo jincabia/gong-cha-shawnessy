@@ -1,7 +1,7 @@
 // src/app/components/ProtectedRoute.js
 import React from 'react';
-import { useRouter } from 'next/router';
-import { useAuth } from '../_utils/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/authContext/AuthContext';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();

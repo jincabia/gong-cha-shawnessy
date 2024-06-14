@@ -1,55 +1,36 @@
-'use client';
+'use client'
 import React, { useState } from 'react';
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { writeUserData } from '../components/writeuserdata/writeuserdata';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useAuth } from '../authContext/AuthContext';
 
-  const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-
-
-const Auth = () => {
+const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-  const auth = getAuth(app);
+  const auth = getAuth();
   const googleProvider = new GoogleAuthProvider();
+  const { user, signOut } = useAuth();
 
-  const signUpWithEmail = (event) => {
+  const signInWithEmail = (event) => {
     event.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCredential) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
         const user = userCredential.user;
-        setUser(user);
         setError(null); // Clear any previous errors
-        console.log('Signed up user:', user);
-        await writeUserData(user);
+        console.log('Signed in user:', user);
       })
       .catch((error) => {
         setError(error.message);
-        console.error('Sign-up error:', error);
+        console.error('Sign-in error:', error);
       });
   };
 
   const signInWithGoogle = () => {
     signInWithPopup(auth, googleProvider)
-      .then(async (result) => {
+      .then((result) => {
         const user = result.user;
-        setUser(user);
         setError(null); // Clear any previous errors
         console.log('Signed in user:', user);
-        await writeUserData(user);
       })
       .catch((error) => {
         setError(error.message);
@@ -58,11 +39,11 @@ const Auth = () => {
   };
 
   return (
-    <div>
+    <div className='text-black'>
       <h2>Sign In</h2>
       <button onClick={signInWithGoogle}>Sign in with Google</button>
       <h2>Or</h2>
-      <form onSubmit={signUpWithEmail}>
+      <form onSubmit={signInWithEmail}>
         <div>
           <label>Email:</label>
           <input 
@@ -81,12 +62,17 @@ const Auth = () => {
             required 
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit">Sign In</button>
       </form>
-      {user && <div>Signed in as: {user.email}</div>}
+      {user && (
+        <div>
+          <div>Signed in as: {user.email}</div>
+          <button onClick={signOut}>Sign Out</button>
+        </div>
+      )}
       {error && <div style={{ color: 'red' }}>Error: {error}</div>}
     </div>
   );
 };
 
-export default Auth;
+export default SignIn;
