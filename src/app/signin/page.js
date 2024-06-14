@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { writeUserData } from '../components/writeuserdata/writeuserdata';
 
-  const firebaseConfig = {
+const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -15,17 +16,15 @@ import { writeUserData } from '../components/writeuserdata/writeuserdata';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-
+const auth = getAuth(app);
+const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-  const provider = new GoogleAuthProvider();
-  const auth = getAuth(app);
-  const googleProvider = new GoogleAuthProvider();
 
   const signUpWithEmail = (event) => {
     event.preventDefault();
@@ -33,7 +32,7 @@ const Auth = () => {
       .then(async (userCredential) => {
         const user = userCredential.user;
         setUser(user);
-        setError(null); // Clear any previous errors
+        setError(null);
         console.log('Signed up user:', user);
         await writeUserData(user);
       })
@@ -48,7 +47,7 @@ const Auth = () => {
       .then(async (result) => {
         const user = result.user;
         setUser(user);
-        setError(null); // Clear any previous errors
+        setError(null);
         console.log('Signed in user:', user);
         await writeUserData(user);
       })
@@ -56,31 +55,15 @@ const Auth = () => {
         setError(error.message);
         console.error('Sign-in error:', error);
       });
-    };
-
-    const writeUidToFirestore = async (uid) => {
-      try {
-        // Specify the collection and document you want to add or update
-        const docRef = doc(db, "users", uid);
-    
-        // Set the document data
-        await setDoc(docRef, { uid }, { merge: true });
-    
-        console.log("Document written with UID: ", uid);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    };
-
-    
+  };
 
   return (
-    <div>
-      <button onClick={signIn}>Sign in with Google</button>
+    <div style ={{color: 'black'}}>
+      <button onClick={signInWithGoogle}>Sign in with Google</button>
       {user && <div>Signed in as: {user.displayName}</div>}
       {error && <div style={{ color: 'red' }}>Error: {error}</div>}
     </div>
   );
 };
 
-export default SignIn;
+export default Auth;
