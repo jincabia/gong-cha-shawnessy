@@ -17,7 +17,7 @@ const Toppings = ({ name, price, onChange, disableIncrement }) => {
   };
 
   return (
-    <div className="topping-item border-b border-black py-4 w-4/5 mx-auto ">
+    <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
       <div className="container mx-auto grid grid-cols-8 gap-5 items-center">
         <div className="col-span-5 flex items-center">
           <h1 className="text-md font-semibold">{name}</h1>

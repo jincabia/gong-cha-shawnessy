@@ -1,12 +1,14 @@
 'use client';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef  } from 'react';
 import { getToppings } from '../../components/drinks/toppings/retrieveToppings';
 import Image from 'next/image';
 import { getDrinkById } from '@/app/components/drinks/retrieveDrink';
 import Toppings from '../topping/Topping';
 import ProtectedRoute from '../ProtectedRoutes/ProtectedRoute';
 import { useAuth } from '@/app/authContext/AuthContext';
+import updateUserCart from '../updateUsersCollection/updateUsersCart';
+
 /*
 [name] - is for dynamic routing for each drink
 
@@ -16,10 +18,9 @@ PARAMETERS
 ID - we'll use the id to query through the database and show the info
 
 TODO 
-- add customization 
 - add to cart
 - add to order
-- conditional options, for lattes, smoothies, brown sugars
+-error handling if they dont select an option
 */
 
 const CustomizeDrink = () => {
@@ -33,9 +34,9 @@ const CustomizeDrink = () => {
 
   // The variables will be changed based on user pref
   const [drinkToppings, setDrinkToppings] = useState([]);
-  const [size, setSize] = useState("medium");
-  const [sugar, setSugar] = useState("100");
-  const [ice, setIce] = useState("regular");
+  const [size, setSize] = useState("Select a Size");
+  const [sugar, setSugar] = useState("Select a Sugar Level");
+  const [ice, setIce] = useState("Select an Ice Level");
 
   // Price of the drink
   const [initialPrice, setInitialPrice] = useState(0);
@@ -47,7 +48,21 @@ const CustomizeDrink = () => {
   // User 
   const {user} = useAuth();
 
+  // User cart
   const [cart, setCart] = useState([])
+
+
+  // Error Handling
+  const [showError, setShowError] = useState(false); // State to show/hide error popup
+  const [errorMessage, setErrorMessage] = useState(""); // State to store error message
+  const errorRef = useRef(null); // Reference to the error message div
+
+
+  // Success Msgs when drink is properly put into cart
+  
+  const [showSuccess, setShowSuccess] = useState(false); // State to show/hide success popup
+  const successTimeout = useRef(null); // Reference to timeout for hiding success popup
+
 
   // Fetches Toppings from the database
   const fetchToppings = async () => {
@@ -156,14 +171,88 @@ const CustomizeDrink = () => {
 
   // TODO figure this shit out lol
   const handleToCart = () => {
-    // Handle adding the drink to the cart
-    console.log(drinkToppings)
+
+    let missingField = "";
+
+    // Check which field is missing
+    if (size === "Select a Size") {
+      missingField = "Size";
+    } else if (sugar === "Select a Sugar Level") {
+      missingField = "Sugar Level";
+    } else if (ice === "Select an Ice Level") {
+      missingField = "Ice Level";
+    }
+
+    // If a field is missing, show error popup and scroll to the missing field
+    if (missingField !== "") {
+      setErrorMessage(`Please select a ${missingField}.`);
+      setShowError(true);
+
+      // Scroll to the missing field
+      if (errorRef.current) {
+        errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      return; // Exit function early if fields are not selected
+    }
+
+  
+
+
+  const customDrink = {
+    drinkName: drink.product_name,
+    price: price,
+    size: size,
+    toppings: drinkToppings,
+    sugar: sugar+'%',
+    ice:ice
+
+  }
+
+  updateUserCart(user.uid,customDrink);
+
+  // Show success message and set timeout to hide it after 3 seconds
+  setShowSuccess(true);
+  successTimeout.current = setTimeout(() => {
+    setShowSuccess(false);
+  }, 2500);
+    
   };
+
+  useEffect(() => {
+    return () => {
+      // Clear timeout on component unmount to prevent memory leaks
+      clearTimeout(successTimeout.current);
+    };
+  }, []);
 
   return (
     // Image of the drink or Spinner/Loading
   <ProtectedRoute>
     <div className='text-black'>
+
+
+      {/* Success Popup */}
+      {showSuccess && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-4 rounded-lg shadow-lg text-center">
+              <p className="text-green-500 mb-2">Drink successfully added to cart!</p>
+            </div>
+          </div>
+        )}
+
+      {/* Error Popup */}
+      {showError && (
+        <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-4 rounded-lg shadow-lg text-center">
+            <p className="text-red-500 mb-2">{errorMessage}</p>
+            <button onClick={() => setShowError(false)} className="block mx-auto bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">Close</button>
+          </div>
+        </div>
+      )}
+
+
+
       <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
         {drink.product_name ? (
           <Image
@@ -208,16 +297,21 @@ const CustomizeDrink = () => {
           <select 
             value={size} 
             onChange={handleSizeChange}
-            className="block w-4/5 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
            {(ice !== "hot" && drink.restrictions != "1" && drink.restrictions !== "7" )&& (
             <>
+            <option disabled > Select a Size</option>
               <option value="medium" className="bg-white text-gray-900">Medium</option>
               <option value="large" className="bg-white text-gray-900">Large + $0.50</option>
             </>
           )}
           {(ice === "hot" || drink.restrictions === "1" || drink.restrictions === "7") && (
+            <>
+                        <option disabled > Select a Size</option>
+
             <option value="medium" className="bg-white text-gray-900">Medium</option>
+            </>
           )}
           </select>
         </label>
@@ -242,9 +336,9 @@ const CustomizeDrink = () => {
                 <select 
                   value={sugar} 
                   onChange={handleSugarChange}
-                  className="block w-4/5 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
-                  
+                  <option disabled > Select a Sugar Level</option>
                   <option value="100" className="bg-white text-gray-900">100%</option>
                     <option value="70" className="bg-white text-gray-900">70%</option>
                     <option value="50" className="bg-white text-gray-900">50%</option>
@@ -264,9 +358,10 @@ const CustomizeDrink = () => {
                 <select 
                   value={sugar} 
                   onChange={handleSugarChange}
-                  className="block w-4/5 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 >
-                  
+                                    <option disabled > Select a Sugar Level</option>
+
                   <option value="100" className="bg-white text-gray-900">100%</option>
                     <option value="70" className="bg-white text-gray-900">70%</option>
                     <option value="50" className="bg-white text-gray-900">50%</option>
@@ -308,16 +403,18 @@ const CustomizeDrink = () => {
           <select 
             value={ice} 
             onChange={handleIceChange}
-            className="block w-4/5 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           >
+            <option disabled > Select an Ice Level</option>
             {(drink.restrictions !== "2" && drink.restrictions !=="8") &&(
               <>
+
               <option value="no-ice" className="bg-white text-gray-900">No Ice</option>
               <option value="hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
               </>
             )} 
             <option value="less-ice" className="bg-white text-gray-900">Less Ice</option>
-            <option value="regular" className="bg-white text-gray-900">Regular</option>
+            <option value="regular ice" className="bg-white text-gray-900">Regular</option>
             <option value="extra-ice" className="bg-white text-gray-900">Extra Ice</option>
 
             
@@ -351,11 +448,6 @@ const CustomizeDrink = () => {
 
 
 
-      <button onClick={()=> console.log(user)}>Click</button>
-      <button onClick={()=> console.log(cart)}>Click for cart</button>
-
-
-
 
 
 
@@ -364,7 +456,7 @@ const CustomizeDrink = () => {
 
 
       {/* Display the final Price after adjustments */}
-      <div className='flex justify-between items-center my-5 mx-5 '>
+      <div className='flex justify-around items-center my-10 mx-auto '>
         <h1 className='underline'>Final Price: ${price.toFixed(2)}</h1>
         <button 
           onClick={handleToCart} 
