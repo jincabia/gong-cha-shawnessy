@@ -33,11 +33,9 @@ const Order = ({ name, price, user_name, toppings }) => {
        
       </div>
       <div className='flex flex-col items-start justify-start flex-grow mt-4'>
-          <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{name}</h1>
+          <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{name + " with " + toppings}</h1>
           <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{price}</h1>
-          <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{user_name}</h1>
-          <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{toppings}</h1>          {/* <p className='text-black text-sm'>${price}</p> */}
-        </div>
+          <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate '>{user_name}</h1>        </div>
 
 
     </div>
