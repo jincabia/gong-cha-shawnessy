@@ -1,16 +1,31 @@
 'use client'
 import Image from "next/image";
 import { useState } from "react";
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { grey, red } from "@mui/material/colors";
+import { useRouter } from "next/navigation";
+
+// TODO Start filling up pages
 
 export default function GongNav() {
   const [hidden, setHidden] = useState(false);
+  const router = useRouter();
 
+
+  // Only for mobile
   const toggleHidden = () => {
     setHidden((prevState) => !prevState);
   };
 
+  // Navigation method only for mobile
+  const handleNavigation = (path) => {
+    toggleHidden();
+    router.push(path)
+  }
+
   return (
-    <main className="bg-red-700">
+    <main className="bg-white">
         {/* Mobile Nav bar */}
       {hidden ? (
         <div
@@ -20,38 +35,42 @@ export default function GongNav() {
         >
           <div className="text-end">
             <button onClick={toggleHidden}>
-              <Image src="/close.png" width={40} height={40} alt="Exit button" />
+              <Image src="/close.png" width={60} height={60} alt="Exit button" className="pr-5 pt-5" />
             </button>
           </div>
+          {/* router.push(`/menu/${id}`); */}
 
-          <div className="text-center content-center justify-center bg-gray-400 w-2/5 mx-auto m-4">
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Home
+          <div className="text-center content-center justify-center bg-white w-full mx-auto m-4">
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/')} >
+              Our Story
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Menu
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
+              Our Menu
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Order
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
+              Our Philosophy
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Where to find us!
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
+              Our Tea
             </h1>
-            <h1 className="text-black w-fit mx-auto mb-4 border-b-2 border-slate-300">
-              Account
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
+              Our Location
+            </h1>
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
+              Contact Us
             </h1>
           </div>
         </div>
       ) :
     //   Desktop nav
       (
-        <div className="flex justify-between items-center border-b-2 border-opacity-50 border-gray-400">
-          <div className="justify-start">
+        <div className="flex justify-between items-center shadow-md">
+          <div className="justify-start" >
             <Image
-              src="/logowhite.png"
+              src="/logoWithTagline.png"
               width={175}
               height={175}
-              className="p-2"
+              className="p-7"
               alt="Gong Cha"
             />
           </div>
@@ -67,15 +86,17 @@ export default function GongNav() {
           </button>
 
           <div className="hidden md:flex space-x-10">
-            <h1 className="text-white w-fit">Home</h1>
-            <h1 className="text-white w-fit">Menu</h1>
-            <h1 className="text-white w-fit">Order</h1>
-            <h1 className="text-white w-fit">Where to find us!</h1>
+            <button className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800">Our Story</button>
+            <button className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800">Our Menu</button>
+            <button className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800">Our Philosophy</button>
+            <button className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800">Our Tea</button>
+            <button className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800">Our Location</button>
+            <button className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800">Contact Us</button>
           </div>
 
           <div className="hidden md:flex space-x-10 pr-10">
-            <Image src="/account.png" width={30} height={30} alt="Account" />
-            <Image src="/cart.png" width={45} height={5} alt="Cart" />
+            <ShoppingCartOutlinedIcon className="hover:bg-stone-200 rounded-md" sx={{ color: grey[900] }}/>
+            <AccountCircleOutlinedIcon className="hover:bg-stone-200 rounded-md" sx={{ color: grey[900] }}/>
           </div>
         </div>
       )}

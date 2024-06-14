@@ -1,9 +1,10 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { writeUserData } from '../components/writeuserdata/writeuserdata';
 
-const firebaseConfig = {
+  const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -15,21 +16,41 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const SignIn = () => {
+
+
+const Auth = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
 
-  const signIn = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        setUser(result.user);
+  const signUpWithEmail = (event) => {
+    event.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        setUser(user);
         setError(null); // Clear any previous errors
-        console.log('Signed in user:', result.user);
-        console.log('Access token:', token);
+        console.log('Signed up user:', user);
+        await writeUserData(user);
+      })
+      .catch((error) => {
+        setError(error.message);
+        console.error('Sign-up error:', error);
+      });
+  };
+
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, googleProvider)
+      .then(async (result) => {
+        const user = result.user;
+        setUser(user);
+        setError(null); // Clear any previous errors
+        console.log('Signed in user:', user);
+        await writeUserData(user);
       })
       .catch((error) => {
         setError(error.message);
