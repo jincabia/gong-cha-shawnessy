@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -15,30 +15,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const Auth = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const SignIn = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
-  const googleProvider = new GoogleAuthProvider();
 
-  const signUpWithEmail = (event) => {
-    event.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setUser(userCredential.user);
-        setError(null); // Clear any previous errors
-        console.log('Signed up user:', userCredential.user);
-      })
-      .catch((error) => {
-        setError(error.message);
-        console.error('Sign-up error:', error);
-      });
-  };
-
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, googleProvider)
+  const signIn = () => {
+    signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
@@ -51,38 +35,31 @@ const Auth = () => {
         setError(error.message);
         console.error('Sign-in error:', error);
       });
-  };
+    };
+
+    const writeUidToFirestore = async (uid) => {
+      try {
+        // Specify the collection and document you want to add or update
+        const docRef = doc(db, "users", uid);
+    
+        // Set the document data
+        await setDoc(docRef, { uid }, { merge: true });
+    
+        console.log("Document written with UID: ", uid);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    };
+
+    
 
   return (
     <div>
-      <h2>Sign In</h2>
-      <button onClick={signInWithGoogle}>Sign in with Google</button>
-      <h2>Or</h2>
-      <form onSubmit={signUpWithEmail}>
-        <div>
-          <label>Email:</label>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
-        </div>
-        <button type="submit">Sign Up</button>
-      </form>
-      {user && <div>Signed in as: {user.email}</div>}
+      <button onClick={signIn}>Sign in with Google</button>
+      {user && <div>Signed in as: {user.displayName}</div>}
       {error && <div style={{ color: 'red' }}>Error: {error}</div>}
     </div>
   );
 };
 
-export default Auth;
+export default SignIn;
