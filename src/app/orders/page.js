@@ -1,5 +1,5 @@
-import OrdersList from "../components/drinks/drinksList";
-import OrdersList from "./orderlist";
+import OrdersList from "../components/order/orderlist";
+
 
 export default function Menu() {
   return (
