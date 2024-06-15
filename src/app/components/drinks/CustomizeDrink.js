@@ -233,10 +233,11 @@ const CustomizeDrink = () => {
 
 
       {/* Success Popup */}
+   
       {showSuccess && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-4 rounded-lg shadow-lg text-center">
-              <p className="text-green-500 mb-2">Drink successfully added to cart!</p>
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center transform transition-transform duration-500 ease-in-out">
+              <p className="text-green-500 mb-2 font-semibold">Drink successfully added to cart!</p>
             </div>
           </div>
         )}
@@ -440,20 +441,6 @@ const CustomizeDrink = () => {
           />
         </div>
       ))}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       {/* Display the final Price after adjustments */}
       <div className='flex justify-around items-center my-10 mx-auto '>
