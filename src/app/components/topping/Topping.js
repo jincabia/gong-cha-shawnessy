@@ -31,7 +31,15 @@ const Toppings = ({ name, price, onChange, disableIncrement }) => {
           >
             -
           </button>
-          <span className="mx-2 md:mx-4">{counter}</span>
+
+          {counter === 0 && (
+            <span className="mx-2 md:mx-4">{counter}</span>
+
+          )}
+          {counter !== 0 && (
+            <span className="mx-2 md:mx-4">{counter}x</span>
+
+          )}
           <button
             className="bg-slate-400 text-white rounded-full px-5 md:px-7 py-1"
             onClick={handleIncrement}

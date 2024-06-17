@@ -25,7 +25,7 @@ export default function GongNav() {
   }
 
   return (
-    <main className="bg-white">
+    <main className="bg-white" >
         {/* Mobile Nav bar */}
       {hidden ? (
         <div
@@ -64,7 +64,7 @@ export default function GongNav() {
       ) :
     //   Desktop nav
       (
-        <div className="flex justify-between items-center shadow-md">
+        <div className="flex justify-between items-center shadow-md" >
           <div className="justify-start" >
             <Image
               src="/logoWithTagline.png"
@@ -72,6 +72,7 @@ export default function GongNav() {
               height={175}
               className="p-7"
               alt="Gong Cha"
+              onClick={()=> router.push('/')}
             />
           </div>
 
