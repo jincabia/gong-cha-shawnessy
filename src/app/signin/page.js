@@ -58,8 +58,22 @@ const Auth = () => {
   };
 
   return (
-    <div style ={{color: 'black'}}>
-      <button onClick={signInWithGoogle}>Sign in with Google</button>
+    <div className="flex flex-col items-center m-10 pt-36" style ={{color: 'black'}}>
+      <h1 className="text-2xl text-red-800 py-4 font-bold">Sign In</h1>
+      <form className="pb-5 flex flex-col">
+        <input 
+          className="rounded-md py-2 px-3 my-2 shadow-md" 
+          type="text" 
+          placeholder="Email" />
+        <input 
+          className="rounded-md py-2 px-3 my-2 shadow-md" 
+          type="text" 
+          placeholder="Password" />
+        <div className="flex flex-row">
+          
+        </div>
+      </form>
+      <button className="bg-red-800 text-white py-2 px-4 rounded-md shadow-md" onClick={signInWithGoogle}>Sign in with Google</button>
       {user && <div>Signed in as: {user.displayName}</div>}
       {error && <div style={{ color: 'red' }}>Error: {error}</div>}
     </div>

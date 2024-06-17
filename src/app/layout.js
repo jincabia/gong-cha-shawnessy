@@ -19,10 +19,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      
       <body className={`${poppins.className} min-h-screen flex flex-col`}>
         <GongNav />
-        <div className="flex-grow">{children}</div>
+        <div className="flex-grow pt-20">{children}</div>
         <Footer />
       </body>
     </html>
