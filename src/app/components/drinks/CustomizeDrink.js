@@ -19,9 +19,8 @@ PARAMETERS
 ID - we'll use the id to query through the database and show the info
 
 TODO 
-- add to cart
-- add to order
--error handling if they dont select an option
+ Add to cart
+  - Add an ID when writing to db so we can delete items properly 
 */
 
 const CustomizeDrink = () => {
@@ -199,9 +198,6 @@ const CustomizeDrink = () => {
       return; // Exit function early if fields are not selected
     }
 
-  
-
-
   const customDrink = {
     drinkName: drink.product_name,
     price: price,
@@ -209,7 +205,6 @@ const CustomizeDrink = () => {
     toppings: drinkToppings,
     sugar: sugar+'%',
     ice:ice
-
   }
 
   updateUserCart(user.uid,customDrink);
@@ -234,7 +229,7 @@ const CustomizeDrink = () => {
   return (
     <main className='text-black'>
 
-      {!user && (
+      {user && (
         <>
 
         <SignIn message={"Need to be logged in to Customize a Drink"}/>
@@ -243,7 +238,7 @@ const CustomizeDrink = () => {
         </>
       )}
 
-      {user && (
+      {!user && (
 
         <div className='text-black'>
 

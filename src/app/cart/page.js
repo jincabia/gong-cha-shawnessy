@@ -1,65 +1,69 @@
+
 'use client'
-import { useState, useEffect } from "react"
-import readUserCart from "../components/ReadCart/ReadCart"
-import { useAuth } from "../authContext/AuthContext"
-import DrinkItemFromCart from "../components/ReadCart/DrinkItemFromCart"
+import { useState, useEffect } from "react";
+import readUserCart from "../components/ReadCart/ReadCart";
+import { useAuth } from "../authContext/AuthContext";
+import DrinkItemFromCart from "../components/ReadCart/DrinkItemFromCart";
 
-export default function CartPage ()
-{
-    const [cart,setCart] = useState([])
-    const {user} = useAuth();
+export default function CartPage() {
+  const { user } = useAuth();
 
+  const [cart, setCart] = useState([]);
+  const [cartPrice, setCartPrice] = useState(0);
 
+  const fetchUserCart = async () => {
+    try {
+      const cartData = await readUserCart(user.uid);
+      console.log(cartData);
+      setCart(cartData.map(item => ({ ...item, count: 1 })));
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+  };
 
+  useEffect(() => {
+    fetchUserCart();
+  }, []);
 
-    // const fetchCart = async () => 
-    //     {
-    //       if(!user) return null;
-    
-    //       try {
-    //         // getDrinkByID works by having a collection then a certain id passed 
-    //         // so we can use it here
-    //         const cartData = await getDrinkById('users', user.uid);
-    //         // cartData returns the UID, ID and email UID == ID they are the same
-    //         setCart(cartData.cart)
-    //       } catch (error) {
-    //         console.error('Error fetching Cart:', error);
-    
-    //       }
-    //     };
+  const handleIncrease = (index) => {
+    const newCart = [...cart];
+    newCart[index].count += 1;
+    setCart(newCart);
+  };
 
-    const fetchUserCart = async () =>
-        {
-            try {
-                const cartData = await readUserCart(user.uid)
-                console.log(cartData)
-                setCart(cartData)
-            } catch (error) {
-                console.error('Erorr fetching cart:', error)
-            }
-        }
-    
-      useEffect(() => {
-        fetchUserCart();
-      }, []);
+  const handleDecrease = (index) => {
+    const newCart = [...cart];
+    if (newCart[index].count > 1) {
+      newCart[index].count -= 1;
+      setCart(newCart);
+    }
+  };
 
-    return(
-        <main className="text-black">
-            
+  useEffect(() => {
+    const total = cart.reduce((acc, item) => acc + item.price * item.count, 0);
+    setCartPrice(total);
+  }, [cart]);
 
-        {cart.map((drink, index) => (
+  return (
+    <main className="text-black">
+      {cart.map((drink, index) => (
         <div key={index} className="py-5">
-            <DrinkItemFromCart
+          <DrinkItemFromCart
             drinkName={drink.drinkName}
             ice={drink.ice}
             price={drink.price}
             size={drink.size}
             sugar={drink.sugar}
             toppings={drink.toppings}
-            />
+            count={drink.count}
+            onIncrease={() => handleIncrease(index)}
+            onDecrease={() => handleDecrease(index)}
+          />
         </div>
-        ))}
-
-        </main>
-    )
+      ))}
+      <div className="mt-6 p-4 border-t">
+        <h2 className="text-lg font-semibold text-red-700">Total Price: ${cartPrice.toFixed(2)}</h2>
+      </div>
+    </main>
+  );
 }
