@@ -54,7 +54,7 @@ export default function GongNav() {
           </div>
 
           <div className="text-center content-center justify-center bg-white w-full mx-auto m-4">
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
               Our Menu
             </h1>
             <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
@@ -73,6 +73,7 @@ export default function GongNav() {
               height={175}
               className="p-7"
               alt="Gong Cha"
+              onClick={()=> router.push('/')}
             />
           </div>
 
