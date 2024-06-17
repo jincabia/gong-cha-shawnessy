@@ -8,6 +8,7 @@ import Toppings from '../topping/Topping';
 import ProtectedRoute from '../ProtectedRoutes/ProtectedRoute';
 import { useAuth } from '@/app/authContext/AuthContext';
 import updateUserCart from '../updateUsersCollection/updateUsersCart';
+import SignIn from '@/app/signin/page';
 
 /*
 [name] - is for dynamic routing for each drink
@@ -88,6 +89,8 @@ const CustomizeDrink = () => {
 
   const fetchCart = async () => 
     {
+      if(!user) return null;
+
       try {
         // getDrinkByID works by having a collection then a certain id passed 
         // so we can use it here
@@ -226,235 +229,258 @@ const CustomizeDrink = () => {
     };
   }, []);
 
+  
+
   return (
-    // Image of the drink or Spinner/Loading
-  <ProtectedRoute>
-    <div className='text-black'>
+    <main className='text-black'>
 
+      {!user && (
+        <>
 
-      {/* Success Popup */}
-   
-      {showSuccess && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center transform transition-transform duration-500 ease-in-out">
-              <p className="text-green-500 mb-2 font-semibold">Drink successfully added to cart!</p>
+        <SignIn/>
+        
+        
+        </>
+      )}
+
+      {user && (
+
+        <div className='text-black'>
+
+              
+        {/* Success Popup */}
+
+        {showSuccess && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg text-center transform transition-transform duration-500 ease-in-out">
+                <p className="text-green-500 mb-2 font-semibold">Drink successfully added to cart!</p>
+              </div>
+            </div>
+          )}
+
+        {/* Error Popup */}
+        {showError && (
+          <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-4 rounded-lg shadow-lg text-center">
+              <p className="text-red-500 mb-2">{errorMessage}</p>
+              <button onClick={() => setShowError(false)} className="block mx-auto bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">Close</button>
             </div>
           </div>
         )}
 
-      {/* Error Popup */}
-      {showError && (
-        <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-4 rounded-lg shadow-lg text-center">
-            <p className="text-red-500 mb-2">{errorMessage}</p>
-            <button onClick={() => setShowError(false)} className="block mx-auto bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">Close</button>
-          </div>
+
+
+        <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
+          {drink.product_name ? (
+            <Image
+              src={`/${drink.product_name}.png`}
+              width={100}
+              height={100}
+              className="sm:w-28 sm:h-38 md:w-32 md:h-48 lg:w-30 lg:h-48"
+              alt={drink.product_name}
+            />
+          ) : (
+            <div className="spinner" style={{ width: 100, height: 100 }}></div>
+          )}
         </div>
+
+        {/* Drink Details */}
+        <div className='flex justify-between mb-10 mx-5 border-b-2 border-black'>
+          <h1>{drink.product_name}</h1>
+          <h1 >${initialPrice.toFixed(2)}</h1>
+        </div>
+
+        {/* Render customization options here */}
+
+
+        <div>
+          {/* Restriction Numbers, to find out which options to render or not
+          0 - No Restrictions
+          1 - Medium Size Only (Frappes, Gingerbread Drink)
+          2 - Greater than Less Ice and Are not available Hot (Lattes)
+          3 - Greater than 0% Sugar (Brown Sugar, Honey, Wintermelon)
+          4 - Ice Not adjustable and Are not available Hot (Smoothies)
+          5 - Sugar Not Adjustable 
+          6 - 2 + 3 (Dirty BS Latte)
+          7 - 1 + 4 + 5 (Frappes)
+          8 - 5 + 2 (Matcha Mango Pearl Tea, Strawberry Taro)
+
+          Make more if needed 
+          */}
+
+          {/* Size Changes */}
+          <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5 ">
+            Size:
+            <select 
+              value={size} 
+              onChange={handleSizeChange}
+              className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+            {(ice !== "hot" && drink.restrictions != "1" && drink.restrictions !== "7" )&& (
+              <>
+              <option disabled > Select a Size</option>
+                <option value="medium" className="bg-white text-gray-900">Medium</option>
+                <option value="large" className="bg-white text-gray-900">Large + $0.50</option>
+              </>
+            )}
+            {(ice === "hot" || drink.restrictions === "1" || drink.restrictions === "7") && (
+              <>
+                          <option disabled > Select a Size</option>
+
+              <option value="medium" className="bg-white text-gray-900">Medium</option>
+              </>
+            )}
+            </select>
+          </label>
+
+
+          
+
+            {/* Sugar Changes */}
+
+
+              {/* Not sure if we should include it or not/ Maybe just get rid of it? */}
+              {/* 5, 7, 8 Sugar not adjustable */}
+          {/* {drink.restrictions === "5" || drink.restrictions === "7" || drink.restrictions === "8" && (
+            <p className='w-fit mx-auto truncate text-gray-700 text-sm mb-5'>Sugar is not adjustable</p>
+          )} */}
+
+            {/* No Sugar Restrictions */}
+            {/* 0 1 2 4 */}
+            {(drink.restrictions === "0" || drink.restrictions === "1" || drink.restrictions === "2" || drink.restrictions ==="4") &&(
+                <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5 ">
+                  Sugar:
+                  <select 
+                    value={sugar} 
+                    onChange={handleSugarChange}
+                    className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option disabled > Select a Sugar Level</option>
+                    <option value="100" className="bg-white text-gray-900">100%</option>
+                      <option value="70" className="bg-white text-gray-900">70%</option>
+                      <option value="50" className="bg-white text-gray-900">50%</option>
+                      <option value="30" className="bg-white text-gray-900">30%</option>
+                      <option value="0" className="bg-white text-gray-900">0%</option>
+                      <option value="130" className="bg-white text-gray-900">130% + $.50</option>
+                    
+                  </select>
+                </label>
+              )}
+
+          {/* Greater the No sugar 3,6  */}
+          {(drink.restrictions ==="3" || drink.restrictions ==="6")  &&(
+            <>
+                      <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5 ">
+                  Sugar:
+                  <select 
+                    value={sugar} 
+                    onChange={handleSugarChange}
+                    className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  >
+                                      <option disabled > Select a Sugar Level</option>
+
+                    <option value="100" className="bg-white text-gray-900">100%</option>
+                      <option value="70" className="bg-white text-gray-900">70%</option>
+                      <option value="50" className="bg-white text-gray-900">50%</option>
+                      <option value="30" className="bg-white text-gray-900">30%</option>
+                      <option value="130" className="bg-white text-gray-900">130% + $.50</option>
+                    
+                  </select>
+                </label>
+            
+            
+            </>
+          )}
+
+
+            {/* Ice Changes */}
+
+
+            {/* Restriction Numbers, to find out which options to render or not
+          0 - No Restrictions
+          1 - Medium Size Only ( Gingerbread Drink)
+          2 - Greater than Less Ice and Are not available Hot (Lattes)
+          3 - Greater than 0% Sugar (Brown Sugar, Honey, Wintermelon)
+          4 - Ice Not adjustable and Are not available Hot (Smoothies)
+          5 - Sugar Not Adjustable 
+          6 - 2 + 3 (Dirty BS Latte)
+          7 - 1 + 4 + 5 (Frappes)
+          8 - 2 + 5 (Matcha Mango Pearl Tea, Strawberry Taro)
+          
+          Make more if needed 
+          */}
+
+          {(drink.restrictions !== "2" && drink.restrictions !=="8") &&(
+            <p className='w-fit mx-auto truncate text-gray-700 text-xs'>*Hot drinks are only available in Medium Sizes.</p>
+          )}
+          {(drink.restrictions !== "7" && drink.restrictions !== "4") && (
+            <label className="block text-gray-700 text-sm font-bold mb-10  justify-center mx-5 ">
+            Ice: 
+
+            <select 
+              value={ice} 
+              onChange={handleIceChange}
+              className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option disabled > Select an Ice Level</option>
+              {(drink.restrictions !== "2" && drink.restrictions !=="8") &&(
+                <>
+
+                <option value="no-ice" className="bg-white text-gray-900">No Ice</option>
+                <option value="hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
+                </>
+              )} 
+              <option value="less-ice" className="bg-white text-gray-900">Less Ice</option>
+              <option value="regular ice" className="bg-white text-gray-900">Regular</option>
+              <option value="extra-ice" className="bg-white text-gray-900">Extra Ice</option>
+
+              
+            </select>
+          </label>
+
+          )}
+          
+        </div>
+
+        <div className='text-center'>
+          <p className='text-sm text-gray-700 underline'>Max 4 Toppings</p>
+        </div>
+        {/* When adding toppings only have 4 max */}
+        {/* Display all toppings from DB */}
+        {toppings.map((topping) => (
+          <div key={topping.id}>
+            <Toppings
+              name={topping.product_name}
+              price={topping.product_price}
+              onChange={(isAdding) => handleToppingChange(topping, isAdding)}
+              disableIncrement={toppingCount >= 4}
+            />
+          </div>
+        ))}
+
+        {/* Display the final Price after adjustments */}
+        <div className='flex justify-around items-center my-10 mx-auto '>
+          <h1 className='underline'>Final Price: ${price.toFixed(2)}</h1>
+          <button 
+            onClick={handleToCart} 
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+          >
+            Add to Cart
+          </button>
+          
+        </div>
+        </div>
+
       )}
 
 
-
-      <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
-        {drink.product_name ? (
-          <Image
-            src={`/${drink.product_name}.png`}
-            width={100}
-            height={100}
-            className="sm:w-28 sm:h-38 md:w-32 md:h-48 lg:w-30 lg:h-48"
-            alt={drink.product_name}
-          />
-        ) : (
-          <div className="spinner" style={{ width: 100, height: 100 }}></div>
-        )}
-      </div>
-
-      {/* Drink Details */}
-      <div className='flex justify-between mb-10 mx-5 border-b-2 border-black'>
-        <h1>{drink.product_name}</h1>
-        <h1 >${initialPrice.toFixed(2)}</h1>
-      </div>
-
-      {/* Render customization options here */}
-
-      
-      <div>
-        {/* Restriction Numbers, to find out which options to render or not
-        0 - No Restrictions
-        1 - Medium Size Only (Frappes, Gingerbread Drink)
-        2 - Greater than Less Ice and Are not available Hot (Lattes)
-        3 - Greater than 0% Sugar (Brown Sugar, Honey, Wintermelon)
-        4 - Ice Not adjustable and Are not available Hot (Smoothies)
-        5 - Sugar Not Adjustable 
-        6 - 2 + 3 (Dirty BS Latte)
-        7 - 1 + 4 + 5 (Frappes)
-        8 - 5 + 2 (Matcha Mango Pearl Tea, Strawberry Taro)
-
-        Make more if needed 
-        */}
-
-        {/* Size Changes */}
-        <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5 ">
-          Size:
-          <select 
-            value={size} 
-            onChange={handleSizeChange}
-            className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-           {(ice !== "hot" && drink.restrictions != "1" && drink.restrictions !== "7" )&& (
-            <>
-            <option disabled > Select a Size</option>
-              <option value="medium" className="bg-white text-gray-900">Medium</option>
-              <option value="large" className="bg-white text-gray-900">Large + $0.50</option>
-            </>
-          )}
-          {(ice === "hot" || drink.restrictions === "1" || drink.restrictions === "7") && (
-            <>
-                        <option disabled > Select a Size</option>
-
-            <option value="medium" className="bg-white text-gray-900">Medium</option>
-            </>
-          )}
-          </select>
-        </label>
+    </main>
+    
 
 
-        
 
-          {/* Sugar Changes */}
-
-
-            {/* Not sure if we should include it or not/ Maybe just get rid of it? */}
-            {/* 5, 7, 8 Sugar not adjustable */}
-        {/* {drink.restrictions === "5" || drink.restrictions === "7" || drink.restrictions === "8" && (
-          <p className='w-fit mx-auto truncate text-gray-700 text-sm mb-5'>Sugar is not adjustable</p>
-        )} */}
-
-          {/* No Sugar Restrictions */}
-          {/* 0 1 2 4 */}
-          {(drink.restrictions === "0" || drink.restrictions === "1" || drink.restrictions === "2" || drink.restrictions ==="4") &&(
-              <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5 ">
-                Sugar:
-                <select 
-                  value={sugar} 
-                  onChange={handleSugarChange}
-                  className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option disabled > Select a Sugar Level</option>
-                  <option value="100" className="bg-white text-gray-900">100%</option>
-                    <option value="70" className="bg-white text-gray-900">70%</option>
-                    <option value="50" className="bg-white text-gray-900">50%</option>
-                    <option value="30" className="bg-white text-gray-900">30%</option>
-                    <option value="0" className="bg-white text-gray-900">0%</option>
-                    <option value="130" className="bg-white text-gray-900">130% + $.50</option>
-                  
-                </select>
-              </label>
-            )}
-
-        {/* Greater the No sugar 3,6  */}
-        {(drink.restrictions ==="3" || drink.restrictions ==="6")  &&(
-          <>
-                    <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5 ">
-                Sugar:
-                <select 
-                  value={sugar} 
-                  onChange={handleSugarChange}
-                  className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                >
-                                    <option disabled > Select a Sugar Level</option>
-
-                  <option value="100" className="bg-white text-gray-900">100%</option>
-                    <option value="70" className="bg-white text-gray-900">70%</option>
-                    <option value="50" className="bg-white text-gray-900">50%</option>
-                    <option value="30" className="bg-white text-gray-900">30%</option>
-                    <option value="130" className="bg-white text-gray-900">130% + $.50</option>
-                  
-                </select>
-              </label>
-          
-          
-          </>
-        )}
-
-
-          {/* Ice Changes */}
-
-
-          {/* Restriction Numbers, to find out which options to render or not
-        0 - No Restrictions
-        1 - Medium Size Only ( Gingerbread Drink)
-        2 - Greater than Less Ice and Are not available Hot (Lattes)
-        3 - Greater than 0% Sugar (Brown Sugar, Honey, Wintermelon)
-        4 - Ice Not adjustable and Are not available Hot (Smoothies)
-        5 - Sugar Not Adjustable 
-        6 - 2 + 3 (Dirty BS Latte)
-        7 - 1 + 4 + 5 (Frappes)
-        8 - 2 + 5 (Matcha Mango Pearl Tea, Strawberry Taro)
-        
-        Make more if needed 
-        */}
-
-        {(drink.restrictions !== "2" && drink.restrictions !=="8") &&(
-          <p className='w-fit mx-auto truncate text-gray-700 text-xs'>*Hot drinks are only available in Medium Sizes.</p>
-        )}
-        {(drink.restrictions !== "7" && drink.restrictions !== "4") && (
-          <label className="block text-gray-700 text-sm font-bold mb-10  justify-center mx-5 ">
-          Ice: 
-
-          <select 
-            value={ice} 
-            onChange={handleIceChange}
-            className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option disabled > Select an Ice Level</option>
-            {(drink.restrictions !== "2" && drink.restrictions !=="8") &&(
-              <>
-
-              <option value="no-ice" className="bg-white text-gray-900">No Ice</option>
-              <option value="hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
-              </>
-            )} 
-            <option value="less-ice" className="bg-white text-gray-900">Less Ice</option>
-            <option value="regular ice" className="bg-white text-gray-900">Regular</option>
-            <option value="extra-ice" className="bg-white text-gray-900">Extra Ice</option>
-
-            
-          </select>
-        </label>
-
-        )}
-        
-      </div>
-
-      <div className='text-center'>
-        <p className='text-sm text-gray-700 underline'>Max 4 Toppings</p>
-      </div>
-      {/* When adding toppings only have 4 max */}
-      {/* Display all toppings from DB */}
-      {toppings.map((topping) => (
-        <div key={topping.id}>
-          <Toppings
-            name={topping.product_name}
-            price={topping.product_price}
-            onChange={(isAdding) => handleToppingChange(topping, isAdding)}
-            disableIncrement={toppingCount >= 4}
-          />
-        </div>
-      ))}
-
-      {/* Display the final Price after adjustments */}
-      <div className='flex justify-around items-center my-10 mx-auto '>
-        <h1 className='underline'>Final Price: ${price.toFixed(2)}</h1>
-        <button 
-          onClick={handleToCart} 
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-        >
-          Add to Cart
-        </button>
-        
-      </div>
-    </div>
-  </ProtectedRoute>
+    
+    
   );
 };
 
