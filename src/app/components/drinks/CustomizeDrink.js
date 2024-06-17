@@ -229,7 +229,7 @@ const CustomizeDrink = () => {
   return (
     <main className='text-black'>
 
-      {user && (
+      {!user && (
         <>
 
         <SignIn message={"Need to be logged in to Customize a Drink"}/>
@@ -238,7 +238,7 @@ const CustomizeDrink = () => {
         </>
       )}
 
-      {!user && (
+      {user && (
 
         <div className='text-black'>
 
