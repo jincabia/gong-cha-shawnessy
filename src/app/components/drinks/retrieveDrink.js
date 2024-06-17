@@ -27,3 +27,17 @@ export const getDrinkById = async (collectionName, docId) => {
     return null; // Document does not exist
   }
 };
+
+
+export const getUserCartByID = async (collectionName, docId) => {
+
+  const docRef = doc(db, collectionName, docId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return { id: docSnap.id, ...docSnap.data() };
+  } else {
+    return null; // Document does not exist
+  }
+
+};

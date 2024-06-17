@@ -3,6 +3,7 @@ import "./globals.css";
 import GongNav from "./components/navbar/navbar";
 import Footer from "./components/footer/footer";
 import Menu from "./menu/page";
+import { AuthProvider } from "./authContext/AuthContext";
 
 const poppins = Poppins({ 
   subsets: ["latin"],
@@ -20,10 +21,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.className} min-h-screen flex flex-col`}>
-        <GongNav />
-        <div className="flex-grow pt-20">{children}</div>
-        <Footer />
+        <AuthProvider>
+
+          <GongNav />
+            <div className="flex-grow">{children}</div>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
-  );
+  );  
 }

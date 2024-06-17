@@ -28,7 +28,6 @@ const DrinksList = () => {
       try {
         const drinksData = await getDrinks();
         setDrinks(drinksData);
-        console.log(drinks)
       } catch (error) {
         setError('Failed to fetch drinks');
         console.error(error);
