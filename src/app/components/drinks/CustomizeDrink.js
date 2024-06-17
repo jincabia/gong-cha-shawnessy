@@ -237,7 +237,7 @@ const CustomizeDrink = () => {
       {!user && (
         <>
 
-        <SignIn/>
+        <SignIn message={"Need to be logged in to Customize a Drink"}/>
         
         
         </>
