@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
 
           <GongNav />
-            <div className="flex-grow">{children}</div>
+            <div className="flex-grow pt-20">{children}</div>
           <Footer />
         </AuthProvider>
       </body>

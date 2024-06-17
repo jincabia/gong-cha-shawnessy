@@ -23,12 +23,24 @@ const SignIn = ({message}) => {
   };
 
   return (
-    <div className='text-black'>
-
+    <div className="flex flex-col text-black py-36 w-64">
       <h1>{message}</h1>
-      <h2>Sign In</h2>
-      <button onClick={signInWithGoogle}>Sign in with Google</button>
-      
+      <h2 className="text-2xl text-red-800 font-semibold pb-5">Sign In</h2>
+      <form className="flex flex-col">
+        <input 
+          type="text"
+          className="rounded-md py-2 px-3 mb-3"
+          placeholder="Email" />
+        <input 
+          type="password"
+          className="rounded-md py-2 px-3 mb-5"
+          placeholder="Password" />
+      </form>
+      <button 
+        className="bg-red-800 text-white rounded-md py-2 px-3" 
+        onClick={signInWithGoogle}>
+          Sign in with Google
+      </button>
       {user && (
         <div>
           <div>Signed in as: {user.email}</div>
