@@ -218,17 +218,72 @@ const CustomizeDrink = () => {
     }
 
   
+    
+  // 0: [],
+  // 1: ['MediumSizeOnly'],
+  // 2: ['GreaterThanLessIce', 'NotAvailableHot'],
+  // 3: ['GreaterThan0PercentSugar'],
+  // 4: ['IceNotAdjustable', 'NotAvailableHot'],
+  // 5: ['SugarNotAdjustable'],
+  // 6: ['GreaterThanLessIce', 'NotAvailableHot', 'GreaterThan0PercentSugar'],
+  // 7: ['MediumSizeOnly', 'IceNotAdjustable', 'NotAvailableHot', 'SugarNotAdjustable'],
+  // 8: ['SugarNotAdjustable', 'GreaterThanLessIce', 'NotAvailableHot']
+
+  // if(restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable'))
+  //   {
+
+  //   }
+  // elif (restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable'))
+  // {
+
+  // }
+  // else 
+  // {
+  //   const customDrink = {
+  //     drinkName: drink.product_name,
+  //     restrictions: drink.restrictions,
+  //     price: price,
+  //     size: size,
+  //     toppings: drinkToppings,
+  //     sugar: sugar+'%',
+  //     ice:ice,
+  //     quantity:1
+  //   }
+  // }
+
+      let customDrink;
+
+    customDrink = {
+      drinkName: drink.product_name,
+      restrictions: drink.restrictions,
+      price: price,
+      size: size,
+      toppings: drinkToppings,
+      sugar: sugar + '%',
+      ice: ice,
+      quantity: 1
+    };
 
 
-  const customDrink = {
-    drinkName: drink.product_name,
-    price: price,
-    size: size,
-    toppings: drinkToppings,
-    sugar: sugar+'%',
-    ice:ice,
-    quantity:1
-  }
+    if (restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable') && restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable')) {
+      customDrink = {
+        ...customDrink,
+        sugar: 'Sugar Not Adjustable',
+        ice: 'Ice Not Adjustable'
+      };
+    } else if (restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable')) {
+      customDrink = {
+        ...customDrink,
+        sugar: 'Sugar Not Adjustable'
+      };
+    } else if (restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable')) {
+      customDrink = {
+        ...customDrink,
+        ice: 'Ice Not Adjustable'
+      };
+    }
+
+    
 
   updateUserCart(user.uid,customDrink);
 
@@ -457,10 +512,6 @@ const CustomizeDrink = () => {
 
 
     </main>
-    
-
-
-
     
     
   );
