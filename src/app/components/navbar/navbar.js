@@ -8,11 +8,15 @@ import CloseIcon from '@mui/icons-material/Close';
 // import { spacing } from '@mui/system';
 import { grey, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/authContext/AuthContext";
 
 // TODO Start filling up pages
 
 export default function GongNav() {
   const [hidden, setHidden] = useState(false);
+
+  const {user} = useAuth();
+
   const router = useRouter();
 
   const navToHome = () => {
@@ -64,6 +68,14 @@ export default function GongNav() {
             <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
               Our Store
             </h1>
+
+          {user && (<>
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/cart')}>
+              Your Cart
+            </h1>          
+          </>)}
+
+
           </div>
         </div>
       ) :

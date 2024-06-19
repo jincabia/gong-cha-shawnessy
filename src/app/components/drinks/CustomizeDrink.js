@@ -228,7 +228,6 @@ const CustomizeDrink = () => {
     sugar: sugar+'%',
     ice:ice,
     quantity:1
-
   }
 
   updateUserCart(user.uid,customDrink);
@@ -424,7 +423,7 @@ const CustomizeDrink = () => {
         </div>
 
         <div className='text-center'>
-          <p className='text-sm text-gray-700 underline'>Max 4 Toppings</p>
+          <p className='text-sm text-gray-700 underline'>Max 4 Additional Toppings</p>
         </div>
         {/* When adding toppings only have 4 max */}
         {/* Display all toppings from DB */}
@@ -453,6 +452,8 @@ const CustomizeDrink = () => {
         </div>
 
       )}
+
+
 
 
     </main>
