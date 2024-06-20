@@ -65,7 +65,7 @@
    // Success Msgs when drink is properly put into cart
    
    const [showSuccess, setShowSuccess] = useState(false); // State to show/hide success popup
-   const successTimeout = useRef(null); // Reference to timeout for hiding success popup
+   // const successTimeout = useRef(null); // Reference to timeout for hiding success popup
 
    // const [showSuccess, setShowSuccess] = useState(false);
    const [loading, setLoading] = useState(true);
@@ -136,23 +136,6 @@
 
       }, [cartIndex, user]);
 
-
-
-   
-
-
-
-   // if (loading) {
-   //    return <div>Loading...</div>;
-   // }
-
-   // if (error) {
-   //    return <div>Error: {error}</div>;
-   // }
-
-   // if (!drink) {
-   //    return <div>No drink item found</div>;
-   // }
 
 
          // When a new Size is selected
@@ -268,7 +251,7 @@ const handleSaveChanges = async () => {
            await updateDoc(userDocRef, { cart: updatedCart });
 
            setShowSuccess(true);  // Show success message
-           successTimeout.current = setTimeout(() => setShowSuccess(false), 3000);  // Hide success message after 3 seconds
+         //   successTimeout.current = setTimeout(() => setShowSuccess(false), 3000);  // Hide success message after 3 seconds
 
            console.log('Cart updated successfully');
        } else {
@@ -283,7 +266,12 @@ const handleSaveChanges = async () => {
    setShowSuccess(true);
   setLoading(true);
 
-  
+  setTimeout(() => {
+    setLoading(false);
+  }, 1000);
+  setShowSuccess(true);
+
+
 };
 
 
@@ -291,14 +279,14 @@ const handleSaveChanges = async () => {
 
       <div className='text-black'>
          {/* <button onClick={()=> console.log(drink)}>Clickme</button> */}
-         <button onClick={()=> router.back()}>
-            <ChevronLeftIcon/>
+         <button onClick={()=> router.back()} className='m-2'>
+            <ChevronLeftIcon fontSize='large'/>
 
          </button>
 
          {showSuccess && (
             <div>
-              <EditCartModal onClose={() => setShowSuccess(false)} loading={loading} setLoading={setLoading} />
+              <EditCartModal onClose={() => setShowSuccess()} loading={loading} setLoading={setLoading} />
             </div>
           )}
 
@@ -341,7 +329,7 @@ const handleSaveChanges = async () => {
                   
                <option disabled > Select a Size</option>
                   <option value="Medium" className="bg-white text-gray-900">Medium</option>
-                  {(!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && ice !== "hot") && (
+                  {(!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && ice !== "Hot") && (
                   <option value="Large" className="bg-white text-gray-900">Large + $0.50</option>
                   )}
 

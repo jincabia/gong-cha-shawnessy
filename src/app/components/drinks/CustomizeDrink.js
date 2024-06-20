@@ -10,7 +10,8 @@ import { useAuth } from '@/app/authContext/AuthContext';
 import updateUserCart from '../updateUsersCollection/updateUsersCart';
 import SignIn from '@/app/signin/page';
 import AddToCartModal from '../ReadCart/AddToCart';
-
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { useRouter } from 'next/navigation';
 
 const restrictionsMap = {
   0: [],
@@ -63,6 +64,8 @@ const CustomizeDrink = () => {
 
   // User cart
   const [cart, setCart] = useState([])
+
+  const router = useRouter();
 
 
   // Error Handling
@@ -302,6 +305,10 @@ const CustomizeDrink = () => {
 
   return (
     <main className='text-black'>
+       <button onClick={()=> router.back()} className='m-2'>
+            <ChevronLeftIcon fontSize='large'/>
+
+         </button>
 
       {!user && (
         <>
@@ -389,7 +396,7 @@ const CustomizeDrink = () => {
                 
               <option disabled > Select a Size</option>
                 <option value="Medium" className="bg-white text-gray-900">Medium</option>
-                {(!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && ice !== "hot") && (
+                {(!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && ice !== "Hot") && (
                 <option value="Large" className="bg-white text-gray-900">Large + $0.50</option>
                 )}
 
