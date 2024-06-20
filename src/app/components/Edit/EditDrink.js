@@ -52,7 +52,7 @@ const CustomizeDrink = () => {
   const [ice, setIce] = useState("Select an Ice Level");
 
   // Price of the drink
-  // const [initialPrice, setInitialPrice] = useState(0);
+  const [initialPrice, setInitialPrice] = useState(0);
   const [price, setPrice] = useState(0);
 
   // Num of toppings
@@ -95,6 +95,7 @@ const CustomizeDrink = () => {
     try {
       const drinkData = await getDrinkById('drinks', drinkID);
       setDrink(drinkData);
+      setInitialPrice(drinkData.product_price);
       setPrice(drinkData.product_price);
     } catch (error) {
       console.error('Error fetching drink:', error);
@@ -354,7 +355,7 @@ const CustomizeDrink = () => {
         {/* Drink Details */}
         <div className='flex justify-between mb-10 mx-5 border-b-2 border-black'>
           <h1>{drink.product_name}</h1>
-          {/* <h1 >${initialPrice.toFixed(2)}</h1> */}
+          <h1 >${initialPrice.toFixed(2)}</h1>
         </div>
 
         {/* Render customization options here */}
@@ -490,7 +491,7 @@ const CustomizeDrink = () => {
 
         {/* Display the final Price after adjustments */}
         <div className='flex justify-around items-center my-10 mx-auto '>
-          <h1 className='underline'>${price.toFixed(2)}</h1>
+          <h1 className='underline'>Final Price: ${price.toFixed(2)}</h1>
           <button 
             onClick={handleToCart} 
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"

@@ -1,7 +1,29 @@
-import { useState } from "react";
+'use client'
+import { useState,useEffect } from "react";
 
-const Toppings = ({ name, price, onChange, disableIncrement }) => {
+const Toppings = ({ name, price, onChange, disableIncrement,initialCount }) => {
+
+
+
+
+
   const [counter, setCounter] = useState(0);
+
+  
+
+  const ChangeInitialCount = () =>
+    {
+      if(initialCount)
+        {
+          setCounter(initialCount)
+        }
+    }
+  
+
+
+    useEffect(() => {
+      ChangeInitialCount();
+    }, []);
 
   const handleIncrement = () => {
     if (disableIncrement) return;
@@ -39,8 +61,7 @@ const Toppings = ({ name, price, onChange, disableIncrement }) => {
             -
           </button>
 
-          {counter === 0 && <span className="mx-2 md:mx-4">{counter}</span>}
-          {counter !== 0 && <span className="mx-2 md:mx-4">{counter}x</span>}
+          <span className="mx-2 md:mx-4">{counter}</span>
 
           <button
             className="bg-slate-400 text-white rounded-full px-4 md:px-7 py-0"

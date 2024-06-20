@@ -80,7 +80,7 @@ export default function CartPage() {
       ) : (
         <>
           {cart.map((drink, index) => (
-            <div key={index} className="odd:py-10">
+            <div key={index} className="odd:py-10" >
               <DrinkItemFromCart
                 drink={drink}
                 index={index}

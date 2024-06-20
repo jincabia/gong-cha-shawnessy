@@ -8,13 +8,16 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { grey } from "@mui/material/colors";
 import { useAuth } from '@/app/authContext/AuthContext';
 import updateCartQuantity from "./AdjustQuantity";
+import { useRouter } from "next/navigation";
 
 export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, onQuantityChange }) {
-    const { drinkName, ice, price, size, sugar, toppings, quantity } = drink;
-  
+    const { drinkName, ice, price, size, sugar, toppings, quantity,drinkID } = drink;
+
     const [quantityVar, setQuantityVar] = useState(quantity);
     const [deleting, setDeleting] = useState(false);
     const [expand, setExpand] = useState(false);
+
+    const router = useRouter();
   
     const handleRemove = () => {
       setDeleting(true); // Show spinner or loading indicator
@@ -124,7 +127,7 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
                 Object.values(toppingCounts).map((topping, index) => (
                   <div key={index} className="flex justify-between mb-1">
                     <h3 className="text-gray-700">
-                      {topping.product_name} {topping.count > 1 ? `x${topping.count}` : ''}
+                      {topping.product_name} {topping.count > 1 ? `${topping.count}x` : ''}
                     </h3>
                     <p className="text-gray-700">${(topping.product_price * topping.count).toFixed(2)}</p>
                   </div>
@@ -134,7 +137,15 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
               )}
             </div>
           </div>
+
+        <div className="text-center justify-center items-center pb-5">
+          <button onClick={()=> router.push(`/cart/${index}`)} className="bg-slate-500 px-5 text-white rounded-full">Edit</button>
+        </div>
+
+
+
         </Collapse>
+
   
         <div
           className="flex items-center justify-center text-center border-t-2 border-gray-50"
