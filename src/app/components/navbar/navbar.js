@@ -1,11 +1,10 @@
-'use client'
+'use client';
 import Image from "next/image";
 import { useState } from "react";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-// import { spacing } from '@mui/system';
 import { grey, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/authContext/AuthContext";
@@ -31,6 +30,10 @@ export default function GongNav() {
     router.push("/store");
   };
 
+  const navToSignIn =() => {
+    router.push("/signin")
+  }
+
   // Only for mobile
   const toggleHidden = () => {
     setHidden((prevState) => !prevState);
@@ -43,7 +46,7 @@ export default function GongNav() {
   }
 
   return (
-    <header className="bg-white">
+    <header className="bg-white fixed top-0 left-0 w-full">
         {/* Mobile Nav bar */}
       {hidden ? (
         <div
@@ -61,11 +64,10 @@ export default function GongNav() {
           <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/')}>
               Home
             </h1>
-
             <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
               Our Menu
             </h1>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/store')}>
               Our Store
             </h1>
 
@@ -82,7 +84,7 @@ export default function GongNav() {
     //   Desktop nav
       (
         <div className="flex justify-between items-center shadow-md">
-          <div className="justify-start">
+          <button className="justify-start" onClick={navToHome}>
             <Image
               src="/logoWithTagline.png"
               width={175}
@@ -91,26 +93,36 @@ export default function GongNav() {
               alt="Gong Cha"
               onClick={()=> router.push('/')}
             />
-          </div>
+          </button>
 
           <button onClick={toggleHidden} className="md:hidden pr-5">
             <MenuIcon sx={{ color: grey[900], fontSize: 40 }}/>
           </button>
 
           <div className="hidden md:flex space-x-10">
-            <button className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800" 
-                    onClick={navToMenu}>
+            <button 
+              className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800">
+                      Our Story
+            </button>
+            <button 
+              className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800" 
+              onClick={navToMenu}>
                       Our Menu
             </button>
-            <button className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800" 
-                    onClick={navToStore}>
+            <button 
+              className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800" 
+              onClick={navToStore}>
                       Our Store
             </button>
           </div>
 
           <div className="hidden md:flex space-x-10 pr-10">
-            <ShoppingCartOutlinedIcon className="hover:bg-stone-200 rounded-md" sx={{ color: grey[900] }}/>
-            <AccountCircleOutlinedIcon className="hover:bg-stone-200 rounded-md" sx={{ color: grey[900] }}/>
+            <button>
+              <ShoppingCartOutlinedIcon className="hover:bg-stone-200 rounded-md" sx={{ color: grey[900] }}/>
+            </button>
+            <button onClick={navToSignIn}>
+              <AccountCircleOutlinedIcon className="hover:bg-stone-200 rounded-md" sx={{ color: grey[900] }}/>
+            </button>
           </div>
         </div>
       )}

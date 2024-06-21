@@ -7,8 +7,6 @@ export default function Menu() {
   
   return (
     <main className="flex-grow">
-
-
       <DrinksList/>
     </main>
   );
