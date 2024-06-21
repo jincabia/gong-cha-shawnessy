@@ -17,31 +17,33 @@ const Toppings = ({ name, price, onChange, disableIncrement }) => {
   };
 
   return (
-    <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
+    <div className="topping-item border-b border-black py-8 w-4/5 mx-auto">
       <div className="container mx-auto grid grid-cols-8 gap-5 items-center">
-        <div className="col-span-5 flex items-center">
-          <h1 className="text-md font-semibold">{name}</h1>
+        {/* Name */}
+        <div className="col-span-2 flex items-center justify-start">
+          <h1 className="text-sm font-semibold">{name}</h1>
+        </div>
+
+        {/* Price */}
+        <div className="col-span-2 flex items-center justify-center">
           <h1 className="text-sm text-gray-700 ml-2">${price.toFixed(2)}</h1>
         </div>
-        <div className="col-span-3 flex items-center justify-end space-x-2 md:space-x-4">
+
+        {/* Counter */}
+        <div className="col-span-4 flex items-center justify-end">
           <button
-            className="bg-slate-400 text-white rounded-full px-5 md:px-7 py-1"
+            className="bg-slate-400 text-white rounded-full px-4 md:px-7 py-0"
             onClick={handleDecrement}
             disabled={counter === 0}
           >
             -
           </button>
 
-          {counter === 0 && (
-            <span className="mx-2 md:mx-4">{counter}</span>
+          {counter === 0 && <span className="mx-2 md:mx-4">{counter}</span>}
+          {counter !== 0 && <span className="mx-2 md:mx-4">{counter}x</span>}
 
-          )}
-          {counter !== 0 && (
-            <span className="mx-2 md:mx-4">{counter}x</span>
-
-          )}
           <button
-            className="bg-slate-400 text-white rounded-full px-5 md:px-7 py-1"
+            className="bg-slate-400 text-white rounded-full px-4 md:px-7 py-0"
             onClick={handleIncrement}
             disabled={disableIncrement}
           >
@@ -49,7 +51,8 @@ const Toppings = ({ name, price, onChange, disableIncrement }) => {
           </button>
         </div>
       </div>
-    </div>
+</div>
+
   );
 };
 
