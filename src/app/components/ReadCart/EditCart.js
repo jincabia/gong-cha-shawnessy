@@ -42,7 +42,7 @@ const EditCartModal = ({ onClose, loading, setLoading }) => {
                     onClick={handleContinueBrowsing}
                     className="bg-red-700 text-white px-4 py-2 w-full rounded-md shadow hover:bg-red-400"
                     >
-                    Continue Browsing
+                    Add More Items
                     </button>
                     <button
                     onClick={handleViewCart}
