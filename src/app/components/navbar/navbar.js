@@ -57,10 +57,13 @@ export default function GongNav() {
           </div>
 
           <div className="text-center content-center justify-center bg-white w-full mx-auto m-4">
+          <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/')}>
+              Home
+            </h1>
             <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
               Our Menu
             </h1>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4">
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/store')}>
               Our Store
             </h1>
           </div>
