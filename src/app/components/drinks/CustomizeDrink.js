@@ -32,9 +32,8 @@ PARAMETERS
 ID - we'll use the id to query through the database and show the info
 
 TODO 
-- add to cart
-- add to order
--error handling if they dont select an option
+ Add to cart
+  - Add an ID when writing to db so we can delete items properly 
 */
 
 const CustomizeDrink = () => {
