@@ -30,6 +30,7 @@ export default function CartPage() {
     try {
       setLoading(true)
       const cartData = await readUserCart(user.uid);
+      console.log(cartData)
       if (!cartData || cartData.length === 0) {
         setLoading(false);
         return;
@@ -98,6 +99,11 @@ export default function CartPage() {
     } catch (error) {
       console.error('Failed to update quantity:', error);
     }
+
+    setPriceLoading(false);
+
+
+
   };
 
   return (
@@ -126,7 +132,7 @@ export default function CartPage() {
       ) : (
         <>
           {cart.map((drink, index) => (
-            <div key={index} className="odd:py-10" >
+            <div key={index} className="even:py-6" >
               <DrinkItemFromCart
                 drink={drink}
                 index={index}
@@ -147,6 +153,8 @@ export default function CartPage() {
               <h2 className="">Subtotal: ${subtotal.toFixed(2)}</h2>
             </div>
           )}
+
+          {/* Add tax and total */}
           
         </>
       )}

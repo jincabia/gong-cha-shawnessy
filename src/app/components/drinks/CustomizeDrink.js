@@ -112,7 +112,7 @@ const CustomizeDrink = () => {
         // so we can use it here
         const cartData = await getDrinkById('users', user.uid);
         // cartData returns the UID, ID and email UID == ID they are the same
-        setCart(cartData.cart)
+        // setCart(cartData.cart)
       } catch (error) {
         console.error('Error fetching Cart:', error);
 
@@ -320,7 +320,7 @@ const CustomizeDrink = () => {
 
       {user && (
 
-        <div className='text-black'>
+        <div className='text-black md:w-1/3  mx-auto h-max'>
 
               
         {/* Success Popup */}

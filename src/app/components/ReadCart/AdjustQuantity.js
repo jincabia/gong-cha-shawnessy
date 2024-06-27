@@ -18,7 +18,7 @@ async function updateCartQuantity(userId, cartIndex, newQuantity) {
                     cart: cart
                 });
 
-                console.log(`Quantity updated successfully for cart item at index ${cartIndex}`);
+                // console.log(`Quantity updated successfully for cart item at index ${cartIndex}`);
             } else {
                 console.log(`No cart item found at index ${cartIndex} for user ${userId}`);
             }

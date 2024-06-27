@@ -194,6 +194,7 @@ const CustomizeDrink = () => {
 
 
     let missingField = "";
+    console.log(drink.quantity)
 
 
     if (size === "Select a Size" && !restrictions.includes('MediumSizeOnly')) {
@@ -261,7 +262,7 @@ const CustomizeDrink = () => {
       toppings: drinkToppings,
       sugar: sugar + '%',
       ice: ice,
-      quantity: 1,
+      quantity: drink.quantity,
       drinkID:drinkID
     };
 
