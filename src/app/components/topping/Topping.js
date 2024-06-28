@@ -71,6 +71,9 @@ const Toppings = ({ name, price, onChange, disableIncrement,initialCount }) => {
             +
           </button>
         </div>
+
+
+        
       </div>
 </div>
 

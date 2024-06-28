@@ -524,16 +524,30 @@ const CustomizeDrink = () => {
           </div>
         ))}
 
-      <label className="block text-gray-700 text-sm font-bold mb-4 mx-5">
-        Soy Alternative:
-        +$0.50
-        <input
-          type="checkbox"
-          checked={soy}
-          onChange={(()=> handleSoy())}
-          className="ml-2"
-        />
-      </label>
+      <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
+        <div className="container mx-auto grid grid-cols-8 gap-5 items-center ">
+          
+            {/* Name */}
+            <div className="col-span-2 flex items-center justify-start ">
+              <h1 className="text-sm font-semibold">Soy Alternative</h1>
+            </div>
+
+            {/* Price */}
+            <div className="col-span-2 flex items-center justify-center ">
+              <h1 className="text-sm text-gray-700 ml-2">$.50</h1>
+            </div>
+
+            {/* Counter */}
+            <div className="col-span-3 flex items-center justify-end ">
+              <input
+                type="checkbox"
+                checked={soy}
+                onChange={handleSoy}
+                className="ml-2"
+              />
+          </div>
+      </div>
+    </div>
 
         {/* Display the final Price after adjustments */}
         <div className='flex justify-around items-center my-10 mx-auto '>
