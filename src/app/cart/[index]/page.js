@@ -70,6 +70,8 @@
    // const [showSuccess, setShowSuccess] = useState(false);
    const [loading, setLoading] = useState(true);
 
+   const [soy,setSoy] = useState(false);
+
 
    
 
@@ -115,9 +117,20 @@
                setPrice(cartItemData.price);
                setSugar(cartItemData.sugar.slice(0,-1));
                setDrinkToppings(cartItemData.toppings)
-               console.log('cart toppings length is ',cartItemData.toppings.length)
-               setToppingCount(cartItemData.toppings.length);
-               console.log(toppingCount,'this is the topping count')
+               
+               const hasSoy = cartItemData.toppings.some(topping => topping.product_name === "Soy Milk Alternative");
+               // console.log(hasSoy,'this is soy')
+               setSoy(hasSoy);
+               
+               setToppingCount((cartItemData.toppings.length));
+               if(hasSoy)
+                  {
+                     setToppingCount(cartItemData.toppings.length -1);
+                     
+                  }
+                  
+                  console.log('cart toppings length is ',cartItemData.toppings.length)
+               // console.log(toppingCount,'this is the topping count')
       
             } else {
                console.error('No such user document!');
@@ -210,12 +223,28 @@ const handleSaveChanges = async () => {
        restrictions: drink.restrictions,
        price: price,
        size: size,
-       toppings: drinkToppings,
-       sugar: sugar + '%',
+       toppings: soy ? drinkToppings : drinkToppings.filter(topping => topping.product_name !== "Soy Milk Alternative"),       sugar: sugar + '%',
        ice: ice,
        quantity: 1,
        drinkID: drink.drinkID
    };
+
+   if(soy)
+      {
+  
+        const soyTopping = {
+          product_name:'Soy Milk Alternative',
+          product_price:0.5,
+          id:'GongChaShawnessy'
+        }
+  
+  
+        customDrink = {
+          ...customDrink,
+         toppings: [...drinkToppings,soyTopping],
+         ice: 'Less Ice'
+        };
+      }
 
    if (restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable')) {
        customDrink = {
@@ -231,6 +260,8 @@ const handleSaveChanges = async () => {
    }
 
    console.log(customDrink);
+
+   // If soy is false and inside drinkToppings has Soy Milk Alternative filter soy milk alternative
 
    try {
        if (!user || !user.uid) {
@@ -273,6 +304,32 @@ const handleSaveChanges = async () => {
 
 
 };
+
+const handleSoy = () => {
+   setSoy(!soy);
+   console.log(soy)
+
+   if (!soy && (ice === 'Hot' )) {
+     setIce('Select an Ice Level');
+   }
+
+   if (!soy && (ice === 'No ice' )) {
+     setIce('Select an Ice Level');
+   }
+
+   if (soy) {
+     setPrice(price - 0.5);
+   } else {
+     setPrice(price + 0.5);
+   }
+ };
+
+   const handleClose = () =>
+     {
+       setShowSuccess(false)
+       router.push(`/menu/${drinkID}`)
+ 
+     }
 
 
    return (
@@ -386,14 +443,14 @@ const handleSaveChanges = async () => {
                >
 
                   <option disabled>Select an Ice Level</option>
-                  {!restrictionsMap[drink.restrictions]?.includes('GreaterThanLessIce') && (
+                  {!restrictionsMap[drink.restrictions]?.includes('GreaterThanLessIce') && !soy && (
                      <option value="No ice" className="bg-white text-gray-900">No Ice</option>
                   )}
                      <option value="Less ice" className="bg-white text-gray-900">Less Ice</option>
                      <option value="Regular ice" className="bg-white text-gray-900">Regular Ice</option>
                      <option value="Extra ice" className="bg-white text-gray-900">Extra Ice</option>
 
-                  {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && (
+                  {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') &&!soy && (
                   <option value="Hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
                   )}
                   
@@ -440,6 +497,31 @@ const handleSaveChanges = async () => {
                />
                );
             })}
+
+            <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
+                  <div className="container mx-auto grid grid-cols-8 gap-5 items-center ">
+                     
+                        {/* Name */}
+                        <div className="col-span-2 flex items-center justify-start ">
+                        <h1 className="text-sm font-semibold">Soy Alternative</h1>
+                        </div>
+
+                        {/* Price */}
+                        <div className="col-span-2 flex items-center justify-center ">
+                        <h1 className="text-sm text-gray-700 ml-2">$.50</h1>
+                        </div>
+
+                        {/* Counter */}
+                        <div className="col-span-3 flex items-center justify-end ">
+                        <input
+                           type="checkbox"
+                           checked={soy}
+                           onChange={handleSoy}
+                           className="ml-2"
+                        />
+                     </div>
+                  </div>
+               </div>
 
          {/* Display the final Price after adjustments */}
          <div className='flex justify-around items-center my-10 mx-auto '>

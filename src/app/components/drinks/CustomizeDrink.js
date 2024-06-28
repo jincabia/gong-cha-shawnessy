@@ -155,9 +155,7 @@ const CustomizeDrink = () => {
 
   // When a new Ice is selected
   const handleIceChange = (e) => {
-    setIce(e.target.value);
-
-    
+    setIce(e.target.value);    
 
     if (e.target.value === "Hot") {
       // If the selected ice is hot, enforce the size to be medium
@@ -258,9 +256,16 @@ const CustomizeDrink = () => {
 
       let customDrink;
 
-      if (soy) {
-        totalPrice += 0.5;
+
+      if (soy && (ice === "Hot" || ice === "No Ice")) {
+        setErrorMessage("Soy Alternative is not available with Hot or No Ice options.");
+        setShowError(true);
+        if (errorRef.current) {
+          errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
       }
+    
     
 
     customDrink = {
@@ -275,6 +280,23 @@ const CustomizeDrink = () => {
       drinkID:drinkID
     };
 
+    if(soy)
+      {
+  
+        const soyTopping = {
+          product_name:'Soy Milk Alternative',
+          product_price:0.5,
+          id:'GongChaShawnessy'
+        }
+  
+  
+        customDrink = {
+          ...customDrink,
+         toppings: [...drinkToppings,soyTopping],
+         ice: ice
+        };
+      }
+
 
      if (restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable')) {
       customDrink = {
@@ -288,6 +310,10 @@ const CustomizeDrink = () => {
         ice: 'Ice Not Adjustable'
       };
     }
+
+  
+
+  
 
     
 
@@ -317,20 +343,57 @@ const CustomizeDrink = () => {
     }
 
 
-  const handleSoy = () =>
-    {
-      setSoy(!soy);
+  // const handleSoy = () =>
+  //   {
+      
+  //     if ( soy && (ice === 'Hot' || ice === 'No Ice')) {
+  //       console.log('balls')
+  //       setIce('Select an Ice Level');
+  //     }
+      
 
-      if(soy) 
-        {
-          setPrice(price - 0.5)
+  //     setSoy(!soy);
 
+  //     if(soy) 
+  //       {
+  //         setPrice(price - 0.5)
+  //       }
+  //     else
+  //     {
+  //       setPrice(price + 0.5)
+  //     }
+  //   }  
+
+  const handleSoy = () => {
+    setSoy(!soy);
+    console.log(soy)
+    
+    if (soy) {
+      setPrice(price - 0.5);
+    } else {
+      setPrice(price + 0.5);
+    }
+    if (!soy && (ice === 'Hot' )) {
+      setIce('Select an Ice Level');
+      setErrorMessage("Soy Alternative is not available with Hot or No Ice options.");
+        setShowError(true);
+        if (errorRef.current) {
+          errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-      else
-      {
-        setPrice(price + 0.5)
-      }
-    }  
+        return;
+    }
+
+    if (!soy && (ice === 'No ice' )) {
+      setIce('Select an Ice Level');
+      setErrorMessage("Soy Alternative is not available with Hot or No Ice options.");
+        setShowError(true);
+        if (errorRef.current) {
+          errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
+
+  };
 
   return (
     <main className='text-black'>
@@ -364,7 +427,7 @@ const CustomizeDrink = () => {
         {/* Error Popup */}
         {showError && (
           <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-4 rounded-lg shadow-lg text-center">
+            <div className="bg-white p-4 rounded-lg shadow-lg text-center w-3/4">
               <p className="text-red-500 mb-2">{errorMessage}</p>
               <button onClick={() => setShowError(false)} className="block mx-auto bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">Close</button>
             </div>
@@ -415,7 +478,11 @@ const CustomizeDrink = () => {
           
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
-              Size:
+              <div className='flex'>
+              <p className='text-red-500'>*</p>
+              Size: 
+
+              </div>
               <select 
                 value={size} 
                 onChange={handleSizeChange}
@@ -441,7 +508,13 @@ const CustomizeDrink = () => {
               <>
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
-                  Sugar Level:
+
+                <div className='flex'>
+              <p className='text-red-500'>*</p>
+              Sugar Level: 
+
+              </div>
+                  {/* Sugar Level: */}
                   <select 
                     value={sugar} 
                     onChange={handleSugarChange}
@@ -474,7 +547,12 @@ const CustomizeDrink = () => {
 
           <div>
             <label className="block text-gray-700 text-sm font-bold my-10 justify-center mx-5">
-              Ice Level:
+            <div className='flex'>
+              <p className='text-red-500'>*</p>
+              Ice Level: 
+
+              </div>
+              {/* Ice Level: */}
               <select 
                 value={ice} 
                 onChange={handleIceChange}
@@ -489,7 +567,7 @@ const CustomizeDrink = () => {
                     <option value="Regular ice" className="bg-white text-gray-900">Regular Ice</option>
                     <option value="Extra ice" className="bg-white text-gray-900">Extra Ice</option>
 
-                {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && !soy &&  (
+                {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && !soy  &&  (
                 <option value="Hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
                 )}
                 
@@ -547,7 +625,9 @@ const CustomizeDrink = () => {
               />
           </div>
       </div>
+
     </div>
+      <p className='w-fit mx-auto truncate text-gray-700 text-xs pb-10 py-8'>*Drinks made with Soy Milk cannot be done with No Ice or Hot.</p>
 
         {/* Display the final Price after adjustments */}
         <div className='flex justify-around items-center my-10 mx-auto '>

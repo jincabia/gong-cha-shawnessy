@@ -79,12 +79,16 @@ const CustomizeDrink = () => {
   // const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [soy,setSoy] = useState(false)
+
 
   // Fetches Toppings from the database
   const fetchToppings = async () => {
     try {
       const toppingData = await getToppings();
       setToppings(toppingData);
+      const hasSoy = toppingData.some(topping => topping.name === "Soy Milk Alternative");
+      setSoy(hasSoy);
     } catch (error) {
       console.error(error);
     }
@@ -252,6 +256,7 @@ const CustomizeDrink = () => {
   //   }
   // }
 
+
       let customDrink;
 
     customDrink = {
@@ -265,6 +270,23 @@ const CustomizeDrink = () => {
       quantity: drink.quantity,
       drinkID:drinkID
     };
+
+    if(soy)
+      {
+  
+        const soyTopping = {
+          product_name:'Soy Milk Alternative',
+          product_price:0.5,
+          id:'GongChaShawnessy'
+        }
+  
+  
+        customDrink = {
+          ...customDrink,
+         toppings: [...drinkToppings,soyTopping],
+         ice: 'Less Ice'
+        };
+      }
 
 
      if (restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable')) {
@@ -300,6 +322,33 @@ const CustomizeDrink = () => {
     };
   }, []);
 
+
+  const handleSoy = () =>
+    {
+      setSoy(!soy);
+
+      if(soy) 
+        {
+          setPrice(price - 0.5)
+          if(ice === 'Hot' || ice ==='No Ice')
+            {
+              setIce('Regular Ice')
+            }
+          
+
+        }
+      else
+      {
+        setPrice(price + 0.5)
+      }
+    }  
+
+    const handleClose = () =>
+      {
+        setShowSuccess(false)
+        router.push(`/menu/${drinkID}`)
+  
+      }
   
 
   return (
@@ -323,7 +372,7 @@ const CustomizeDrink = () => {
 
         {showSuccess && (
             <div>
-              <AddToCartModal onClose={() => setShowSuccess(false)} loading={loading} setLoading={setLoading} />
+              <AddToCartModal onClose={() => handleClose()} loading={loading} setLoading={setLoading} />
             </div>
           )}
 
@@ -403,7 +452,7 @@ const CustomizeDrink = () => {
           
 
             {/* Sugar Changes */}
-            {!restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable') && (
+            {!restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable')  && (
               <>
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
@@ -448,14 +497,14 @@ const CustomizeDrink = () => {
               >
 
                 <option disabled>Select an Ice Level</option>
-                {!restrictionsMap[drink.restrictions]?.includes('GreaterThanLessIce') && (
+                {!restrictionsMap[drink.restrictions]?.includes('GreaterThanLessIce') && !soy && (
                     <option value="No ice" className="bg-white text-gray-900">No Ice</option>
                 )}
                     <option value="Less ice" className="bg-white text-gray-900">Less Ice</option>
                     <option value="Regular ice" className="bg-white text-gray-900">Regular Ice</option>
                     <option value="Extra ice" className="bg-white text-gray-900">Extra Ice</option>
 
-                {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && (
+                {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && !soy && (
                 <option value="Hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
                 )}
                 
@@ -489,6 +538,33 @@ const CustomizeDrink = () => {
             />
           </div>
         ))}
+
+        <h1>Hi</h1>
+
+        <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
+            <div className="container mx-auto grid grid-cols-8 gap-5 items-center ">
+                  
+                    {/* Name */}
+                    <div className="col-span-2 flex items-center justify-start ">
+                      <h1 className="text-sm font-semibold">Soy Alternative</h1>
+                    </div>
+
+                    {/* Price */}
+                    <div className="col-span-2 flex items-center justify-center ">
+                      <h1 className="text-sm text-gray-700 ml-2">$.50</h1>
+                    </div>
+
+                    {/* Counter */}
+                    <div className="col-span-3 flex items-center justify-end ">
+                      <input
+                        type="checkbox"
+                        checked={soy}
+                        onChange={handleSoy}
+                        className="ml-2"
+                      />
+                  </div>
+            </div>
+          </div>
 
         {/* Display the final Price after adjustments */}
         <div className='flex justify-around items-center my-10 mx-auto '>
