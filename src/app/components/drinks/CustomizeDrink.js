@@ -81,6 +81,7 @@ const CustomizeDrink = () => {
   // const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [soy,setSoy] = useState(false);
 
   // Fetches Toppings from the database
   const fetchToppings = async () => {
@@ -155,6 +156,9 @@ const CustomizeDrink = () => {
   // When a new Ice is selected
   const handleIceChange = (e) => {
     setIce(e.target.value);
+
+    
+
     if (e.target.value === "Hot") {
       // If the selected ice is hot, enforce the size to be medium
       // handles changing the options but still keeps the price correct.
@@ -254,6 +258,11 @@ const CustomizeDrink = () => {
 
       let customDrink;
 
+      if (soy) {
+        totalPrice += 0.5;
+      }
+    
+
     customDrink = {
       drinkName: drink.product_name,
       restrictions: drink.restrictions,
@@ -300,7 +309,28 @@ const CustomizeDrink = () => {
     };
   }, []);
 
-  
+  const handleClose = () =>
+    {
+      setShowSuccess(false)
+      router.push(`/menu/${drinkID}`)
+
+    }
+
+
+  const handleSoy = () =>
+    {
+      setSoy(!soy);
+
+      if(soy) 
+        {
+          setPrice(price - 0.5)
+
+        }
+      else
+      {
+        setPrice(price + 0.5)
+      }
+    }  
 
   return (
     <main className='text-black'>
@@ -327,7 +357,7 @@ const CustomizeDrink = () => {
 
         {showSuccess && (
             <div>
-              <AddToCartModal onClose={() => setShowSuccess(false)} loading={loading} setLoading={setLoading} />
+              <AddToCartModal onClose={() => handleClose()} loading={loading} setLoading={setLoading} />
             </div>
           )}
 
@@ -452,14 +482,14 @@ const CustomizeDrink = () => {
               >
 
                 <option disabled>Select an Ice Level</option>
-                {!restrictionsMap[drink.restrictions]?.includes('GreaterThanLessIce') && (
+                {!restrictionsMap[drink.restrictions]?.includes('GreaterThanLessIce') && !soy && (
                     <option value="No ice" className="bg-white text-gray-900">No Ice</option>
                 )}
                     <option value="Less ice" className="bg-white text-gray-900">Less Ice</option>
                     <option value="Regular ice" className="bg-white text-gray-900">Regular Ice</option>
                     <option value="Extra ice" className="bg-white text-gray-900">Extra Ice</option>
 
-                {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && (
+                {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && !soy &&  (
                 <option value="Hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
                 )}
                 
@@ -493,6 +523,17 @@ const CustomizeDrink = () => {
             />
           </div>
         ))}
+
+      <label className="block text-gray-700 text-sm font-bold mb-4 mx-5">
+        Soy Alternative:
+        +$0.50
+        <input
+          type="checkbox"
+          checked={soy}
+          onChange={(()=> handleSoy())}
+          className="ml-2"
+        />
+      </label>
 
         {/* Display the final Price after adjustments */}
         <div className='flex justify-around items-center my-10 mx-auto '>
