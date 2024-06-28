@@ -308,20 +308,34 @@ const handleSaveChanges = async () => {
 const handleSoy = () => {
    setSoy(!soy);
    console.log(soy)
-
+   
+   if (soy) {
+     setPrice((curr) => curr-.5);
+   } else {
+     setPrice((curr) => curr+.5);
+   }
    if (!soy && (ice === 'Hot' )) {
      setIce('Select an Ice Level');
+     setPrice((curr) => curr -.5);
+     console.log('fart')
+     setErrorMessage("Soy Alternative is not available with Hot or No Ice options.");
+       setShowError(true);
+       if (errorRef.current) {
+         errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+       }
+       return;
    }
 
    if (!soy && (ice === 'No ice' )) {
      setIce('Select an Ice Level');
+     setErrorMessage("Soy Alternative is not available with Hot or No Ice options.");
+       setShowError(true);
+       if (errorRef.current) {
+         errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+       }
+       return;
    }
 
-   if (soy) {
-     setPrice(price - 0.5);
-   } else {
-     setPrice(price + 0.5);
-   }
  };
 
    const handleClose = () =>
@@ -343,9 +357,18 @@ const handleSoy = () => {
 
          {showSuccess && (
             <div>
-              <EditCartModal onClose={() => setShowSuccess()} loading={loading} setLoading={setLoading} />
+              <EditCartModal onClose={() => handleClose()} loading={loading} setLoading={setLoading} />
             </div>
           )}
+
+      {showError && (
+          <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-4 rounded-lg shadow-lg text-center w-3/4">
+              <p className="text-red-500 mb-2">{errorMessage}</p>
+              <button onClick={() => setShowError(false)} className="block mx-auto bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">Close</button>
+            </div>
+          </div>
+        )}
 
          <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
             {drink.drinkName ? (
@@ -376,7 +399,11 @@ const handleSoy = () => {
             
             <div>
                <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
-               Size:
+               <div className='flex'>
+              <p className='text-red-500'>*</p>
+              Size: 
+
+              </div>
                <select 
                   value={size} 
                   onChange={handleSizeChange}
@@ -402,7 +429,11 @@ const handleSoy = () => {
                <>
                <div>
                   <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
-                     Sugar Level:
+                     <div className='flex'>
+              <p className='text-red-500'>*</p>
+              Sugar Level: 
+
+              </div>
                      <select 
                      value={sugar} 
                      onChange={handleSugarChange}
@@ -435,7 +466,11 @@ const handleSoy = () => {
 
             <div>
                <label className="block text-gray-700 text-sm font-bold my-10 justify-center mx-5">
-               Ice Level:
+                  <div className='flex'>
+              <p className='text-red-500'>*</p>
+              Ice Level: 
+
+              </div>
                <select 
                   value={ice} 
                   onChange={handleIceChange}
@@ -508,7 +543,7 @@ const handleSoy = () => {
 
                         {/* Price */}
                         <div className="col-span-2 flex items-center justify-center ">
-                        <h1 className="text-sm text-gray-700 ml-2">$.50</h1>
+                        <h1 className="text-sm text-gray-700 ml-2">$0.50</h1>
                         </div>
 
                         {/* Counter */}

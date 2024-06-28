@@ -369,12 +369,14 @@ const CustomizeDrink = () => {
     console.log(soy)
     
     if (soy) {
-      setPrice(price - 0.5);
+      setPrice((curr) => curr-.5);
     } else {
-      setPrice(price + 0.5);
+      setPrice((curr) => curr+.5);
     }
     if (!soy && (ice === 'Hot' )) {
       setIce('Select an Ice Level');
+      setPrice((curr) => curr -.5);
+      console.log('fart')
       setErrorMessage("Soy Alternative is not available with Hot or No Ice options.");
         setShowError(true);
         if (errorRef.current) {
@@ -612,7 +614,7 @@ const CustomizeDrink = () => {
 
             {/* Price */}
             <div className="col-span-2 flex items-center justify-center ">
-              <h1 className="text-sm text-gray-700 ml-2">$.50</h1>
+              <h1 className="text-sm text-gray-700 ml-2">$0.50</h1>
             </div>
 
             {/* Counter */}
