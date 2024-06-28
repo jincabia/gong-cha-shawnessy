@@ -92,6 +92,7 @@ export default function GongNav() {
               className="p-7"
               alt="Gong Cha"
               onClick={()=> router.push('/')}
+              priority
             />
           </button>
 

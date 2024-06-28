@@ -378,6 +378,7 @@ const handleSoy = () => {
                height={100}
                className="sm:w-28 sm:h-38 md:w-32 md:h-48 lg:w-30 lg:h-48"
                alt={drink.drinkName}
+               priority
                />
             ) : (
                <div className="spinner" style={{ width: 100, height: 100 }}></div>
