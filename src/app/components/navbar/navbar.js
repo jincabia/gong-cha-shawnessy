@@ -22,6 +22,10 @@ export default function GongNav() {
     router.push("/");
   };
 
+  const navToStory = () => {
+    router.push("/story")
+  }
+
   const navToMenu = () => {
     router.push("/menu");
   };
@@ -102,7 +106,8 @@ export default function GongNav() {
 
           <div className="hidden md:flex space-x-10">
             <button 
-              className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800">
+              className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800"
+              onClick={navToStory}>
                       Our Story
             </button>
             <button 
