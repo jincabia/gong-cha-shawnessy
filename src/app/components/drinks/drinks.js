@@ -58,9 +58,9 @@ const Drink = ({ name, price, id }) => {
           </div>
         </div>
 
-        <div className='flex flex-col items-start justify-start flex-grow mt-4'>
+        <div className='flex  items-start justify-around flex-grow mt-4'>
           <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate'>{name}</h1>
-          {/* <p className='text-black text-sm'>${price}</p> */}
+          {/* <p className='text-black  w-fit text-xs mb-2 truncate'>${price}</p> */}
         </div>
         
       </button>

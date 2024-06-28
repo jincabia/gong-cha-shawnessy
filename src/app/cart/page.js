@@ -1,69 +1,163 @@
 
 'use client'
 import { useState, useEffect } from "react";
-import readUserCart from "../components/ReadCart/ReadCart";
 import { useAuth } from "../authContext/AuthContext";
+import readUserCart from "../components/ReadCart/ReadCart";
+import { useRouter } from "next/navigation";
+import removeDrinkFromCartInFirebase from "../components/ReadCart/DeleteFromCart";
 import DrinkItemFromCart from "../components/ReadCart/DrinkItemFromCart";
+import updateCartQuantity from "../components/ReadCart/AdjustQuantity";
 
 export default function CartPage() {
-  const { user } = useAuth();
-
+  // database cart
   const [cart, setCart] = useState([]);
-  const [cartPrice, setCartPrice] = useState(0);
 
-  const fetchUserCart = async () => {
-    try {
-      const cartData = await readUserCart(user.uid);
-      console.log(cartData);
-      setCart(cartData.map(item => ({ ...item, count: 1 })));
-    } catch (error) {
-      console.error('Error fetching cart:', error);
-    }
-  };
+  
+  const [subtotal, setSubtotal] = useState(0);
+
+  const [priceLoading, setPriceLoading] = useState(true)
+
+  const { user } = useAuth();
+  const router = useRouter();
+
+  const [loading,setLoading] = useState(false)
 
   useEffect(() => {
     fetchUserCart();
   }, []);
 
-  const handleIncrease = (index) => {
-    const newCart = [...cart];
-    newCart[index].count += 1;
-    setCart(newCart);
-  };
+  const fetchUserCart = async () => {
+    try {
+      setLoading(true)
+      const cartData = await readUserCart(user.uid);
+      console.log(cartData)
+      if (!cartData || cartData.length === 0) {
+        setLoading(false);
+        return;
+      }
+      
+      setCart(cartData);
+      calculateSubtotal(cartData);
+      setPriceLoading(false)
+      setLoading(false)
 
-  const handleDecrease = (index) => {
-    const newCart = [...cart];
-    if (newCart[index].count > 1) {
-      newCart[index].count -= 1;
-      setCart(newCart);
+
+
+    } catch (error) {
+      console.error('Error fetching cart:', error);
     }
   };
 
-  useEffect(() => {
-    const total = cart.reduce((acc, item) => acc + item.price * item.count, 0);
-    setCartPrice(total);
-  }, [cart]);
+  const calculateSubtotal = (cartData) => {
+    if (!cartData || cartData.length === 0) {
+      // console.log('fart')
+      setSubtotal(0);
+      setLoading(true)
+      return;
+    }
+
+    let total = 0;
+    cartData.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    setSubtotal(total);
+  };
+
+  // useEffect(() => {
+  //   //Runs only on the first render
+  //   calculateSubtotal();
+  // }, [cart]);
+
+  const removeDrinkFromCart = async (index) => {
+    try {
+      await removeDrinkFromCartInFirebase(user.uid, index);
+      const updatedCart = cart.filter((_, i) => i !== index);
+      setCart(updatedCart);
+      calculateSubtotal(updatedCart);
+      setLoading(false)
+
+    } catch (error) {
+      console.error('Error removing drink from cart:', error);
+    }
+  };
+
+  const handleQuantityChange = async (index, newQuantity) => {
+    try {
+      // Update quantity locally first
+      const updatedCart = cart.map((item, idx) =>
+        idx === index ? { ...item, quantity: newQuantity } : item
+      );
+
+      
+      setCart(updatedCart);
+      setPriceLoading(false);
+      calculateSubtotal(updatedCart);
+      setPriceLoading(true)
+
+      // Then update quantity in backend
+      await updateCartQuantity(user.uid, index, newQuantity);
+    } catch (error) {
+      console.error('Failed to update quantity:', error);
+    }
+
+    setPriceLoading(false);
+
+
+
+  };
 
   return (
     <main className="text-black">
-      {cart.map((drink, index) => (
-        <div key={index} className="py-5">
-          <DrinkItemFromCart
-            drinkName={drink.drinkName}
-            ice={drink.ice}
-            price={drink.price}
-            size={drink.size}
-            sugar={drink.sugar}
-            toppings={drink.toppings}
-            count={drink.count}
-            onIncrease={() => handleIncrease(index)}
-            onDecrease={() => handleDecrease(index)}
-          />
-        </div>
-      ))}
-      <div className="mt-6 p-4 border-t">
-        <h2 className="text-lg font-semibold text-red-700">Total Price: ${cartPrice.toFixed(2)}</h2>
-      </div>
+      {!cart || cart.length === 0 ? (
+        <>
+
+          {loading ? (
+            <div className="flex items-center text-center justify-center mt-48 bg-gray-200 shadow-md w-min mx-auto p-10 rounded-xl">
+              <div className="spinner p-10"></div>
+
+            </div>
+
+          ):(
+            <>
+              <h1>There is nothing inside your cart, check out our Menu!</h1>
+              <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={() => router.push('/menu')}>
+                Our Menu
+              </h1>
+            
+            </>
+
+          )}
+
+        </>
+      ) : (
+        <>
+          {cart.map((drink, index) => (
+            <div key={index} className="even:py-6" >
+              <DrinkItemFromCart
+                drink={drink}
+                index={index}
+                removeDrinkFromCart={removeDrinkFromCart}
+                onQuantityChange={(newQuantity) => handleQuantityChange(index, newQuantity)}
+              />
+            </div>
+          ))}
+
+          {priceLoading ? (
+            // If it is loading play spinner
+            <div className="flex text-center justify-center items-center  mx-auto my-4">
+              <div className="spinner text-center justify-center items-center"></div>
+            </div>
+          ):(
+            // If the price is not loading
+            <div className="text-center my-4">
+              <h2 className="">Subtotal: ${subtotal.toFixed(2)}</h2>
+            </div>
+          )}
+
+          {/* Add tax and total */}
+          
+        </>
+      )}
     </main>
   );
 }

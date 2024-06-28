@@ -7,11 +7,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { grey, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/authContext/AuthContext";
 
 // TODO Start filling up pages
 
 export default function GongNav() {
   const [hidden, setHidden] = useState(false);
+
+  const {user} = useAuth();
+
   const router = useRouter();
 
   const navToHome = () => {
@@ -70,6 +74,14 @@ export default function GongNav() {
             <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/store')}>
               Our Store
             </h1>
+
+          {user && (<>
+            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/cart')}>
+              Your Cart
+            </h1>          
+          </>)}
+
+
           </div>
         </div>
       ) :
@@ -84,6 +96,7 @@ export default function GongNav() {
               className="p-7"
               alt="Gong Cha"
               onClick={()=> router.push('/')}
+              priority
             />
           </button>
 

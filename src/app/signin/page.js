@@ -1,7 +1,8 @@
 'use client'
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuth } from '../authContext/AuthContext';
+import { writeUserData } from '../components/writeuserdata/writeuserdata';
 
 const SignIn = ({message}) => {
   const [error, setError] = useState(null);
@@ -15,6 +16,7 @@ const SignIn = ({message}) => {
         const user = result.user;
         setError(null); // Clear any previous errors
         console.log('Signed in user:', user);
+        writeUserData(user)
       })
       .catch((error) => {
         setError(error.message);
@@ -26,7 +28,7 @@ const SignIn = ({message}) => {
     <div className="flex flex-col text-black py-36 w-64">
       <h1>{message}</h1>
       <h2 className="text-2xl text-red-800 font-semibold pb-5">Sign In</h2>
-      <form className="flex flex-col">
+      {/* <form className="flex flex-col">
         <input 
           type="text"
           className="rounded-md py-2 px-3 mb-3"
@@ -35,7 +37,7 @@ const SignIn = ({message}) => {
           type="password"
           className="rounded-md py-2 px-3 mb-5"
           placeholder="Password" />
-      </form>
+      </form> */}
       <button 
         className="bg-red-800 text-white rounded-md py-2 px-3" 
         onClick={signInWithGoogle}>

@@ -10,6 +10,8 @@ export default function Home() {
       <OurStory />
       <OurMenu />
       <OurStore />
+
+      
     </main>
   );
 };
