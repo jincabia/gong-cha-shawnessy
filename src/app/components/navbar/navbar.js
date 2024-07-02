@@ -8,6 +8,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import { grey, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/authContext/AuthContext";
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import HomeIcon from '@mui/icons-material/Home';
+import MapIcon from '@mui/icons-material/Map';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
+
 
 // TODO Start filling up pages
 
@@ -58,13 +64,117 @@ export default function GongNav() {
             hidden ? "opacity-100" : "opacity-0 pointer-events-none"
           } transition-opacity duration-300 ease-in-out bg-white max-h-screen max-x-screen`}
         >
-          <div className="text-end">
-            <button className="pr-5 pt-5" onClick={toggleHidden}>
-              <CloseIcon sx={{ color: grey[900], fontSize: 40 }}/>
-            </button>
+          {/* <div className="text-black"> Bruh bruh bruh</div> */}
+
+          {/* <Image
+              src="/logoWithTagline.png"
+              width={175}
+              height={175}
+              className="p-7"
+              alt="Gong Cha"
+              onClick={()=> router.push('/')}
+              priority
+            /> */}
+
+          {/* Button to close the nav bar */}
+          <div className="flex justify-between mt-5">
+
+          <Image
+              src="/GongchaLogo.png"
+              width={50}
+              height={50}
+              className="text-start justify-start items-start ml-3"
+              alt="Gong Cha"
+              onClick={()=> router.push('/')}
+              priority
+            />
+
+            
+
+            <div className="text-end justify-end items-end mr-5">
+              <button className="" onClick={toggleHidden}>
+                <CloseIcon sx={{ color: grey[900], fontSize:40}}/>
+              </button>
+            </div>
+
+
+
+
+
           </div>
 
-          <div className="text-center content-center justify-center bg-white w-full mx-auto m-4">
+          <div className="grid justify-items-start text-black">
+
+          <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/')}>
+            <HomeIcon className=""/>
+            <h1 className="text-stone-900 w-full " >
+                Home
+            </h1>
+
+            </div>
+{/*             
+
+            <h1 className="text-stone-900 w-screen border-b border-black pl-5 py-5" onClick={()=>handleNavigation('/')}>
+                Home
+            </h1> */}
+
+
+            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/menu')}>
+            <MenuBookIcon className=""/>
+            <h1 className="text-stone-900 w-full " >
+                Our Menu
+            </h1>
+
+            </div>
+
+            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/store')}>
+              <MapIcon className=""/>
+              <h1 className="text-stone-900 w-full " >
+                  Our Store
+              </h1>
+
+            </div>
+{/* 
+            <h1 className="text-stone-900 w-screen border-b border-black pl-5 py-5" onClick={()=>handleNavigation('/store')}>
+                Our Store
+            </h1> */}
+
+            {user && (
+              <>
+
+            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/cart')}>
+              <ShoppingCartIcon className=""/>
+              <h1 className="text-stone-900 w-full " >
+                  Your Cart
+              </h1>
+
+            </div>
+              </>)}
+
+
+              {/* If the user is not authenticated, and they attempt to check their cart
+                  it sends them to sign in using google
+              */}
+            {!user && (
+              <>
+               <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/signin')}>
+              <ShoppingCartIcon className=""/>
+              <h1 className="text-stone-900 w-full " >
+                  Your Cart
+              </h1>
+
+            </div>
+              
+              </>
+            )}
+
+
+          </div>
+
+
+
+
+          {/* <div className="text-center content-center justify-center bg-white w-full mx-auto m-4">
           <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/')}>
               Home
             </h1>
@@ -82,7 +192,7 @@ export default function GongNav() {
           </>)}
 
 
-          </div>
+          </div> */}
         </div>
       ) :
     //   Desktop nav
