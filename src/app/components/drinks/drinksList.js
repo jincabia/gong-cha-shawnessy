@@ -40,7 +40,7 @@ const DrinksList = () => {
   if (loading || !imagesLoaded) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="spinner" style={{ width: 100, height: 100 }}></div>
+        <div className="spinner border-t-4 border-blue-500 rounded-full w-16 h-16 animate-spin"></div>
       </div>
     );
   }
@@ -51,9 +51,9 @@ const DrinksList = () => {
 
   return (
     <div className="container mx-auto p-4 flex justify-center items-center">
-      <ul className="grid grid-cols-2 gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {drinks.map((drink) => (
-          <li key={drink.id} className="list-none flex justify-center items-center">
+          <li key={drink.id} className="flex justify-center items-center">
             <Drink name={drink.product_name} price={drink.product_price} id={drink.id} />
           </li>
         ))}

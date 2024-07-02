@@ -16,6 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {

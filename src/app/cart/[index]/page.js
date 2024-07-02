@@ -12,6 +12,7 @@
    import { useRouter } from 'next/navigation';
    import { updateDoc } from "firebase/firestore";
    import EditCartModal from '@/app/components/ReadCart/EditCart';
+   import ImageComponent from '@/app/components/image/ImageComponent';
    
    const restrictionsMap = {
       0: [],
@@ -371,7 +372,7 @@ const handleSoy = () => {
         )}
 
          <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
-            {drink.drinkName ? (
+            {/* {drink.drinkName ? (
                <Image
                src={`/${drink.drinkName}.png`}
                width={100}
@@ -382,7 +383,11 @@ const handleSoy = () => {
                />
             ) : (
                <div className="spinner" style={{ width: 100, height: 100 }}></div>
-            )}
+            )} */}
+
+            <ImageComponent imagePath={`${drink.drinkName}.png`}/>
+
+
          </div>
 
          {/* Drink Details */}

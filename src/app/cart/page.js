@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import removeDrinkFromCartInFirebase from "../components/ReadCart/DeleteFromCart";
 import DrinkItemFromCart from "../components/ReadCart/DrinkItemFromCart";
 import updateCartQuantity from "../components/ReadCart/AdjustQuantity";
+import ImageComponent from "../components/image/ImageComponent";
 
 export default function CartPage() {
   // database cart

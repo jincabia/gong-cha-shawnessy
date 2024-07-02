@@ -12,6 +12,7 @@ import SignIn from '@/app/signin/page';
 import AddToCartModal from '../ReadCart/AddToCart';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useRouter } from 'next/navigation';
+import ImageComponent from '../image/ImageComponent';
 
 const restrictionsMap = {
   0: [],
@@ -438,19 +439,9 @@ const CustomizeDrink = () => {
 
 
 
-        <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
-          {drink.product_name ? (
-            <Image
-              src={`/${drink.product_name}.png`}
-              width={100}
-              height={100}
-              className="sm:w-28 sm:h-38 md:w-32 md:h-48 lg:w-30 lg:h-48"
-              alt={drink.product_name}
-              priority
-            />
-          ) : (
-            <div className="spinner" style={{ width: 100, height: 100 }}></div>
-          )}
+        <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center my-5'>
+          
+          <ImageComponent imagePath={`${drink.product_name}.png`}/>
         </div>
 
         {/* Drink Details */}
