@@ -12,7 +12,8 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import HomeIcon from '@mui/icons-material/Home';
 import MapIcon from '@mui/icons-material/Map';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-
+import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
 
 // TODO Start filling up pages
@@ -20,7 +21,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export default function GongNav() {
   const [hidden, setHidden] = useState(false);
 
-  const {user} = useAuth();
+  const {user,signOut} = useAuth();
 
   const router = useRouter();
 
@@ -87,6 +88,7 @@ export default function GongNav() {
               alt="Gong Cha"
               onClick={()=> router.push('/')}
               priority
+              style={{ width: 'auto', height: '50px' }} // inline style to maintain aspect ratio
             />
 
             
@@ -105,7 +107,7 @@ export default function GongNav() {
 
           <div className="grid justify-items-start text-black">
 
-          <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/')}>
+          <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/')}>
             <HomeIcon className=""/>
             <h1 className="text-stone-900 w-full " >
                 Home
@@ -119,7 +121,7 @@ export default function GongNav() {
             </h1> */}
 
 
-            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/menu')}>
+            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/menu')}>
             <MenuBookIcon className=""/>
             <h1 className="text-stone-900 w-full " >
                 Our Menu
@@ -127,7 +129,7 @@ export default function GongNav() {
 
             </div>
 
-            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/store')}>
+            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/store')}>
               <MapIcon className=""/>
               <h1 className="text-stone-900 w-full " >
                   Our Store
@@ -142,7 +144,7 @@ export default function GongNav() {
             {user && (
               <>
 
-            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/cart')}>
+            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/cart')}>
               <ShoppingCartIcon className=""/>
               <h1 className="text-stone-900 w-full " >
                   Your Cart
@@ -157,15 +159,25 @@ export default function GongNav() {
               */}
             {!user && (
               <>
-               <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-300" onClick={()=>handleNavigation('/signin')}>
-              <ShoppingCartIcon className=""/>
-              <h1 className="text-stone-900 w-full " >
-                  Your Cart
+            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/signin')}>
+               <AccountBoxRoundedIcon className="" sx={{ color: grey[900] }}/>
+               <h1 className="text-stone-900 w-full " >
+                  Login/Signup
               </h1>
 
             </div>
               
               </>
+            )}
+
+            {user && (
+              <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={signOut}>
+               <LogoutRoundedIcon className="" sx={{ color: grey[900] }}/>
+               <h1 className="text-stone-900 w-full " >
+                  Sign Out
+              </h1>
+
+            </div>
             )}
 
 
@@ -174,25 +186,7 @@ export default function GongNav() {
 
 
 
-          {/* <div className="text-center content-center justify-center bg-white w-full mx-auto m-4">
-          <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/')}>
-              Home
-            </h1>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/menu')}>
-              Our Menu
-            </h1>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/store')}>
-              Our Store
-            </h1>
-
-          {user && (<>
-            <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={()=>handleNavigation('/cart')}>
-              Your Cart
-            </h1>          
-          </>)}
-
-
-          </div> */}
+          
         </div>
       ) :
     //   Desktop nav

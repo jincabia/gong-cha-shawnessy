@@ -260,6 +260,13 @@ const handleSaveChanges = async () => {
        };
    }
 
+   if (restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly')) {
+      customDrink = {
+        ...customDrink,
+        size: 'Medium'
+      };
+    }
+
    console.log(customDrink);
 
    // If soy is false and inside drinkToppings has Soy Milk Alternative filter soy milk alternative
@@ -372,18 +379,7 @@ const handleSoy = () => {
         )}
 
          <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
-            {/* {drink.drinkName ? (
-               <Image
-               src={`/${drink.drinkName}.png`}
-               width={100}
-               height={100}
-               className="sm:w-28 sm:h-38 md:w-32 md:h-48 lg:w-30 lg:h-48"
-               alt={drink.drinkName}
-               priority
-               />
-            ) : (
-               <div className="spinner" style={{ width: 100, height: 100 }}></div>
-            )} */}
+            
 
             <ImageComponent imagePath={`${drink.drinkName}.png`}/>
 
@@ -402,6 +398,8 @@ const handleSoy = () => {
             
 
             {/* Size Changes */}
+
+            {!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && 
             
             <div>
                <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
@@ -426,6 +424,8 @@ const handleSoy = () => {
                </select>
                </label>
             </div>
+
+            }
 
 
             

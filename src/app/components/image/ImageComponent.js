@@ -30,6 +30,7 @@ const ImageComponent = ({ imagePath }) => {
           className="object-contain"
           alt={imagePath}
           priority
+          style={{ width: 'auto', height: '192px' }} // inline style to maintain aspect ratio
         />
       ) : (
             <div className="spinner" style={{ width: 100, height: 100 }}></div>

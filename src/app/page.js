@@ -3,6 +3,7 @@ import OurStory from './components/homepage/ourstory';
 import OurMenu from './components/homepage/ourmenu';
 import OurStore from './components/homepage/ourstore';
 import { useEffect, useState } from 'react';
+import ImageComponent from './components/image/ImageComponent';
 
 export default function Home() {
   return (
@@ -10,8 +11,6 @@ export default function Home() {
       <OurStory />
       <OurMenu />
       <OurStore />
-
-      
     </main>
   );
 };
