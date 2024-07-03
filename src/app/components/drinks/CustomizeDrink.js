@@ -12,6 +12,7 @@ import SignIn from '@/app/signin/page';
 import AddToCartModal from '../ReadCart/AddToCart';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useRouter } from 'next/navigation';
+import ImageComponent from '../image/ImageComponent';
 
 const restrictionsMap = {
   0: [],
@@ -99,6 +100,10 @@ const CustomizeDrink = () => {
       const drinkData = await getDrinkById('drinks', drinkID);
       setDrink(drinkData);
       setPrice(drinkData.product_price);
+
+      if (drinkData.restrictions === "4") {
+        setSize("Medium");
+      }
     } catch (error) {
       console.error('Error fetching drink:', error);
     }
@@ -311,6 +316,13 @@ const CustomizeDrink = () => {
       };
     }
 
+    if (restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly')) {
+      customDrink = {
+        ...customDrink,
+        size: 'Medium'
+      };
+    }
+
   
 
   
@@ -343,30 +355,11 @@ const CustomizeDrink = () => {
     }
 
 
-  // const handleSoy = () =>
-  //   {
-      
-  //     if ( soy && (ice === 'Hot' || ice === 'No Ice')) {
-  //       console.log('balls')
-  //       setIce('Select an Ice Level');
-  //     }
-      
-
-  //     setSoy(!soy);
-
-  //     if(soy) 
-  //       {
-  //         setPrice(price - 0.5)
-  //       }
-  //     else
-  //     {
-  //       setPrice(price + 0.5)
-  //     }
-  //   }  
+   
 
   const handleSoy = () => {
     setSoy(!soy);
-    console.log(soy)
+    // console.log(soy)
     
     if (soy) {
       setPrice((curr) => curr-.5);
@@ -376,7 +369,7 @@ const CustomizeDrink = () => {
     if (!soy && (ice === 'Hot' )) {
       setIce('Select an Ice Level');
       setPrice((curr) => curr -.5);
-      console.log('fart')
+      // console.log('fart')
       setErrorMessage("Soy Alternative is not available with Hot or No Ice options.");
         setShowError(true);
         if (errorRef.current) {
@@ -399,6 +392,7 @@ const CustomizeDrink = () => {
 
   return (
     <main className='text-black'>
+      {/* <button onClick={()=>console.log(drink)}>Click meeeee</button> */}
        <button onClick={()=> router.back()} className='m-2'>
             <ChevronLeftIcon fontSize='large'/>
 
@@ -407,7 +401,7 @@ const CustomizeDrink = () => {
       {!user && (
         <>
 
-        <SignIn message={"Need to be logged in to Customize a Drink"}/>
+        <SignIn />
         
         
         </>
@@ -438,19 +432,16 @@ const CustomizeDrink = () => {
 
 
 
-        <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
-          {drink.product_name ? (
-            <Image
-              src={`/${drink.product_name}.png`}
-              width={100}
-              height={100}
-              className="sm:w-28 sm:h-38 md:w-32 md:h-48 lg:w-30 lg:h-48"
-              alt={drink.product_name}
-              priority
-            />
-          ) : (
-            <div className="spinner" style={{ width: 100, height: 100 }}></div>
-          )}
+        <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center my-5'>
+          
+          {drink.product_name && 
+          
+          <ImageComponent imagePath={`${drink.product_name}.png`}/>
+          }
+
+          {!drink.product_name &&
+          <div className='spinner'></div>
+          }
         </div>
 
         {/* Drink Details */}
@@ -478,6 +469,8 @@ const CustomizeDrink = () => {
           */}
 
           {/* Size Changes */}
+
+          {!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') &&
           
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
@@ -502,6 +495,8 @@ const CustomizeDrink = () => {
               </select>
             </label>
           </div>
+
+        }
 
 
           

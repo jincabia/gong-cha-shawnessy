@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import removeDrinkFromCartInFirebase from "../components/ReadCart/DeleteFromCart";
 import DrinkItemFromCart from "../components/ReadCart/DrinkItemFromCart";
 import updateCartQuantity from "../components/ReadCart/AdjustQuantity";
+import ImageComponent from "../components/image/ImageComponent";
 
 export default function CartPage() {
   // database cart
@@ -102,12 +103,19 @@ export default function CartPage() {
 
     setPriceLoading(false);
 
-
-
   };
 
   return (
     <main className="text-black">
+      {!user && <div>
+        No user go log in bruh
+        
+        </div>}
+
+      {user && 
+      <div>
+        
+        
       {!cart || cart.length === 0 ? (
         <>
 
@@ -158,6 +166,7 @@ export default function CartPage() {
           
         </>
       )}
+      </div>}
     </main>
   );
 }

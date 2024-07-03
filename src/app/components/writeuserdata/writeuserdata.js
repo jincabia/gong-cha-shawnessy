@@ -11,8 +11,9 @@ export const writeUserData = async (user) => {
       email: user.email,
       cart: []
     });
-    console.log('User data written to Firestore:', user);
-  } else {
-    console.log('User already exists in Firestore:', user);
   }
+    // console.log('User data written to Firestore:', user);
+  // } else {
+  //   console.log('User already exists in Firestore:', user);
+  // }
 };

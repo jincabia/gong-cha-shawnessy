@@ -9,6 +9,7 @@ import { grey } from "@mui/material/colors";
 import { useAuth } from '@/app/authContext/AuthContext';
 import updateCartQuantity from "./AdjustQuantity";
 import { useRouter } from "next/navigation";
+import ImageComponent from "../image/ImageComponent";
 
 export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, onQuantityChange }) {
     const { drinkName, ice, price, size, sugar, toppings, quantity,drinkID } = drink;
@@ -60,7 +61,7 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
         ) : (
           <div className="flex flex-row items-center justify-evenly">
             <div className="w-1/3 sm:w-1/4 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5">
-              {drinkName ? (
+              {/* {drinkName ? (
                 <Image
                   src={`/${drinkName}.png`}
                   width={100}
@@ -70,7 +71,10 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
                 />
               ) : (
                 <div className="spinner" style={{ width: 100, height: 100 }}></div>
-              )}
+              )} */}
+
+              <ImageComponent imagePath={`${drinkName}.png`}/>
+
             </div>
             <div>
               <h1 className="text-sm font-semibold mx-auto sm:w-1/4 text-center my-5">{drinkName}</h1>
