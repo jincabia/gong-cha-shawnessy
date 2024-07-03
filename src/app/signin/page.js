@@ -82,7 +82,7 @@ const SignIn = () => {
 
       {user ? (
         <>
-          <h1>Hi You're Already Signed In!</h1>
+          <h1>Hi You are Already Signed In!</h1>
           <p>Start browsing the menu or check out your cart or profile stuff</p>
           <div>
             <div>Signed in as: {user.email}</div>
