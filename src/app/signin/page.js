@@ -109,7 +109,7 @@ const SignIn = () => {
           </div>
 
             
-            <h1 className="text-3xl text-red-800 font-semibold pb-5  ">Welcome Back!</h1>
+            <h1 className="text-3xl text-red-800 font-semibold pb-5  ">Welcome Back</h1>
             <p className='pb-5 text-slate-400 text-xs'>Sign in to start Customizing Drinks</p>
               <form className="flex flex-col" onSubmit={signInWithEmail}>
                 <input
@@ -131,7 +131,7 @@ const SignIn = () => {
                 </button>
               
                 <button onClick={resetPassword} className="text-slate-600 my-5">
-                  Forgot Password?
+                  Forgot Password
                 </button>
               </form>
 
