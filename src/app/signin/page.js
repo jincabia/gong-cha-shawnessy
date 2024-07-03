@@ -95,7 +95,7 @@ const SignIn = () => {
         
         
 
-        <div className='flex flex-col text-black py-10 w-min text-center mx-auto rounded-lg shadow-md p-10 py-50 bg-gray-100'>
+        <div className='flex flex-col text-black py-10 w-screen text-center mx-auto rounded-lg shadow-md p-10 py-50 bg-gray-100'>
 
           <div className=' text-center justify-center mx-auto pb-3'>
 

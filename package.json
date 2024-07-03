@@ -12,7 +12,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.20",
-    "@mui/material": "^5.15.20",
+    "@mui/material": "^5.15.21",
     "@stripe/react-stripe-js": "^2.7.2",
     "@stripe/stripe-js": "^4.0.0",
     "firebase": "^10.12.2",
@@ -21,7 +21,9 @@
     "react-dom": "^18",
     "react-modal": "^3.16.1",
     "react-select": "^5.8.0",
+    "react-slick": "^0.30.2",
     "react-transition-group": "^4.4.5",
+    "slick-carousel": "^1.8.1",
     "stripe": "^16.1.0"
   },
   "devDependencies": {

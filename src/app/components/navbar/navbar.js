@@ -57,7 +57,7 @@ export default function GongNav() {
   }
 
   return (
-    <header className="bg-white fixed top-0 left-0 w-full">
+    <header className="bg-white fixed top-0 left-0 w-full z-50">
         {/* Mobile Nav bar */}
       {hidden ? (
         <div

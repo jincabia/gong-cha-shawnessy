@@ -11,16 +11,16 @@ const Drink = ({ name, price, id }) => {
   };
 
   return (
-    <div>
+    <div className='h-64'>
       <button onClick={handleClick}>
-        <div className='w-full sm:w-64 h-min p-4 rounded-lg shadow-lg flex flex-col items-center justify-between text-center '> {/* hover:drop-shadow-xl */}
+        <div className=' sm:w-64 md:w-52 h-min p-4 rounded-lg shadow-lg flex flex-col items-center justify-between text-center '> {/* hover:drop-shadow-xl */}
           
           <div className='flex justify-center items-center'>
             <ImageComponent imagePath={`${name}.png`}/>
           </div>
         </div>
         <div className='flex items-start justify-around mt-4'>
-          <h1 className='text-black font-semibold w-fit text-xs mb-2 truncate'>{name}</h1>
+          <h1 className='text-black font-semibold w-3/4 text-xs mb-2 '>{name}</h1>
         </div>
       </button>
     </div>
