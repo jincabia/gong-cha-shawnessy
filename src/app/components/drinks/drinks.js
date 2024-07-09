@@ -13,7 +13,7 @@ const Drink = ({ name, price, id }) => {
   return (
     <div className='h-64'>
       <button onClick={handleClick}>
-        <div className=' sm:w-64 md:w-52 h-min p-4 rounded-lg shadow-lg flex flex-col items-center justify-between text-center '> {/* hover:drop-shadow-xl */}
+        <div className=' sm:w-64 md:w-52 h-min p-4 rounded-lg shadow-xl flex flex-col items-center justify-between text-center '> {/* hover:drop-shadow-xl */}
           
           <div className='flex justify-center items-center'>
             <ImageComponent imagePath={`${name}.png`}/>

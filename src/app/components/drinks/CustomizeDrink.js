@@ -390,6 +390,18 @@ const CustomizeDrink = () => {
 
   };
 
+
+  const renderToppings = () => {
+    return toppings.map((topping) => (
+      <Toppings
+        key={topping.id}
+        topping={topping}
+        handleToppingChange={handleToppingChange}
+        selectedToppings={drinkToppings}
+      />
+    ));
+  };
+
   return (
     <main className='text-black'>
       {/* <button onClick={()=>console.log(drink)}>Click meeeee</button> */}
@@ -625,7 +637,7 @@ const CustomizeDrink = () => {
       </div>
 
     </div>
-      <p className='w-fit mx-auto truncate text-gray-700 text-xs pb-10 py-8'>*Drinks made with Soy Milk cannot be done with No Ice or Hot.</p>
+      <p className='w-3/5 mx-auto  text-gray-700 text-xs pb-10 py-8'>*Drinks made with Soy Milk cannot be done with No Ice or Hot.</p>
 
         {/* Display the final Price after adjustments */}
         <div className='flex justify-around items-center my-10 mx-auto '>
@@ -637,7 +649,10 @@ const CustomizeDrink = () => {
             Add to Cart
           </button>
           
-        </div>
+          </div>
+
+
+          
         </div>
 
       )}

@@ -7,6 +7,9 @@ import EmojiPeopleRoundedIcon from '@mui/icons-material/EmojiPeopleRounded';
 import { grey, red } from "@mui/material/colors";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 
 /**
  * // Work on Error Handling, Sign up Page
@@ -31,8 +34,10 @@ const SignIn = () => {
       .then((result) => {
         const user = result.user;
         setError(null); // Clear any previous errors
-        console.log('Signed in user:', user);
+        // console.log('Signed in user:', user);
         writeUserData(user);
+        router.push('/')
+
       })
       .catch((error) => {
         setError(error.message);
@@ -51,8 +56,9 @@ const SignIn = () => {
           auth.signOut(); // Optionally sign out the user immediately
         } else {
           setError(null); // Clear any previous errors
-          console.log('Signed in user:', user);
+          // console.log('Signed in user:', user);
           writeUserData(user);
+          router.push('/')
         }
       })
       .catch((error) => {
@@ -82,12 +88,31 @@ const SignIn = () => {
 
       {user ? (
         <>
-          <h1>Hi You are Already Signed In!</h1>
-          <p>Start browsing the menu or check out your cart or profile stuff</p>
-          <div>
-            <div>Signed in as: {user.email}</div>
-            <button onClick={signOut}>Sign Out</button>
-          </div>
+          
+          <main className='text-black p-4'>
+            <h1 className='text-2xl font-bold mb-4 '>{"Hi, you're all ready to get started!"}</h1>
+
+            {/* TODO */}
+
+            <div>
+
+              
+            </div>
+
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md'>
+              <div className='mb-4'>
+                <div className='text-sm text-gray-600'>Signed in as:</div>
+                <div className='font-medium'>{user.email}</div>
+              </div>
+              <button
+                onClick={signOut}
+                className='bg-red-800 rounded-md py-2 px-4 text-white shadow-md'
+              >
+                Sign Out
+              </button>
+            </div>
+          </main>
+          
         </>
       ) : (
         <>

@@ -67,7 +67,7 @@ const DrinksList = () => {
         <Filter selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       </div>
 
-      <ul className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 pt-5">
+      <ul className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 py-5">
         {filteredDrinks.map((drink) => (
           <li key={drink.id} className="flex flex-col justify-center items-center">
             <Drink name={drink.product_name} price={drink.product_price} id={drink.id} />
