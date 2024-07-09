@@ -1,7 +1,7 @@
 'use client'
 import { useState,useEffect } from "react";
 
-const Toppings = ({ name, price, onChange, disableIncrement,initialCount }) => {
+const Toppings = ({ name, price, onChange, disableIncrement,initialCount =0,index  }) => {
 
 
 
@@ -13,7 +13,7 @@ const Toppings = ({ name, price, onChange, disableIncrement,initialCount }) => {
 
   const ChangeInitialCount = () =>
     {
-      if(initialCount)
+      if(initialCount !== undefined && initialCount)
         {
           setCounter(initialCount)
         }
@@ -23,18 +23,18 @@ const Toppings = ({ name, price, onChange, disableIncrement,initialCount }) => {
 
     useEffect(() => {
       ChangeInitialCount();
-    }, []);
+    }, [initialCount]);
 
   const handleIncrement = () => {
     if (disableIncrement) return;
     setCounter(counter + 1);
-    onChange(true);
+    onChange(true,index);
   };
 
   const handleDecrement = () => {
     if (counter > 0) {
       setCounter(counter - 1);
-      onChange(false);
+      onChange(false,index);
     }
   };
 

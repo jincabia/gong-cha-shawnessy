@@ -164,21 +164,22 @@ const CustomizeDrink = () => {
 
 
   // Handles the toppings addition, incrementing the counters, and adding to the array of toppings
-  const handleToppingChange = (topping, isAdding) => {
-    // While the num of toppings is less than 4
+  const handleToppingChange = (topping, isAdding, index) => {
     if (isAdding && toppingCount < 4) {
-      setDrinkToppings((prev) => [...prev, topping]);
-      setPrice((prevPrice) => prevPrice + topping.product_price);
-      setToppingCount((prevCount) => prevCount + 1);
-    
-    } 
-    // When there is 4 toppings
-    else if (!isAdding) {
-      setDrinkToppings((prev) => prev.filter((t) => t.id !== topping.id));
-      setPrice((prevPrice) => prevPrice - topping.product_price);
-      setToppingCount((prevCount) => prevCount - 1);
+        setDrinkToppings((prev) => [...prev, topping]);
+        setPrice((prevPrice) => prevPrice + topping.product_price);
+        setToppingCount((prevCount) => prevCount + 1);
+    } else if (!isAdding) {
+        setDrinkToppings((prev) => {
+            const newToppings = [...prev];
+            newToppings.splice(index, 1);
+            return newToppings;
+        });
+        setPrice((prevPrice) => prevPrice - topping.product_price);
+        setToppingCount((prevCount) => prevCount - 1);
     }
   };
+
 
   // TODO figure this shit out lol
   const handleToCart = () => {

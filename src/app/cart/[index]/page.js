@@ -122,6 +122,7 @@
                setPrice(cartItemData.price);
                setSugar(cartItemData.sugar.slice(0,-1));
                setDrinkToppings(cartItemData.toppings)
+               console.log('this is the cartItem toppings', drinkToppings)
                
                const hasSoy = cartItemData.toppings.some(topping => topping.product_name === "Soy Milk Alternative");
                // console.log(hasSoy,'this is soy')
@@ -203,21 +204,21 @@
 
 
                // Handles the toppings addition, incrementing the counters, and adding to the array of toppings
-         const handleToppingChange = (topping, isAdding) => {
-            // While the num of toppings is less than 4
-            if (isAdding && toppingCount < 4) {
-            setDrinkToppings((prev) => [...prev, topping]);
-            setPrice((prevPrice) => prevPrice + topping.product_price);
-            setToppingCount((prevCount) => prevCount + 1);
-            
-            } 
-            // When there is 4 toppings
-            else if (!isAdding) {
-            setDrinkToppings((prev) => prev.filter((t) => t.id !== topping.id));
-            setPrice((prevPrice) => prevPrice - topping.product_price);
-            setToppingCount((prevCount) => prevCount - 1);
-            }
-         };
+               const handleToppingChange = (topping, isAdding, index) => {
+                  if (isAdding && toppingCount < 4) {
+                      setDrinkToppings((prev) => [...prev, topping]);
+                      setPrice((prevPrice) => prevPrice + topping.product_price);
+                      setToppingCount((prevCount) => prevCount + 1);
+                  } else if (!isAdding) {
+                      setDrinkToppings((prev) => {
+                          const newToppings = [...prev];
+                          newToppings.splice(index, 1);
+                          return newToppings;
+                      });
+                      setPrice((prevPrice) => prevPrice - topping.product_price);
+                      setToppingCount((prevCount) => prevCount - 1);
+                  }
+                };
 
 
 
@@ -228,7 +229,8 @@ const handleSaveChanges = async () => {
        restrictions: drink.restrictions,
        price: price,
        size: size,
-       toppings: soy ? drinkToppings : drinkToppings.filter(topping => topping.product_name !== "Soy Milk Alternative"),       sugar: sugar + '%',
+       toppings: soy ? drinkToppings : drinkToppings.filter(topping => topping.product_name !== "Soy Milk Alternative"),
+       sugar: sugar + '%',
        ice: ice,
        quantity: 1,
        drinkID: drink.drinkID
@@ -353,7 +355,7 @@ const handleSoy = () => {
    const handleClose = () =>
      {
        setShowSuccess(false)
-       router.push(`/menu/${drinkID}`)
+       router.push(`/menu/${drink.drinkID}`)
  
      }
 
@@ -415,6 +417,8 @@ const handleSoy = () => {
 
           {/* Ice Changes */}
           <IceSelector drink={drink} ice={ice} soy={soy} handleIceChange={handleIceChange}/>
+
+          <button onClick={()=> console.log(drinkToppings)}>Click Me</button>
             
 
         {/* End of Customization div */}

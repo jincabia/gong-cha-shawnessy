@@ -21,10 +21,11 @@ const restrictionsMap = {
 // Check if Soy swap is available
 
 
-export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,handleSoy,initialDrinkToppings = [] }) => {
+export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,handleSoy }) => {
     const [toppings, setToppings] = useState([]);
     const [showAllToppings, setShowAllToppings] = useState(false);
     
+
 
 
     const fetchToppings = async () => {
@@ -63,7 +64,7 @@ export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,hand
             initialToppingsNames = ['Black Pearls', 'Mango Pearls', 'White Pearls', 'Strawberry Pearls']
         }
 
-
+        
         
         initialToppings = toppings.filter(topping => initialToppingsNames.includes(topping.product_name));
         remainingToppings = toppings.filter(topping => !initialToppingsNames.includes(topping.product_name));
@@ -76,16 +77,25 @@ export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,hand
 
     const { initialToppings, remainingToppings } = filterAndLimitToppings(toppings);
 
+    const getToppingCount = (toppingId) => {
+        if(drink.toppings !== undefined && drink.toppings)
+        {
+            return drink.toppings.filter(t => t.id === toppingId).length;
+        }
+    };
+
     return (
         <div className="">
             <div>
-                {initialToppings.map((topping) => (
+                {initialToppings.map((topping,index) => (
                     <div key={topping.id}>
                         <Toppings
                             name={topping.product_name}
                             price={topping.product_price}
-                            onChange={(isAdding) => handleToppingChange(topping, isAdding)}
+                            onChange={(isAdding) => handleToppingChange(topping, isAdding,index)}
                             disableIncrement={toppingCount >= 4}
+                            // Make the initial Count equal the number of ids that match the topping id inside drink.toppings
+                            initialCount={getToppingCount(topping.id)}
                         />
                     </div>
                 ))}
@@ -129,13 +139,14 @@ export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,hand
 
                 {showAllToppings && (
                     <div>
-                        {remainingToppings.map((topping) => (
+                        {remainingToppings.map((topping,index) => (
                             <div key={topping.id}>
                                 <Toppings
                                     name={topping.product_name}
                                     price={topping.product_price}
-                                    onChange={(isAdding) => handleToppingChange(topping, isAdding)}
+                                    onChange={(isAdding) => handleToppingChange(topping, isAdding,index)}
                                     disableIncrement={toppingCount >= 4}
+                                    initialCount={getToppingCount(topping.id)}
                                 />
                             </div>
                         ))}
