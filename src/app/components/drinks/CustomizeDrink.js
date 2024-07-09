@@ -13,6 +13,10 @@ import AddToCartModal from '../ReadCart/AddToCart';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useRouter } from 'next/navigation';
 import ImageComponent from '../image/ImageComponent';
+import { SizeSelector } from './selectors/SizeSelector';
+import { SugarSelector } from './selectors/SugarSelector';
+import { IceSelector } from './selectors/IceSelector';
+import { ToppingsList } from './toppings/ToppingsList';
 
 const restrictionsMap = {
   0: [],
@@ -53,7 +57,6 @@ const CustomizeDrink = () => {
   const [ice, setIce] = useState("Select an Ice Level");
 
   // Price of the drink
-  // const [initialPrice, setInitialPrice] = useState(0);
   const [price, setPrice] = useState(0);
 
   // Num of toppings
@@ -61,10 +64,7 @@ const CustomizeDrink = () => {
 
   // User 
   const {user} = useAuth();
-
-  // User cart
-  const [cart, setCart] = useState([])
-
+  // Router to change url
   const router = useRouter();
 
 
@@ -109,26 +109,11 @@ const CustomizeDrink = () => {
     }
   };
 
-  const fetchCart = async () => 
-    {
-      if(!user) return null;
-
-      try {
-        // getDrinkByID works by having a collection then a certain id passed 
-        // so we can use it here
-        const cartData = await getDrinkById('users', user.uid);
-        // cartData returns the UID, ID and email UID == ID they are the same
-        // setCart(cartData.cart)
-      } catch (error) {
-        console.error('Error fetching Cart:', error);
-
-      }
-    };
+ 
 
   useEffect(() => {
     fetchDrink();
     fetchToppings();
-    fetchCart();
   }, []);
 
   // When a new Size is selected
@@ -237,28 +222,6 @@ const CustomizeDrink = () => {
   // 7: ['MediumSizeOnly', 'IceNotAdjustable', 'NotAvailableHot', 'SugarNotAdjustable'],
   // 8: ['SugarNotAdjustable', 'GreaterThanLessIce', 'NotAvailableHot']
 
-  // if(restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable'))
-  //   {
-
-  //   }
-  // elif (restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable'))
-  // {
-
-  // }
-  // else 
-  // {
-  //   const customDrink = {
-  //     drinkName: drink.product_name,
-  //     restrictions: drink.restrictions,
-  //     price: price,
-  //     size: size,
-  //     toppings: drinkToppings,
-  //     sugar: sugar+'%',
-  //     ice:ice,
-  //     quantity:1
-  //   }
-  // }
-
       let customDrink;
 
 
@@ -340,12 +303,7 @@ const CustomizeDrink = () => {
   }, 1000);
 };
 
-  useEffect(() => {
-    return () => {
-      // Clear timeout on component unmount to prevent memory leaks
-      // clearTimeout(successTimeout.current);
-    };
-  }, []);
+  
 
   const handleClose = () =>
     {
@@ -369,7 +327,6 @@ const CustomizeDrink = () => {
     if (!soy && (ice === 'Hot' )) {
       setIce('Select an Ice Level');
       setPrice((curr) => curr -.5);
-      // console.log('fart')
       setErrorMessage("Soy Alternative is not available with Hot or No Ice options.");
         setShowError(true);
         if (errorRef.current) {
@@ -391,23 +348,13 @@ const CustomizeDrink = () => {
   };
 
 
-  const renderToppings = () => {
-    return toppings.map((topping) => (
-      <Toppings
-        key={topping.id}
-        topping={topping}
-        handleToppingChange={handleToppingChange}
-        selectedToppings={drinkToppings}
-      />
-    ));
-  };
+  
 
   return (
     <main className='text-black'>
       {/* <button onClick={()=>console.log(drink)}>Click meeeee</button> */}
        <button onClick={()=> router.back()} className='m-2'>
             <ChevronLeftIcon fontSize='large'/>
-
          </button>
 
       {!user && (
@@ -444,6 +391,7 @@ const CustomizeDrink = () => {
 
 
 
+        {/* If there is a product name ie Milk Tea with Pearls load ImageComponent instead of having undefined.png */}
         <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center my-5'>
           
           {drink.product_name && 
@@ -459,139 +407,23 @@ const CustomizeDrink = () => {
         {/* Drink Details */}
         <div className='flex justify-between mb-10 mx-5 border-b-2 border-black'>
           <h1>{drink.product_name}</h1>
-          {/* <h1 >${initialPrice.toFixed(2)}</h1> */}
         </div>
 
-        {/* Render customization options here */}
 
-
+          {/* Drink Selectors */}
         <div>
-          {/* Restriction Numbers, to find out which options to render or not
-          0 - No Restrictions
-          1 - Medium Size Only (Frappes, Gingerbread Drink)
-          2 - Greater than Less Ice and Are not available Hot (Lattes)
-          3 - Greater than 0% Sugar (Brown Sugar, Honey, Wintermelon)
-          4 - Ice Not adjustable and Are not available Hot (Smoothies)
-          5 - Sugar Not Adjustable 
-          6 - 2 + 3 (Dirty BS Latte)
-          7 - 1 + 4 + 5 (Frappes)
-          8 - 5 + 2 (Matcha Mango Pearl Tea, Strawberry Taro)
-
-          Make more if needed 
-          */}
+          
 
           {/* Size Changes */}
+          <SizeSelector drink={drink} size={size} handleSizeChange={handleSizeChange}  ice={ice}/>
 
-          {!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') &&
-          
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
-              <div className='flex'>
-              <p className='text-red-500'>*</p>
-              Size: 
+          {/* Sugar Changes */}
+          <SugarSelector drink={drink} sugar={sugar} handleSugarChange={handleSugarChange}/>
+            
 
-              </div>
-              <select 
-                value={size} 
-                onChange={handleSizeChange}
-                className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              >
-
-                
-              <option disabled > Select a Size</option>
-                <option value="Medium" className="bg-white text-gray-900">Medium</option>
-                {(!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && ice !== "Hot") && (
-                <option value="Large" className="bg-white text-gray-900">Large + $0.50</option>
-                )}
-
-              </select>
-            </label>
-          </div>
-
-        }
-
-
-          
-
-            {/* Sugar Changes */}
-            {!restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable') && (
-              <>
-              <div>
-                <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
-
-                <div className='flex'>
-              <p className='text-red-500'>*</p>
-              Sugar Level: 
-
-              </div>
-                  {/* Sugar Level: */}
-                  <select 
-                    value={sugar} 
-                    onChange={handleSugarChange}
-                    className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  >
-
-                          <option disabled > Select a Sugar Level</option>
-                          <option value="100" className="bg-white text-gray-900">100% (Regular)</option>
-                          <option value="70" className="bg-white text-gray-900">70%</option>
-                          <option value="50" className="bg-white text-gray-900">50%</option>
-                          <option value="30" className="bg-white text-gray-900">30%</option>
-                          <option value="130" className="bg-white text-gray-900">130% + $.50</option>
-
-                          {!restrictionsMap[drink.restrictions]?.includes('GreaterThan0PercentSugar')  && (
-                          <option value="0" className="bg-white text-gray-900">0%</option>
-                          )}
-                          
-                  </select>
-                </label>
-              </div>
-              </>
-            )}
-
-
-
-            {/* Ice Changes */}
-
-            {!restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable') && (
-                  <>
-
-          <div>
-            <label className="block text-gray-700 text-sm font-bold my-10 justify-center mx-5">
-            <div className='flex'>
-              <p className='text-red-500'>*</p>
-              Ice Level: 
-
-              </div>
-              {/* Ice Level: */}
-              <select 
-                value={ice} 
-                onChange={handleIceChange}
-                className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              >
-
-                <option disabled>Select an Ice Level</option>
-                {!restrictionsMap[drink.restrictions]?.includes('GreaterThanLessIce') && !soy && (
-                    <option value="No ice" className="bg-white text-gray-900">No Ice</option>
-                )}
-                    <option value="Less ice" className="bg-white text-gray-900">Less Ice</option>
-                    <option value="Regular ice" className="bg-white text-gray-900">Regular Ice</option>
-                    <option value="Extra ice" className="bg-white text-gray-900">Extra Ice</option>
-
-                {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && !soy  &&  (
-                <option value="Hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
-                )}
-                
-              </select>
-            </label>
-          </div>
-                    
-                  </>
-                )}
-
-                {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && (
-                  <p className='w-fit mx-auto truncate text-gray-700 text-xs pb-10'>*Hot drinks are only available in Medium Sizes.</p>
-                )}
-          
+          {/* Ice Changes */}
+          <IceSelector drink={drink} ice={ice} soy={soy} handleIceChange={handleIceChange}/>
+            
 
         {/* End of Customization div */}
         </div>
@@ -601,44 +433,11 @@ const CustomizeDrink = () => {
         </div>
         {/* When adding toppings only have 4 max */}
         {/* Display all toppings from DB */}
-        {toppings.map((topping) => (
-          <div key={topping.id}>
-            <Toppings
-              name={topping.product_name}
-              price={topping.product_price}
-              onChange={(isAdding) => handleToppingChange(topping, isAdding)}
-              disableIncrement={toppingCount >= 4}
-            />
-          </div>
-        ))}
 
-      <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
-        <div className="container mx-auto grid grid-cols-8 gap-5 items-center ">
-          
-            {/* Name */}
-            <div className="col-span-2 flex items-center justify-start ">
-              <h1 className="text-sm font-semibold">Soy Alternative</h1>
-            </div>
+        <ToppingsList handleToppingChange={handleToppingChange} toppingCount={toppingCount} 
+        drink={drink} soy={soy} handleSoy={handleSoy}/>
 
-            {/* Price */}
-            <div className="col-span-2 flex items-center justify-center ">
-              <h1 className="text-sm text-gray-700 ml-2">$0.50</h1>
-            </div>
-
-            {/* Counter */}
-            <div className="col-span-3 flex items-center justify-end ">
-              <input
-                type="checkbox"
-                checked={soy}
-                onChange={handleSoy}
-                className="ml-2"
-              />
-          </div>
-      </div>
-
-    </div>
-      <p className='w-3/5 mx-auto  text-gray-700 text-xs pb-10 py-8'>*Drinks made with Soy Milk cannot be done with No Ice or Hot.</p>
-
+      
         {/* Display the final Price after adjustments */}
         <div className='flex justify-around items-center my-10 mx-auto '>
           <h1 className='underline'>${price.toFixed(2)}</h1>

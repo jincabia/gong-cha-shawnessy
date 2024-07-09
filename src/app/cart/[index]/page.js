@@ -13,7 +13,11 @@
    import { updateDoc } from "firebase/firestore";
    import EditCartModal from '@/app/components/ReadCart/EditCart';
    import ImageComponent from '@/app/components/image/ImageComponent';
-   
+   import { IceSelector } from '@/app/components/drinks/selectors/IceSelector';
+   import { SizeSelector } from '@/app/components/drinks/selectors/SizeSelector';
+   import { SugarSelector } from '@/app/components/drinks/selectors/SugarSelector';
+   import { ToppingsList } from '@/app/components/drinks/toppings/ToppingsList';
+
    const restrictionsMap = {
       0: [],
       1: ['MediumSizeOnly'],
@@ -267,7 +271,7 @@ const handleSaveChanges = async () => {
       };
     }
 
-   console.log(customDrink);
+   // console.log(customDrink);
 
    // If soy is false and inside drinkToppings has Soy Milk Alternative filter soy milk alternative
 
@@ -360,7 +364,6 @@ const handleSoy = () => {
          {/* <button onClick={()=> console.log(drink)}>Clickme</button> */}
          <button onClick={()=> router.back()} className='m-2'>
             <ChevronLeftIcon fontSize='large'/>
-
          </button>
 
          {showSuccess && (
@@ -381,8 +384,14 @@ const handleSoy = () => {
          <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
             
 
-            <ImageComponent imagePath={`${drink.drinkName}.png`}/>
+            {drink.drinkName && (
 
+            <ImageComponent imagePath={`${drink.drinkName}.png`}/>
+            )}
+
+            {!drink.drinkName &&
+               <div className='spinner'></div>
+            }
 
          </div>
 
@@ -395,137 +404,30 @@ const handleSoy = () => {
 
 
          <div>
+          
+
+          {/* Size Changes */}
+          <SizeSelector drink={drink} size={size} handleSizeChange={handleSizeChange}  ice={ice}/>
+
+          {/* Sugar Changes */}
+          <SugarSelector drink={drink} sugar={sugar} handleSugarChange={handleSugarChange}/>
             
 
-            {/* Size Changes */}
-
-            {!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && 
-            
-            <div>
-               <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
-               <div className='flex'>
-              <p className='text-red-500'>*</p>
-              Size: 
-
-              </div>
-               <select 
-                  value={size} 
-                  onChange={handleSizeChange}
-                  className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-               >
-
-                  
-               <option disabled > Select a Size</option>
-                  <option value="Medium" className="bg-white text-gray-900">Medium</option>
-                  {(!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && ice !== "Hot") && (
-                  <option value="Large" className="bg-white text-gray-900">Large + $0.50</option>
-                  )}
-
-               </select>
-               </label>
-            </div>
-
-            }
-
-
+          {/* Ice Changes */}
+          <IceSelector drink={drink} ice={ice} soy={soy} handleIceChange={handleIceChange}/>
             
 
-               {/* Sugar Changes */}
-               {!restrictionsMap[drink.restrictions]?.includes('SugarNotAdjustable') && (
-               <>
-               <div>
-                  <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
-                     <div className='flex'>
-              <p className='text-red-500'>*</p>
-              Sugar Level: 
+        {/* End of Customization div */}
+        </div>
 
-              </div>
-                     <select 
-                     value={sugar} 
-                     onChange={handleSugarChange}
-                     className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                     >
-
-                           <option disabled > Select a Sugar Level</option>
-                           <option value="100" className="bg-white text-gray-900">100% (Regular)</option>
-                           <option value="70" className="bg-white text-gray-900">70%</option>
-                           <option value="50" className="bg-white text-gray-900">50%</option>
-                           <option value="30" className="bg-white text-gray-900">30%</option>
-                           <option value="130" className="bg-white text-gray-900">130% + $.50</option>
-
-                           {!restrictionsMap[drink.restrictions]?.includes('GreaterThan0PercentSugar')  && (
-                           <option value="0" className="bg-white text-gray-900">0%</option>
-                           )}
-                           
-                     </select>
-                  </label>
-               </div>
-               </>
-               )}
-
-
-
-               {/* Ice Changes */}
-
-               {!restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable') && (
-                     <>
-
-            <div>
-               <label className="block text-gray-700 text-sm font-bold my-10 justify-center mx-5">
-                  <div className='flex'>
-              <p className='text-red-500'>*</p>
-              Ice Level: 
-
-              </div>
-               <select 
-                  value={ice} 
-                  onChange={handleIceChange}
-                  className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-               >
-
-                  <option disabled>Select an Ice Level</option>
-                  {!restrictionsMap[drink.restrictions]?.includes('GreaterThanLessIce') && !soy && (
-                     <option value="No ice" className="bg-white text-gray-900">No Ice</option>
-                  )}
-                     <option value="Less ice" className="bg-white text-gray-900">Less Ice</option>
-                     <option value="Regular ice" className="bg-white text-gray-900">Regular Ice</option>
-                     <option value="Extra ice" className="bg-white text-gray-900">Extra Ice</option>
-
-                  {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') &&!soy && (
-                  <option value="Hot" className="bg-white text-gray-900">Hot + $.50 (Only Available In Medium Sizes) </option>
-                  )}
-                  
-               </select>
-               </label>
-            </div>
-                     
-                     </>
-                  )}
-
-                  {!restrictionsMap[drink.restrictions]?.includes('NotAvailableHot') && (
-                     <p className='w-fit mx-auto truncate text-gray-700 text-xs pb-10'>*Hot drinks are only available in Medium Sizes.</p>
-                  )}
-            
-
-         {/* End of Customization div */}
-         </div>
 
          <div className='text-center'>
             <p className='text-sm text-gray-700 underline'>Max 4 Additional Toppings</p>
          </div>
          {/* When adding toppings only have 4 max */}
          {/* Display all toppings from DB */}
-         {/* {toppings.map((topping) => (
-            <div key={topping.id}>
-               <Toppings
-               name={topping.product_name}
-               price={topping.product_price}
-               onChange={(isAdding) => handleToppingChange(topping, isAdding)}
-               disableIncrement={toppingCount >= 4}
-               />
-            </div>
-         ))} */}
-         {toppings.map((topping) => {
+        
+         {/* {toppings.map((topping) => {
                const initialToppingCount = drinkToppings.filter(t => t.id === topping.id).length;
                return (
                <Toppings
@@ -537,32 +439,14 @@ const handleSoy = () => {
                   disableIncrement={toppingCount >=4}
                />
                );
-            })}
+            })} */}
 
-            <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
-                  <div className="container mx-auto grid grid-cols-8 gap-5 items-center ">
-                     
-                        {/* Name */}
-                        <div className="col-span-2 flex items-center justify-start ">
-                        <h1 className="text-sm font-semibold">Soy Alternative</h1>
-                        </div>
 
-                        {/* Price */}
-                        <div className="col-span-2 flex items-center justify-center ">
-                        <h1 className="text-sm text-gray-700 ml-2">$0.50</h1>
-                        </div>
+         <ToppingsList handleToppingChange={handleToppingChange} 
+         toppingCount={toppingCount} drink={drink} soy={soy} handleSoy={handleSoy}
+         />
 
-                        {/* Counter */}
-                        <div className="col-span-3 flex items-center justify-end ">
-                        <input
-                           type="checkbox"
-                           checked={soy}
-                           onChange={handleSoy}
-                           className="ml-2"
-                        />
-                     </div>
-                  </div>
-               </div>
+
 
          {/* Display the final Price after adjustments */}
          <div className='flex justify-around items-center my-10 mx-auto '>
