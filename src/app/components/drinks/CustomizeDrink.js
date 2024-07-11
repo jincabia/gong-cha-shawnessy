@@ -181,7 +181,6 @@ const CustomizeDrink = () => {
   };
 
 
-  // TODO figure this shit out lol
   const handleToCart = () => {
 
     const restrictions = restrictionsMap[drink.restrictions];

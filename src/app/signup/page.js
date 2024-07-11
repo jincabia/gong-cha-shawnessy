@@ -33,7 +33,7 @@ const Signup = ({ message }) => {
         setError(null); // Clear any previous errors
         // console.log('Signed in user:', user);
         writeUserData(user);
-        // router.push('/signin')
+        router.push('/signin')
 
       })
       .catch((error) => {
