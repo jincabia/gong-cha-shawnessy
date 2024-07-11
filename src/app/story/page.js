@@ -26,7 +26,7 @@ export default function OurStory() {
 
                     </div>
 
-                    <div className="mt-8 text-slate-800">
+                    <div className="my-8 text-slate-800">
                         <h1 className="text-4xl font-serif mb-4">Our Story</h1>
 
                         <p className="text-sm mb-4">

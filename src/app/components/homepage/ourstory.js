@@ -17,7 +17,7 @@ const OurStory = () => {
             <main className="flex flex-col items-center justify-center text-white text-center min-h-screen bg-black bg-opacity-50">
                 <p className="text-red-800 tracking-widest">OUR STORY</p>
                 <h1 className="text-4xl font-serif py-5">Brewing happiness</h1>
-                <button className="bg-red-800 rounded-md py-2 px-4 text-white shadow-md" onClick={()=> router.push('/')}>READ MORE</button>
+                <button className="bg-red-800 rounded-md py-2 px-4 text-white shadow-md" onClick={()=> router.push('/story')}>READ MORE</button>
             </main>
         </div>
         
