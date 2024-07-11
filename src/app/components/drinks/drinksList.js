@@ -60,14 +60,24 @@ const DrinksList = () => {
 
       <DrinksCarousel drinks={bestSellers} />
 
-      {/* Filter Component */}
-      {/* <h1 className='text-center mt-10 text-black font-semibold'>Filter By</h1> */}
-      <div className='my-10'>
-
-        <Filter selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+      <div className='text-center pt-5'>
+        <div className='flex items-center justify-between pb-5'>
+          <div className='flex-grow border-t border-slate-300'></div>
+          <span className='mx-4 text-2xl text-red-800  font-serif'></span>
+          <div className='flex-grow border-t border-slate-300'></div>
+        </div>
+        <h1 className='text-black'></h1>
       </div>
 
-      <ul className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 pt-5">
+      {/* Filter Component */}
+
+      <div className='mb-10 lg:w-1/3 mx-auto '>
+      {/* <h1 className='text-start mt-10 text-black font-medium'>View:</h1> */}
+
+        <Filter selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} className="" />
+      </div>
+
+      <ul className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 py-5">
         {filteredDrinks.map((drink) => (
           <li key={drink.id} className="flex flex-col justify-center items-center">
             <Drink name={drink.product_name} price={drink.product_price} id={drink.id} />

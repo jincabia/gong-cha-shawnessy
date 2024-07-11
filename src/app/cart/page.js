@@ -8,6 +8,8 @@ import removeDrinkFromCartInFirebase from "../components/ReadCart/DeleteFromCart
 import DrinkItemFromCart from "../components/ReadCart/DrinkItemFromCart";
 import updateCartQuantity from "../components/ReadCart/AdjustQuantity";
 import ImageComponent from "../components/image/ImageComponent";
+import { EmptyCart } from "./EmptyCart";
+import SignIn from "../signin/page";
 
 export default function CartPage() {
   // database cart
@@ -108,7 +110,7 @@ export default function CartPage() {
   return (
     <main className="text-black">
       {!user && <div>
-        No user go log in bruh
+          <SignIn></SignIn>
         
         </div>}
 
@@ -127,10 +129,11 @@ export default function CartPage() {
 
           ):(
             <>
-              <h1>There is nothing inside your cart, check out our Menu!</h1>
+              <EmptyCart/>
+              {/* <h1>There is nothing inside your cart, check out our Menu!</h1>
               <h1 className="text-stone-900 p-3 w-fit mx-auto mb-4" onClick={() => router.push('/menu')}>
                 Our Menu
-              </h1>
+              </h1> */}
             
             </>
 

@@ -7,6 +7,9 @@ import EmojiPeopleRoundedIcon from '@mui/icons-material/EmojiPeopleRounded';
 import { grey, red } from "@mui/material/colors";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 
 /**
  * // Work on Error Handling, Sign up Page
@@ -31,8 +34,10 @@ const SignIn = () => {
       .then((result) => {
         const user = result.user;
         setError(null); // Clear any previous errors
-        console.log('Signed in user:', user);
+        // console.log('Signed in user:', user);
         writeUserData(user);
+        router.push('/')
+
       })
       .catch((error) => {
         setError(error.message);
@@ -51,8 +56,9 @@ const SignIn = () => {
           auth.signOut(); // Optionally sign out the user immediately
         } else {
           setError(null); // Clear any previous errors
-          console.log('Signed in user:', user);
+          // console.log('Signed in user:', user);
           writeUserData(user);
+          router.push('/')
         }
       })
       .catch((error) => {
@@ -77,17 +83,40 @@ const SignIn = () => {
   
 
   return (
-    <div className="h-max py-10">
+    <div className="h-max py-10 ">
 
 
       {user ? (
         <>
-          <h1>Hi You are Already Signed In!</h1>
-          <p>Start browsing the menu or check out your cart or profile stuff</p>
-          <div>
-            <div>Signed in as: {user.email}</div>
-            <button onClick={signOut}>Sign Out</button>
-          </div>
+          
+          <main className='text-black p-4 '>
+            <h1 className='sm:text-large md:text-2xl font-bold mb-4 border-b-2 border-slate-300 w-fit '>{"Hi, you're all ready to get started!"}</h1>
+
+            {/* TODO */}
+
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/4 '>
+              <div className='mb-2'>
+                <div className='text-lg font-medium'>Start Browsing the Menu.</div>
+              </div>
+              <button className=" bg-red-800 rounded-md py-2 px-4 text-white shadow-md" 
+            onClick={()=> router.push('/menu')}>Browse the menu</button>
+            </div>
+
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/4 '>
+              <div className='mb-4'>
+                <div className='text-sm text-gray-600'>Signed in as:</div>
+                <div className='font-medium'>{user.email}</div>
+              </div>
+              <button
+                onClick={signOut}
+                className='bg-red-800 rounded-md py-2 px-4 text-white shadow-md'
+              >
+                Sign Out
+              </button>
+            </div>
+
+          </main>
+          
         </>
       ) : (
         <>
@@ -95,7 +124,7 @@ const SignIn = () => {
         
         
 
-        <div className='flex flex-col text-black py-10 w-screen text-center mx-auto rounded-lg shadow-md p-10 py-50 bg-gray-100'>
+        <div className='flex flex-col text-black py-10 w-screen text-center mx-auto rounded-lg shadow-md p-10 py-50 bg-gray-100 lg:w-2/5 lg:mx-auto'>
 
           <div className=' text-center justify-center mx-auto pb-3'>
 
@@ -130,7 +159,7 @@ const SignIn = () => {
                   Sign In
                 </button>
               
-                <button onClick={resetPassword} className="text-slate-600 my-5">
+                <button onClick={resetPassword} className="text-red-900 font-medium my-5  w-fit mx-auto">
                   Forgot Password?
                 </button>
               </form>
