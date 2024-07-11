@@ -1,7 +1,7 @@
 import CustomizeDrink from '@/app/components/drinks/CustomizeDrink';
 const DrinkPage = () => {
   return (
-    <div>
+    <div className=''>
       <CustomizeDrink />
     </div>
   );

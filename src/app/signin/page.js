@@ -83,23 +83,26 @@ const SignIn = () => {
   
 
   return (
-    <div className="h-max py-10">
+    <div className="h-max py-10 ">
 
 
       {user ? (
         <>
           
-          <main className='text-black p-4'>
-            <h1 className='text-2xl font-bold mb-4 '>{"Hi, you're all ready to get started!"}</h1>
+          <main className='text-black p-4 '>
+            <h1 className='sm:text-large md:text-2xl font-bold mb-4 border-b-2 border-slate-300 w-fit '>{"Hi, you're all ready to get started!"}</h1>
 
             {/* TODO */}
 
-            <div>
-
-              
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/4 '>
+              <div className='mb-2'>
+                <div className='text-lg font-medium'>Start Browsing the Menu.</div>
+              </div>
+              <button className=" bg-red-800 rounded-md py-2 px-4 text-white shadow-md" 
+            onClick={()=> router.push('/menu')}>Browse the menu</button>
             </div>
 
-            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md'>
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/4 '>
               <div className='mb-4'>
                 <div className='text-sm text-gray-600'>Signed in as:</div>
                 <div className='font-medium'>{user.email}</div>
@@ -111,6 +114,7 @@ const SignIn = () => {
                 Sign Out
               </button>
             </div>
+
           </main>
           
         </>
@@ -120,7 +124,7 @@ const SignIn = () => {
         
         
 
-        <div className='flex flex-col text-black py-10 w-screen text-center mx-auto rounded-lg shadow-md p-10 py-50 bg-gray-100'>
+        <div className='flex flex-col text-black py-10 w-screen text-center mx-auto rounded-lg shadow-md p-10 py-50 bg-gray-100 lg:w-2/5 lg:mx-auto'>
 
           <div className=' text-center justify-center mx-auto pb-3'>
 
@@ -155,7 +159,7 @@ const SignIn = () => {
                   Sign In
                 </button>
               
-                <button onClick={resetPassword} className="text-slate-600 my-5">
+                <button onClick={resetPassword} className="text-red-900 font-medium my-5  w-fit mx-auto">
                   Forgot Password?
                 </button>
               </form>

@@ -14,7 +14,7 @@ import MapIcon from '@mui/icons-material/Map';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 // TODO Start filling up pages
 
@@ -107,29 +107,50 @@ export default function GongNav() {
 
           <div className="grid justify-items-start text-black">
 
-          <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/')}>
+          {/* <div className="flex pl-5 py-5 space-x-5 h-32 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/')}>
             <HomeIcon className=""/>
             <h1 className="text-stone-900 w-full " >
                 Home
             </h1>
 
-            </div>
+          </div> */}
+
+          <div
+            className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200"
+            onClick={() => handleNavigation('/')}
+          >
+            <HomeIcon className=""/>
+            <h1 className="text-stone-900">
+              Home
+            </h1>
+          </div>
 {/*             
 
             <h1 className="text-stone-900 w-screen border-b border-black pl-5 py-5" onClick={()=>handleNavigation('/')}>
                 Home
             </h1> */}
 
-
-            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/menu')}>
-            <MenuBookIcon className=""/>
-            <h1 className="text-stone-900 w-full " >
-                Our Menu
-            </h1>
+            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/story')}>
+              <AutoStoriesIcon className=""/>
+                <h1 className="text-stone-900 w-full " >
+                    Our Story
+                </h1>
 
             </div>
 
-            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/store')}>
+
+            
+
+
+            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/menu')}>
+              <MenuBookIcon className=""/>
+              <h1 className="text-stone-900 w-full " >
+                  Our Menu
+              </h1>
+
+            </div>
+
+            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/store')}>
               <MapIcon className=""/>
               <h1 className="text-stone-900 w-full " >
                   Our Store
@@ -144,7 +165,7 @@ export default function GongNav() {
             {user && (
               <>
 
-            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/cart')}>
+            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/cart')}>
               <ShoppingCartIcon className=""/>
               <h1 className="text-stone-900 w-full " >
                   Your Cart
@@ -159,7 +180,7 @@ export default function GongNav() {
               */}
             {!user && (
               <>
-            <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={()=>handleNavigation('/signin')}>
+            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/signin')}>
                <AccountBoxRoundedIcon className="" sx={{ color: grey[900] }}/>
                <h1 className="text-stone-900 w-full " >
                   Login/Signup
@@ -171,7 +192,7 @@ export default function GongNav() {
             )}
 
             {user && (
-              <div className="flex pl-5 py-5 space-x-5 w-screen border-b border-slate-200" onClick={signOut}>
+              <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={signOut}>
                <LogoutRoundedIcon className="" sx={{ color: grey[900] }}/>
                <h1 className="text-stone-900 w-full " >
                   Sign Out
@@ -209,6 +230,11 @@ export default function GongNav() {
           </button>
 
           <div className="hidden md:flex space-x-10">
+          <button 
+              className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800"
+              onClick={navToHome}>
+                      Home
+            </button>
             <button 
               className="text-stone-900 py-2 px-4 w-fit rounded-md hover:text-white hover:bg-red-800"
               onClick={navToStory}>
@@ -227,7 +253,7 @@ export default function GongNav() {
           </div>
 
           <div className="hidden md:flex space-x-10 pr-10">
-            <button>
+            <button onClick={()=>router.push('/cart')}>
               <ShoppingCartOutlinedIcon className="hover:bg-stone-200 rounded-md" sx={{ color: grey[900] }}/>
             </button>
             <button onClick={navToSignIn}>

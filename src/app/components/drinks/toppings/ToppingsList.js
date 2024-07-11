@@ -4,6 +4,7 @@ import { getToppings } from "./retrieveToppings";
 import { useEffect, useState } from "react";
 import Toppings from "../../topping/Topping";
 import { Typography, Button } from '@mui/material';
+import { styled } from '@mui/system';
 
 const restrictionsMap = {
     0: [],
@@ -19,6 +20,17 @@ const restrictionsMap = {
 
 // TODO 
 // Check if Soy swap is available
+
+const CustomButton = styled(Button)({
+    backgroundColor: '#8B0000', // equivalent to bg-red-800
+    borderRadius: '0.375rem', // equivalent to rounded-md
+    padding: '0.5rem 1rem', // equivalent to py-2 px-4
+    color: 'white',
+    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // equivalent to shadow-md
+    '&:hover': {
+        backgroundColor: '#AB0000', // custom hover color
+    },
+});
 
 
 export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,handleSoy }) => {
@@ -128,7 +140,7 @@ export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,hand
                         </div>
                     </div>
                     {!restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable') && (
-                  <p className='w-3/5 mx-auto  text-gray-700 text-xs pt-5'>
+                  <p className='w-fit mx-auto  text-gray-700 text-xs pt-5'>
                     *Drinks made with Soy Milk cannot be done with No Ice or Hot.
                     </p>
             )}
@@ -156,9 +168,9 @@ export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,hand
             <div className='items-center text-center py-5'>
 
                 { !showAllToppings && (
-                    <Button onClick={() => setShowAllToppings(true)} variant="contained" color="primary">
+                    <CustomButton onClick={() => setShowAllToppings(true)}>
                         View More Toppings
-                    </Button>
+                    </CustomButton>
                 )}
                 
             </div>

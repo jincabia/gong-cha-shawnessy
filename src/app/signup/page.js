@@ -62,18 +62,18 @@ const Signup = ({ message }) => {
           })
           .catch((error) => {
             setError(error.message);
-            console.error('Email verification error:', error);
+            // console.error('Email verification error:', error);
           });
       })
       .catch((error) => {
         setError(error.message);
-        console.error('Sign-up error:', error);
+        // console.error('Sign-up error:', error);
       });
   };
 
   return (
-    <div className=" items-center justify-center h-max   py-10"> {/**bg-gray-50 */}
-      <div className='flex flex-col text-black  h-max w-min max-w-md text-center mx-auto  rounded-lg shadow-md p-10 py-50 bg-gray-100'> {/**bg-white */}
+    <div className=" items-center justify-center h-max   py-10 "> {/**bg-gray-50 */}
+      <div className='flex flex-col text-black  h-max  text-center mx-auto  rounded-lg shadow-md p-10 py-50 bg-gray-100 lg:w-2/5 lg:mx-auto'> {/**bg-white */}
 
             <div className='text-center justify-center mx-auto pb-3'>
                 <Image src={'/RedGongChaLogo.png'}

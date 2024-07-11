@@ -393,7 +393,7 @@ const CustomizeDrink = () => {
 
 
         {/* If there is a product name ie Milk Tea with Pearls load ImageComponent instead of having undefined.png */}
-        <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center my-5'>
+        <div className='w-1/2 mx-auto  h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center my-5'>
           
           {drink.product_name && 
           
@@ -444,7 +444,7 @@ const CustomizeDrink = () => {
           <h1 className='underline'>${price.toFixed(2)}</h1>
           <button 
             onClick={handleToCart} 
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+            className="bg-red-800 rounded-md py-2 px-4 text-white shadow-md"
           >
             Add to Cart
           </button>
