@@ -3,6 +3,8 @@ import { useState,useEffect } from "react";
 
 const Toppings = ({ name, price, onChange, disableIncrement,initialCount =0,index  }) => {
 
+  const [decreaseDisabled, setDecreaseDisabled] = useState(true);
+  const [increaseDisabled, setIncreaseDisabled] = useState(false);
 
 
 
@@ -26,15 +28,26 @@ const Toppings = ({ name, price, onChange, disableIncrement,initialCount =0,inde
     }, [initialCount]);
 
   const handleIncrement = () => {
+    
     if (disableIncrement) return;
     setCounter(counter + 1);
     onChange(true,index);
+    setDecreaseDisabled(false)
+
+    if(counter === 3)
+    {
+      setIncreaseDisabled(true)
+    }
   };
 
   const handleDecrement = () => {
     if (counter > 0) {
       setCounter(counter - 1);
       onChange(false,index);
+    }
+    setIncreaseDisabled(false)
+    if (counter ===1) {
+      setDecreaseDisabled(true)
     }
   };
 
@@ -52,23 +65,38 @@ const Toppings = ({ name, price, onChange, disableIncrement,initialCount =0,inde
         </div>
 
         {/* Counter */}
-        <div className="col-span-4 flex items-center text-end justify-end ml-auto bg-gray-400 w-min rounded-full">
+        <div className="col-span-4 flex items-center text-end justify-end ml-auto h-8 bg-gray-300 w-min rounded-full text-black">
           <button
-            className=" text-white rounded-full px-4 md:px-7 py-0"
+            className="  rounded-full px-4 md:px-7 py-0"
             onClick={handleDecrement}
             disabled={counter === 0}
           >
-            -
+            {decreaseDisabled && (
+              <p className="text-gray-500">-</p>
+            )}
+            {!decreaseDisabled && (
+
+              <p>-</p>
+            )}
+            
+            
           </button>
 
-          <span className="mx-2 md:mx-4">{counter}</span>
+          <span className="">{counter}</span>
 
           <button
-            className=" text-white rounded-full px-4 md:px-7 py-0"
+            className="  rounded-full px-4 md:px-7 py-0"
             onClick={handleIncrement}
             disabled={disableIncrement}
           >
-            +
+
+            {increaseDisabled && (
+              <p className="text-gray-500">+</p>
+            )}
+            {!increaseDisabled && (
+
+              <p>+</p>
+            )}
           </button>
         </div>
 

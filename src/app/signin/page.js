@@ -88,7 +88,7 @@ const SignIn = () => {
       {user ? (
         <>
           
-          <main className='text-black p-4 '>
+          <main className='text-black p-4 flex text-center  justify-center  '>
             <h1 className='sm:text-large md:text-2xl font-bold mb-4 border-b-2 border-slate-300 w-fit '>{"Hi, you're all ready to get started!"}</h1>
 
             {/* TODO */}

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 export const QuantityCounter = ({quantity,setQuantity}) => {
     // const [counter, setCounter] = useState(quantity);
-    const[decrementDisabled, setDecrementDisabled] = useState(true)
+    const[decrementDisabled, setDecrementDisabled] = useState(false)
 
     const decrementCounter = () => {
         if (quantity > 1) {
@@ -23,9 +23,9 @@ export const QuantityCounter = ({quantity,setQuantity}) => {
     };
 
     return (
-        <div className="col-span-4 flex items-center text-end justify-end ml-auto bg-gray-400 w-min mx-auto rounded-full text-black">
+        <div className="col-span-4 flex items-center text-start justify-start  h-8 bg-gray-300 w-min mx-auto rounded-full text-black">
             <button
-                className="text-white rounded-full px-4 md:px-7 py-0 mx-auto"
+                className=" rounded-full px-4 md:px-7 py-0 mx-auto"
                 onClick={decrementCounter}
                 disabled={quantity === 1}
             >
@@ -42,7 +42,7 @@ export const QuantityCounter = ({quantity,setQuantity}) => {
             <span className="mx-2 md:mx-4">{quantity}</span>
 
             <button
-                className="text-white rounded-full px-4 md:px-7 py-0 mx-auto"
+                className=" rounded-full px-4 md:px-7 py-0 mx-auto"
                 onClick={incrementCounter}
             >
                 +
