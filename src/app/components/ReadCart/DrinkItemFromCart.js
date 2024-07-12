@@ -53,7 +53,7 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
     }, {});
   
     return (
-      <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+      <div className="bg-white rounded-lg shadow-md p-4 mb-4 lg:w-1/2 lg:mx-auto">
         {deleting ? (
           <div className="flex text-center items-center justify-center">
             <div className="spinner mx-auto w-1/2" style={{ width: 100, height: 100 }}></div>
@@ -77,7 +77,7 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
 
             </div>
             <div>
-              <h1 className="text-sm font-semibold mx-auto sm:w-1/4 text-center my-5">{drinkName}</h1>
+              <h1 className="text-sm font-semibold mx-auto w-fit  text-center my-5">{drinkName}</h1>
               <div className="col-span-4 flex items-center justify-center">
                 {quantityVar === 1 && (
                   <button

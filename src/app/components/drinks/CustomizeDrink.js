@@ -440,21 +440,27 @@ const CustomizeDrink = () => {
         drink={drink} soy={soy} handleSoy={handleSoy}/>
 
 
-          <div>
+          <div className='  mt-5 '>
             <QuantityCounter quantity={quantity} setQuantity={setQuantity}/>
           </div>
       
         {/* Display the final Price after adjustments */}
-        <div className='flex justify-around items-center my-10 mx-auto '>
-          <h1 className=''>${price.toFixed(2)}</h1>
+        <button 
+        onClick={handleToCart} 
+        className='flex justify-around items-center mb-10 mt-2 text-center 
+        bg-red-800
+      text-white rounded-md  w-3/4 mx-auto 
+      shadow-md'>
           <button 
             onClick={handleToCart} 
-            className="bg-red-800 rounded-md py-2 px-4 text-white shadow-md"
+            className="bg-red-800 rounded-md py-2 px-4  "
           >
-            Add to Cart
+            Add to Cart 
           </button>
+          <p>-</p>
+          <h1 className='py-2 px-4 font-semibold '>${(price.toFixed(2)* quantity).toFixed(2)}</h1>
           
-          </div>
+          </button>
 
 
           

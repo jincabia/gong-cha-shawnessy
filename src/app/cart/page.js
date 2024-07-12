@@ -84,6 +84,11 @@ export default function CartPage() {
     }
   };
 
+  useEffect(()=>
+  {
+    setLoading(false)
+  },[cart])
+
   const handleQuantityChange = async (index, newQuantity) => {
     try {
       // Update quantity locally first
@@ -160,7 +165,7 @@ export default function CartPage() {
             </div>
           ):(
             // If the price is not loading
-            <div>
+            <div className="lg:w-1/2 lg:mx-auto">
               <div className="flex justify-between mt-2 mx-4 text-large font-medium">
                 <h2>Subtotal</h2>
                 <h2 className=""> ${subtotal.toFixed(2)}</h2>

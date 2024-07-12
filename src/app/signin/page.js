@@ -7,6 +7,8 @@ import EmojiPeopleRoundedIcon from '@mui/icons-material/EmojiPeopleRounded';
 import { grey, red } from "@mui/material/colors";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
@@ -28,14 +30,33 @@ const SignIn = () => {
 
   const router = useRouter();
 
+  const errorMsgHandling = (msg) =>
+  {
+    if (msg === 'Firebase: Error (auth/invalid-email).')
+    {
+      setError('Please enter a valid Email Address');
+    }
+
+    if(msg ==='Firebase: Error (auth/missing-password).')
+    {
+      setError('Please enter a valid Password');
+    }
+
+    if(msg ==='Firebase: Error (auth/invalid-credential).')
+    {
+      setError('Account Not Found')
+    }
+    else console.log(msg)
+  }
+
   const signInWithGoogle = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         const user = result.user;
         setError(null); // Clear any previous errors
         // console.log('Signed in user:', user);
-        writeUserData(user);
         router.push('/')
+        writeUserData(user);
 
       })
       .catch((error) => {
@@ -56,44 +77,39 @@ const SignIn = () => {
         } else {
           setError(null); // Clear any previous errors
           // console.log('Signed in user:', user);
-          writeUserData(user);
           router.push('/')
+          writeUserData(user);
         }
       })
       .catch((error) => {
-        setError(error.message);
+        errorMsgHandling(error.message);
         console.error('Sign-in error:', error);
       });
   };
-  
-
-  const resetPassword = (e) => {
-    e.preventDefault();
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        setError('Password reset email sent!');
-      })
-      .catch((error) => {
-        setError(error.message);
-        console.error('Password reset error:', error);
-      });
-  };
-
-  
+    
 
   return (
-    <div className="h-max py-10 ">
+    <div className="h-max pb-10 ">
+
+            <button onClick={()=> router.back()} className='m-2 text-black'>
+                <ChevronLeftIcon fontSize='large'/>
+            </button>
+
+      
 
 
       {user ? (
         <>
+        
           
-          <main className='text-black p-4 '>
-            <h1 className='sm:text-large md:text-2xl font-bold mb-4 border-b-2 border-slate-300 w-fit '>{"Hi, you're all ready to get started!"}</h1>
+          <main className='text-black p-4 flex flex-col mx-auto lg:w-1/2  '>
+
+          
+            <h1 className='sm:text-large md:text-2xl font-bold mb-4 border-b-2 border-slate-300 lg:w-fit  '>{"Hi, you're all ready to get started!"}</h1>
 
             {/* TODO */}
 
-            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/4 '>
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/2 '>
               <div className='mb-2'>
                 <div className='text-lg font-medium'>Start Browsing the Menu.</div>
               </div>
@@ -101,7 +117,7 @@ const SignIn = () => {
             onClick={()=> router.push('/menu')}>Browse the menu</button>
             </div>
 
-            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/4 '>
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/2 '>
               <div className='mb-4'>
                 <div className='text-sm text-gray-600'>Signed in as:</div>
                 <div className='font-medium'>{user.email}</div>
@@ -124,6 +140,7 @@ const SignIn = () => {
         
 
         <div className='flex flex-col text-black py-10 w-screen text-center mx-auto rounded-lg shadow-md p-10 py-50 bg-gray-100 lg:w-2/5 lg:mx-auto'>
+
 
           <div className=' text-center justify-center mx-auto pb-3'>
 
@@ -157,11 +174,14 @@ const SignIn = () => {
                 <button type="submit" className="bg-red-800 text-white rounded-md py-2 px-3 mb-3 ">
                   Sign In
                 </button>
+
+                {error && <div className="text-center"
+                style={{ color: 'red' }}>Error: {error}</div>}
               
-                <button onClick={resetPassword} className="text-red-900 font-medium my-5  w-fit mx-auto">
+              </form>
+                <button onClick={()=>router.push('/passwordrecovery')} className="text-red-900 font-medium my-5  w-fit mx-auto">
                   Forgot Password?
                 </button>
-              </form>
 
               <div className='flex items-center justify-between pb-5'>
                 <div className='flex-grow border-t border-slate-300'></div>
@@ -181,7 +201,7 @@ const SignIn = () => {
                 </div>
               </button>
 
-              <button onClick={() => router.push('/signup')} className="bg-slate-600 text-white rounded-md py-2 px-3 mb-3">
+              <button onClick={() => router.push('/signup')} className="bg-slate-600 text-white rounded-md py-2 px-3 mb-3 ">
                   Create an Account
               </button>
 
@@ -191,7 +211,7 @@ const SignIn = () => {
         
         </>
       )}
-      {error && <div style={{ color: 'red' }}>Error: {error}</div>}
+      
     </div>
   );
 };
