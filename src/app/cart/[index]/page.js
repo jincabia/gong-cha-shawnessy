@@ -17,6 +17,7 @@
    import { SizeSelector } from '@/app/components/drinks/selectors/SizeSelector';
    import { SugarSelector } from '@/app/components/drinks/selectors/SugarSelector';
    import { ToppingsList } from '@/app/components/drinks/toppings/ToppingsList';
+   import { QuantityCounter } from '@/app/components/drinks/quantityCounter';
 
    const restrictionsMap = {
       0: [],
@@ -48,6 +49,7 @@
    const [size, setSize] = useState("Select a Size");
    const [sugar, setSugar] = useState("Select a Sugar Level");
    const [ice, setIce] = useState("Select an Ice Level");
+   const [quantity,setQuantity] = useState(1)
 
    // Price of the drink
    const [price, setPrice] = useState(0);
@@ -117,6 +119,7 @@
                }
    
                setDrink(cartItemData);
+               setQuantity(cartItemData.quantity)
                setSize(cartItemData.size);
                setIce(cartItemData.ice);
                setPrice(cartItemData.price);
@@ -258,7 +261,7 @@ const handleSaveChanges = async () => {
        toppings: soy ? drinkToppings : drinkToppings.filter(topping => topping.product_name !== "Soy Milk Alternative"),
        sugar: sugar + '%',
        ice: ice,
-       quantity: drink.quantity,
+       quantity: quantity,
        drinkID: drink.drinkID
    };
 
@@ -459,6 +462,10 @@ const handleSoy = () => {
          <ToppingsList handleToppingChange={handleToppingChange} 
          toppingCount={toppingCount} drink={drink} soy={soy} handleSoy={handleSoy}
          />
+
+         <div>
+            <QuantityCounter quantity={quantity} setQuantity={setQuantity}/>
+          </div>
 
 
 
