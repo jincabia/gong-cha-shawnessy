@@ -391,7 +391,7 @@ const handleSoy = () => {
 
    return (
 
-      <div className='text-black'>
+      <div className='text-black lg:w-1/3 mx-auto'>
          {/* <button onClick={()=> console.log(drink)}>Clickme</button> */}
          <button onClick={()=> router.back()} className='m-2'>
             <ChevronLeftIcon fontSize='large'/>
@@ -467,9 +467,27 @@ const handleSoy = () => {
             <QuantityCounter quantity={quantity} setQuantity={setQuantity}/>
           </div>
 
+          <button 
+        onClick={()=>handleSaveChanges()} 
+        className='flex justify-around items-center mb-10 mt-2 text-center 
+        bg-red-800
+      text-white rounded-md  w-3/4 mx-auto 
+      shadow-md'>
+          <button 
+            onClick={()=>handleSaveChanges()} 
+            className="bg-red-800 rounded-md py-2 px-4  "
+          >
+            Add to Cart 
+          </button>
+          <p>-</p>
+          <h1 className='py-2 px-4 font-semibold '>${(price.toFixed(2)* quantity).toFixed(2)}</h1>
+          
+          </button>
 
 
-         {/* Display the final Price after adjustments */}
+
+
+         {/* Display the final Price after adjustments
          <div className='flex justify-around items-center my-10 mx-auto '>
             <h1 className='underline'>${price.toFixed(2)}</h1>
             <button 
@@ -479,7 +497,7 @@ const handleSoy = () => {
                Save Changes
             </button>
             
-         </div>
+         </div> */}
 
          <p>{error}</p>
          </div>
