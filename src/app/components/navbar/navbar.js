@@ -57,11 +57,11 @@ export default function GongNav() {
   }
 
   return (
-    <header className="bg-white fixed top-0 left-0 w-full z-50">
+    <header className="bg-white fixed top-0 left-0 w-full lg:z-10 z-40">
         {/* Mobile Nav bar */}
       {hidden ? (
         <div
-          className={`fixed inset-0 ${
+          className={`fixed inset-0 z-10${
             hidden ? "opacity-100" : "opacity-0 pointer-events-none"
           } transition-opacity duration-300 ease-in-out bg-white max-h-screen max-x-screen`}
         >
@@ -212,7 +212,7 @@ export default function GongNav() {
       ) :
     //   Desktop nav
       (
-        <div className="flex justify-between items-center shadow-md">
+        <div className="flex justify-between items-center shadow-md ">
           <button className="justify-start" onClick={navToHome}>
             <Image
               src="/logoWithTagline.png"

@@ -17,6 +17,7 @@
    import { SizeSelector } from '@/app/components/drinks/selectors/SizeSelector';
    import { SugarSelector } from '@/app/components/drinks/selectors/SugarSelector';
    import { ToppingsList } from '@/app/components/drinks/toppings/ToppingsList';
+   import { QuantityCounter } from '@/app/components/drinks/quantityCounter';
 
    const restrictionsMap = {
       0: [],
@@ -48,6 +49,7 @@
    const [size, setSize] = useState("Select a Size");
    const [sugar, setSugar] = useState("Select a Sugar Level");
    const [ice, setIce] = useState("Select an Ice Level");
+   const [quantity,setQuantity] = useState(1)
 
    // Price of the drink
    const [price, setPrice] = useState(0);
@@ -117,6 +119,7 @@
                }
    
                setDrink(cartItemData);
+               setQuantity(cartItemData.quantity)
                setSize(cartItemData.size);
                setIce(cartItemData.ice);
                setPrice(cartItemData.price);
@@ -224,6 +227,32 @@
 
 // Inside the handleSaveChanges function
 const handleSaveChanges = async () => {
+
+   let missingField = "";
+
+
+   if (size === "Select a Size" && !drink.restrictions.includes('MediumSizeOnly')) {
+     missingField = "Size";
+   } else if (sugar === "Select a Sugar Level" && !drink.restrictions.includes('SugarNotAdjustable')) {
+     missingField = "Sugar Level";
+   } else if (ice === "Select an Ice Level" && !drink.restrictions.includes('IceNotAdjustable')) {
+     missingField = "Ice Level";
+   }
+
+   // If a field is missing, show error popup and scroll to the missing field
+   if (missingField !== "") {
+     setErrorMessage(`Please select a ${missingField}.`);
+     setShowError(true);
+
+     // Scroll to the missing field
+     if (errorRef.current) {
+       errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+     }
+
+     return; // Exit function early if fields are not selected
+   }
+
+
    let customDrink = {
        drinkName: drink.drinkName,
        restrictions: drink.restrictions,
@@ -232,7 +261,7 @@ const handleSaveChanges = async () => {
        toppings: soy ? drinkToppings : drinkToppings.filter(topping => topping.product_name !== "Soy Milk Alternative"),
        sugar: sugar + '%',
        ice: ice,
-       quantity: 1,
+       quantity: quantity,
        drinkID: drink.drinkID
    };
 
@@ -249,7 +278,7 @@ const handleSaveChanges = async () => {
         customDrink = {
           ...customDrink,
          toppings: [...drinkToppings,soyTopping],
-         ice: 'Less Ice'
+         // ice: 'Less Ice'
         };
       }
 
@@ -418,7 +447,6 @@ const handleSoy = () => {
           {/* Ice Changes */}
           <IceSelector drink={drink} ice={ice} soy={soy} handleIceChange={handleIceChange}/>
 
-          <button onClick={()=> console.log(drinkToppings)}>Click Me</button>
             
 
         {/* End of Customization div */}
@@ -431,24 +459,13 @@ const handleSoy = () => {
          {/* When adding toppings only have 4 max */}
          {/* Display all toppings from DB */}
         
-         {/* {toppings.map((topping) => {
-               const initialToppingCount = drinkToppings.filter(t => t.id === topping.id).length;
-               return (
-               <Toppings
-                  key={topping.id}
-                  name={topping.product_name}
-                  price={topping.product_price}
-                  initialCount={initialToppingCount}
-                  onChange={(isAdding) => handleToppingChange(topping, isAdding)}
-                  disableIncrement={toppingCount >=4}
-               />
-               );
-            })} */}
-
-
          <ToppingsList handleToppingChange={handleToppingChange} 
          toppingCount={toppingCount} drink={drink} soy={soy} handleSoy={handleSoy}
          />
+
+         <div>
+            <QuantityCounter quantity={quantity} setQuantity={setQuantity}/>
+          </div>
 
 
 
@@ -457,12 +474,14 @@ const handleSoy = () => {
             <h1 className='underline'>${price.toFixed(2)}</h1>
             <button 
                onClick={()=>handleSaveChanges()} 
-               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+               className="bg-red-800 rounded-md py-2 px-4 text-white shadow-md"
             >
                Save Changes
             </button>
             
          </div>
+
+         <p>{error}</p>
          </div>
 
          

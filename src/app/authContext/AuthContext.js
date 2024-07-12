@@ -1,6 +1,6 @@
 // AuthContext.js
 'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
 

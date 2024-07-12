@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-
 /**
  * // Work on Error Handling, Sign up Page
   // Work on Styling this page as well

@@ -8,7 +8,7 @@ export default function OurStory() {
             
             <div className="flex-grow flex items-center justify-center">
                 <div className="w-10/12 max-w-5xl mx-auto p-4">
-                    <div className="relative">
+                    <div className="relative -z-50">
                         {/* <Image 
                             src="/story.jpg" 
                             alt="Our Story"

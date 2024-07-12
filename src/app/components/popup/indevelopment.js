@@ -35,16 +35,16 @@ export const ProgressPopup = ({ open, handleClose }) => {
       <DialogContent style={{ textAlign: 'start', color: '#555' }}>
        This project is still in development.
 
-       <p className='font-semibold text-black my-2'>
+       <p className='font-semibold text-black my-2 w-full'>
         Ordering ahead has not yet been implemented.
        </p>
 
         <div className='flex flex-col mb-2 text-black '>
             
             <p className='  w-full text-sm'> 
-                Though you are able to customize your drinks, then call
+                However, you are able to customize your drinks 
             </p>
-            <p className=' font-semibold text-md my-2'> {`(403) 453-4273`}  to order ahead. </p>
+            <p className=' font-semibold text-md my-2'>then call {`(403) 453-4273`}  to order ahead. </p>
         </div>
        Thank you for your understanding.
       </DialogContent>

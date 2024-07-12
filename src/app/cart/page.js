@@ -160,9 +160,14 @@ export default function CartPage() {
             </div>
           ):(
             // If the price is not loading
-            <div className="text-center my-4">
-              <h2 className="">Subtotal: ${subtotal.toFixed(2)}</h2>
+            <div>
+              <div className="flex justify-between mt-2 mx-4 text-large font-medium">
+                <h2>Subtotal</h2>
+                <h2 className=""> ${subtotal.toFixed(2)}</h2>
+              </div>
+              <p className="mx-4 text-sm text-slate-500 mb-10">Tax Not Included</p>
             </div>
+            
           )}
 
           {/* Add tax and total */}
