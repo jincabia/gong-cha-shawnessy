@@ -52,9 +52,9 @@ const Toppings = ({ name, price, onChange, disableIncrement,initialCount =0,inde
         </div>
 
         {/* Counter */}
-        <div className="col-span-4 flex items-center justify-end">
+        <div className="col-span-4 flex items-center text-end justify-end ml-auto bg-gray-400 w-min rounded-full">
           <button
-            className="bg-slate-400 text-white rounded-full px-4 md:px-7 py-0"
+            className=" text-white rounded-full px-4 md:px-7 py-0"
             onClick={handleDecrement}
             disabled={counter === 0}
           >
@@ -64,7 +64,7 @@ const Toppings = ({ name, price, onChange, disableIncrement,initialCount =0,inde
           <span className="mx-2 md:mx-4">{counter}</span>
 
           <button
-            className="bg-slate-400 text-white rounded-full px-4 md:px-7 py-0"
+            className=" text-white rounded-full px-4 md:px-7 py-0"
             onClick={handleIncrement}
             disabled={disableIncrement}
           >

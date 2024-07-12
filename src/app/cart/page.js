@@ -165,7 +165,7 @@ export default function CartPage() {
                 <h2>Subtotal</h2>
                 <h2 className=""> ${subtotal.toFixed(2)}</h2>
               </div>
-              <p className="mx-4 text-sm text-slate-500">Tax Not Included</p>
+              <p className="mx-4 text-sm text-slate-500 mb-10">Tax Not Included</p>
             </div>
             
           )}

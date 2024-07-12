@@ -17,6 +17,7 @@ import { SizeSelector } from './selectors/SizeSelector';
 import { SugarSelector } from './selectors/SugarSelector';
 import { IceSelector } from './selectors/IceSelector';
 import { ToppingsList } from './toppings/ToppingsList';
+import { QuantityCounter } from './quantityCounter';
 
 const restrictionsMap = {
   0: [],
@@ -55,6 +56,7 @@ const CustomizeDrink = () => {
   const [size, setSize] = useState("Select a Size");
   const [sugar, setSugar] = useState("Select a Sugar Level");
   const [ice, setIce] = useState("Select an Ice Level");
+  const [quantity,setQuantity] = useState(1)
 
   // Price of the drink
   const [price, setPrice] = useState(0);
@@ -244,7 +246,7 @@ const CustomizeDrink = () => {
       toppings: drinkToppings,
       sugar: sugar + '%',
       ice: ice,
-      quantity: 1,
+      quantity: quantity,
       drinkID:drinkID
     };
 
@@ -437,10 +439,14 @@ const CustomizeDrink = () => {
         <ToppingsList handleToppingChange={handleToppingChange} toppingCount={toppingCount} 
         drink={drink} soy={soy} handleSoy={handleSoy}/>
 
+
+          <div>
+            <QuantityCounter quantity={quantity} setQuantity={setQuantity}/>
+          </div>
       
         {/* Display the final Price after adjustments */}
         <div className='flex justify-around items-center my-10 mx-auto '>
-          <h1 className='underline'>${price.toFixed(2)}</h1>
+          <h1 className=''>${price.toFixed(2)}</h1>
           <button 
             onClick={handleToCart} 
             className="bg-red-800 rounded-md py-2 px-4 text-white shadow-md"

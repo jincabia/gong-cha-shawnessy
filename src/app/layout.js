@@ -5,6 +5,8 @@ import Footer from "./components/footer/footer";
 import Menu from "./menu/page";
 import { AuthProvider } from "./authContext/AuthContext";
 import 'leaflet/dist/leaflet.css';
+import React from 'react';
+
 
 
 const poppins = Poppins({ 

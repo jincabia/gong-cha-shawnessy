@@ -38,7 +38,7 @@ const DrinksCarousel = ({ drinks }) => {
   };
 
   return (
-    <div className="pb-5 mx-10 text-center">
+    <div className="pb-5 mx-10 text-center -z-50">
       <Slider {...settings}>
         {drinks.map((drink) => (
           <div key={drink.id} className="">

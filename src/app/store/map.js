@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -13,12 +14,12 @@ L.Icon.Default.mergeOptions({
 
 const MapComponent = () => {
     return (
-        <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: "400px", width: "100%" }}>
+        <MapContainer center={[50.90629, -114.06438]} zoom={20} style={{ height: "400px", width: "100%" }} >
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            <Marker position={[51.505, -0.09]}>
+            <Marker position={[50.90629, -114.06438]}>
                 <Popup>
                     A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
@@ -27,4 +28,9 @@ const MapComponent = () => {
     );
 }
 
+
+
 export default MapComponent;
+
+
+// 50.90629/-114.06438
