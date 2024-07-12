@@ -42,7 +42,7 @@ export const IceSelector = ({drink,ice,soy,handleIceChange, initialAmt = ''}) =>
               <select 
                 value={ice} 
                 onChange={handleIceChange}
-                className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 py-4 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="block w-11/12 justify-center mx-auto mt-1 bg-white border border-gray-300 text-gray-700 h-16 px-3 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               >
 
                 <option disabled>Select an Ice Level</option>
