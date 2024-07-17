@@ -9,7 +9,6 @@ export const QuantityCounter = ({quantity,setQuantity}) => {
         if (quantity > 1) {
             setQuantity(prev => prev - 1);
         }
-        
         if(quantity === 2)
         {
             setDecrementDisabled(false)
@@ -29,9 +28,12 @@ export const QuantityCounter = ({quantity,setQuantity}) => {
                 onClick={decrementCounter}
                 disabled={quantity === 1}
             >
-                {decrementDisabled && (
-                    <p >-</p>
-                )}
+
+                    {decrementDisabled && (
+                        <p >-</p>
+                    )}
+
+
 
                 {!decrementDisabled && (
                     <p className="text-gray-500">-</p>

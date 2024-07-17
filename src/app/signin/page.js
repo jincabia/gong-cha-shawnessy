@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, sendPasswordResetEmail, } from "firebase/auth";import { useAuth } from '../authContext/AuthContext';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, sendPasswordResetEmail, } from "firebase/auth";
+import { useAuth } from '../authContext/AuthContext';
 import { writeUserData } from '../components/writeuserdata/writeuserdata';
 import GoogleIcon from '@mui/icons-material/Google';
 import EmojiPeopleRoundedIcon from '@mui/icons-material/EmojiPeopleRounded';
@@ -55,7 +56,7 @@ const SignIn = () => {
         const user = result.user;
         setError(null); // Clear any previous errors
         // console.log('Signed in user:', user);
-        router.push('/')
+        router.back();
         writeUserData(user);
 
       })
@@ -102,29 +103,31 @@ const SignIn = () => {
         <>
         
           
-          <main className='text-black p-4 flex flex-col mx-auto lg:w-1/2  '>
+          <main className='text-black p-4 flex flex-col mx-auto md:w-5/12 lg:w-fit  '>
 
           
-            <h1 className='sm:text-large md:text-2xl font-bold mb-4 border-b-2 border-slate-300 lg:w-fit  '>{"Hi, you're all ready to get started!"}</h1>
+            <h1 className='sm:text-large md:text-2xl font-bold mb-4 border-b-2 border-slate-300 lg:w-fit text-center mx-auto  '>
+              {"Hi, you're all ready to get started!"}
+              </h1>
 
             {/* TODO */}
 
-            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/2 '>
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-full md:w-full text-center mx-auto'>
               <div className='mb-2'>
                 <div className='text-lg font-medium'>Start Browsing the Menu.</div>
               </div>
-              <button className=" bg-red-800 rounded-md py-2 px-4 text-white shadow-md" 
+              <button className=" bg-red-800 rounded-md py-2 px-4 text-white shadow-md w-full" 
             onClick={()=> router.push('/menu')}>Browse the menu</button>
             </div>
 
-            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-1/2 '>
+            <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md lg:w-full md:w-full text-center mx-auto '>
               <div className='mb-4'>
                 <div className='text-sm text-gray-600'>Signed in as:</div>
                 <div className='font-medium'>{user.email}</div>
               </div>
               <button
                 onClick={signOut}
-                className='bg-red-800 rounded-md py-2 px-4 text-white shadow-md'
+                className='bg-red-800 rounded-md py-2 px-4 text-white shadow-md w-full'
               >
                 Sign Out
               </button>

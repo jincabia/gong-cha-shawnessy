@@ -1,4 +1,5 @@
 'use client';
+import { forwardRef } from "react";
 
 const restrictionsMap = {
     0: [],
@@ -12,9 +13,9 @@ const restrictionsMap = {
     8: ['SugarNotAdjustable', 'GreaterThanLessIce', 'NotAvailableHot']
 };
 
-export const SizeSelector = ({ drink, size, handleSizeChange, ice }) => {
+export const SizeSelector = forwardRef(({ drink, size, handleSizeChange, ice }, ref) => {
     return (
-        <div>
+        <div ref={ref}>
             {!restrictionsMap[drink.restrictions]?.includes('MediumSizeOnly') && (
                 <div>
                     <label className="block text-gray-700 text-sm font-bold mb-10 justify-center mx-5">
@@ -38,4 +39,5 @@ export const SizeSelector = ({ drink, size, handleSizeChange, ice }) => {
             )}
         </div>
     );
-};
+});
+

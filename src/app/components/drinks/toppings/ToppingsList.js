@@ -113,39 +113,45 @@ export const ToppingsList = ({ handleToppingChange, toppingCount, drink,soy,hand
                 ))}
             </div>
 
-            
+            {/* Conditional render if the drink.soySubAllowed is true or false */}
 
-            {/* This is for the soy */}
-            <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
-                    <div className="container mx-auto grid grid-cols-8 gap-5 items-center ">
-                    
-                        {/* Name */}
-                        <div className="col-span-2 flex items-center justify-start ">
-                            <h1 className="text-sm font-semibold">Soy Alternative</h1>
-                        </div>
+            {drink.soySubAllowed && (
+                <div>
 
-                        {/* Price */}
-                        <div className="col-span-2 flex items-center justify-center ">
-                            <h1 className="text-sm text-gray-700 ml-2">$0.50</h1>
-                        </div>
+                    <div className="topping-item border-b border-black py-8 w-4/5 mx-auto ">
+                            <div className="container mx-auto grid grid-cols-8 gap-5 items-center ">
+                            
+                                {/* Name */}
+                                <div className="col-span-2 flex items-center justify-start ">
+                                    <h1 className="text-sm font-semibold">Soy Alternative</h1>
+                                </div>
 
-                        {/* Counter */}
-                        <div className="col-span-3 flex items-center justify-end ">
-                            <input
-                                type="checkbox"
-                                checked={soy}
-                                onChange={handleSoy}
-                                className="ml-2"
-                            />
-                        </div>
+                                {/* Price */}
+                                <div className="col-span-2 flex items-center justify-center ">
+                                    <h1 className="text-sm text-gray-700 ml-2">$0.50</h1>
+                                </div>
+
+                                {/* Counter */}
+                                <div className="col-span-3 flex items-center justify-end ">
+                                    <input
+                                        type="checkbox"
+                                        checked={soy}
+                                        onChange={handleSoy}
+                                        className="ml-2"
+                                    />
+                                </div>
+                            </div>
+                            {!restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable') && (
+                        <p className='w-fit mx-auto  text-gray-700 text-xs pt-5'>
+                            *Drinks made with Soy Milk cannot be done with No Ice or Hot.
+                            </p>
+                    )}
+
                     </div>
-                    {!restrictionsMap[drink.restrictions]?.includes('IceNotAdjustable') && (
-                  <p className='w-fit mx-auto  text-gray-700 text-xs pt-5'>
-                    *Drinks made with Soy Milk cannot be done with No Ice or Hot.
-                    </p>
-            )}
 
-            </div>
+                </div>
+            )}
+            {/* This is for the soy */}
 
             
 

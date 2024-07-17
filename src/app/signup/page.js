@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useState,useRef  } from 'react';
 import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
 import { useAuth } from '../authContext/AuthContext';
 import { writeUserData } from '../components/writeuserdata/writeuserdata';
@@ -26,6 +26,13 @@ const Signup = ({ message }) => {
   const { user, signOut } = useAuth();
 
   const router = useRouter();
+
+  const emailRef = useRef(null);
+  const passRef = useRef(null);
+  const confirmPassRef = useRef(null);
+
+  const [msg,setMsg] = useState('');
+
   
 
   const signInWithGoogle = () => {
@@ -44,34 +51,69 @@ const Signup = ({ message }) => {
       });
   };
 
+  const handleErrorMsg = (message) =>
+  {
+    if(message === 'Firebase: Error (auth/email-already-in-use).')
+    {
+      setError('Email already in use.');
+    }
+
+  }
+
   const signUpWithEmail = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
+    setError('')
+    setMsg('')
+    if(!email)
+    {
+      setError('Please enter an email.')
+      emailRef.current.focus();
       return;
     }
+
+    if(!password || !confirmPassword)
+    {
+      setError("Please enter a password")
+      passRef.current.focus();
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      confirmPassRef.current.focus();
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         setError(null); // Clear any previous errors
         // console.log('Signed up user:', user);
         writeUserData(user);
+        console.log(user);
         sendEmailVerification(user)
           .then(() => {
             // console.log('Email verification sent!');
-            setError('A verification email has been sent to your email address. Please verify your email.');
+            
+            setMsg('A verification email has been sent to your email address.');
+            setError('')
             auth.signOut(); // Sign out the user immediately
           })
+          // Error in email verification sending
           .catch((error) => {
+
             setError(error.message);
             // console.error('Email verification error:', error);
           });
-      })
-      .catch((error) => {
-        setError(error.message);
+        })
+        .catch((error) => {
+          // console.log(error)
+        handleErrorMsg(error.message)
+        // setError(error.message);
         // console.error('Sign-up error:', error);
       });
   };
+
 
   return (
     <div className=" items-center justify-center h-max   pb-10 "> {/**bg-gray-50 */}
@@ -93,21 +135,24 @@ const Signup = ({ message }) => {
             <form className="flex flex-col " onSubmit={signUpWithEmail}>
                 <input
                     type="email"
-                    className="rounded-md py-2 px-3 mb-5 border border-gray-300"
+                    ref={emailRef}
+                    className={`rounded-md py-2 px-3 mb-5 border ${error && email === '' ? 'border-red-500' : 'border-gray-300'} `}
                     placeholder="Enter Your Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                     type="password"
-                    className="rounded-md py-2 px-3 mb-5 border border-gray-300"
+                    ref={passRef}
+                    className={`rounded-md py-2 px-3 mb-5 border ${error && password === '' ? 'border-red-500' : 'border-gray-300'}`}
                     placeholder="Enter Your Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <input
                     type="password"
-                    className="rounded-md py-2 px-3 mb-5 border border-gray-300"
+                    ref={confirmPassRef}
+                    className={`rounded-md py-2 px-3 mb-5 border ${error && password !== confirmPassword ? 'border-red-500' : 'border-gray-300'}`}
                     placeholder="Confirm Your Password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -115,6 +160,10 @@ const Signup = ({ message }) => {
                 <button type="submit" className="bg-red-800 text-white rounded-md py-2 px-3 mb-3">
                     Sign Up
                 </button>
+
+                {error && <div className="text-red-600 my-4">{error}</div>}
+                {msg && <div className="text-slate-600 my-4">{msg}</div>}
+
             </form>
 
             <div className='flex items-center justify-between pb-5'>
@@ -140,7 +189,7 @@ const Signup = ({ message }) => {
                   Sign in to your Account
                 </button>
 
-            {error && <div className="text-red-600 mt-4">{error}</div>}
+            
       </div>
     </div>
   );
