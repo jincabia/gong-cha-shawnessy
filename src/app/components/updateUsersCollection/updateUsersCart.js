@@ -9,7 +9,6 @@ const updateUserCart = async (userId, newItem) => {
     await updateDoc(userRef, {
       cart: arrayUnion(newItem) // Use arrayUnion to add newItem to the existing cart array
     });
-    // console.log('Cart item added successfully');
 
     // Count the amt of times the drink was added
 
@@ -17,6 +16,9 @@ const updateUserCart = async (userId, newItem) => {
   } catch (e) {
     console.error('Error updating cart: ', e);
   }
+
+  
+
 };
 
 export default updateUserCart;

@@ -10,6 +10,7 @@ import updateCartQuantity from "../components/ReadCart/AdjustQuantity";
 import ImageComponent from "../components/image/ImageComponent";
 import { EmptyCart } from "./EmptyCart";
 import SignIn from "../signin/page";
+import { getCartData } from "../components/drinks/retrieveDrink";
 
 export default function CartPage() {
   // database cart
@@ -33,7 +34,6 @@ export default function CartPage() {
     try {
       setLoading(true)
       const cartData = await readUserCart(user.uid);
-      console.log(cartData)
       if (!cartData || cartData.length === 0) {
         setLoading(false);
         return;
@@ -148,7 +148,7 @@ export default function CartPage() {
       ) : (
         <>
           {cart.map((drink, index) => (
-            <div key={index} className="even:py-6" >
+            <div key={index} className="pt-4 even:py-6" >
               <DrinkItemFromCart
                 drink={drink}
                 index={index}
