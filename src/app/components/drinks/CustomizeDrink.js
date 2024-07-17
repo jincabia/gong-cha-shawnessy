@@ -75,6 +75,12 @@ const CustomizeDrink = () => {
   const [errorMessage, setErrorMessage] = useState(""); // State to store error message
   const errorRef = useRef(null); // Reference to the error message div
 
+  const sizeRef = useRef(null);
+  const iceRef = useRef(null);
+  const sugarRef = useRef(null);
+
+
+
 
   // Success Msgs when drink is properly put into cart
   
@@ -203,6 +209,21 @@ const CustomizeDrink = () => {
     if (missingField !== "") {
       setErrorMessage(`Please select a ${missingField}.`);
       setShowError(true);
+      if (missingField === 'Size' && sizeRef.current) {
+        sizeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        sizeRef.current.focus();
+      }
+
+      if (missingField === 'Sugar Level' && sugarRef.current) {
+        sugarRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        sugarRef.current.focus();
+      }
+
+      if (missingField === 'Ice Level' && iceRef.current) {
+        iceRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        iceRef.current.focus();
+      }
+
 
       // Scroll to the missing field
       if (errorRef.current) {
@@ -383,8 +404,8 @@ const CustomizeDrink = () => {
 
         {/* Error Popup */}
         {showError && (
-          <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-4 rounded-lg shadow-lg text-center w-3/4">
+          <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+            <div className="bg-white p-4 rounded-lg shadow-lg text-center w-3/4 lg:w-1/4">
               <p className="text-red-500 mb-2">{errorMessage}</p>
               <button onClick={() => setShowError(false)} className="block mx-auto bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">Close</button>
             </div>
@@ -417,14 +438,14 @@ const CustomizeDrink = () => {
           
 
           {/* Size Changes */}
-          <SizeSelector drink={drink} size={size} handleSizeChange={handleSizeChange}  ice={ice}/>
+          <SizeSelector drink={drink} size={size} handleSizeChange={handleSizeChange}  ice={ice} ref={sizeRef}/>
 
           {/* Sugar Changes */}
           <SugarSelector drink={drink} sugar={sugar} handleSugarChange={handleSugarChange}/>
             
 
           {/* Ice Changes */}
-          <IceSelector drink={drink} ice={ice} soy={soy} handleIceChange={handleIceChange}/>
+          <IceSelector drink={drink} ice={ice} soy={soy} handleIceChange={handleIceChange} ref={iceRef}/>
             
 
         {/* End of Customization div */}

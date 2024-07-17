@@ -40,13 +40,13 @@ const AddToCartModal = ({ onClose, loading, setLoading }) => {
               <div className="flex flex-col space-y-4 w-full">
                     <button
                     onClick={handleContinueBrowsing}
-                    className="bg-red-700 text-white px-4 py-2 w-full rounded-md shadow hover:bg-red-400"
+                    className="bg-red-700 text-white px-4 py-2 w-full rounded-md shadow hover:bg-red-800"
                     >
                     Continue Browsing
                     </button>
                     <button
                     onClick={handleViewCart}
-                    className="bg-red-700 text-white px-4 py-2 w-full rounded-md shadow"
+                    className="bg-red-700 text-white px-4 py-2 w-full rounded-md shadow hover:bg-red-800"
                     >
                     View Cart
                     </button>

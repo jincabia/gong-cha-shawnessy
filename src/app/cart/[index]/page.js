@@ -113,7 +113,7 @@
                const cartItemData = userData.cart[cartIndex];
                
                if (!cartItemData) {
-               setError('Cart item not found');
+               setError('404 Cart item not found');
                setLoading(false);
                return;
                }
@@ -157,6 +157,10 @@
          fetchToppings();
 
       }, [cartIndex, user]);
+
+      const sizeRef = useRef(null);
+      const iceRef = useRef(null);
+      const sugarRef = useRef(null);
 
 
 
@@ -244,6 +248,27 @@ const handleSaveChanges = async () => {
      setErrorMessage(`Please select a ${missingField}.`);
      setShowError(true);
 
+     if (missingField === 'Size' && sizeRef.current) {
+      sizeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      sizeRef.current.focus();
+    }
+
+    if (missingField === 'Sugar Level' && sugarRef.current) {
+      sugarRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      sugarRef.current.focus();
+    }
+
+    if (missingField === 'Ice Level' && iceRef.current) {
+      iceRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      iceRef.current.focus();
+    }
+
+
+    // Scroll to the missing field
+    if (errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
      // Scroll to the missing field
      if (errorRef.current) {
        errorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -309,7 +334,8 @@ const handleSaveChanges = async () => {
    try {
        if (!user || !user.uid) {
            setError('User is not authenticated');
-           return;
+           
+           
        }
 
        const userDocRef = doc(db, 'users', user.uid);
@@ -389,119 +415,95 @@ const handleSoy = () => {
      }
 
 
-   return (
-
-      <div className='text-black lg:w-1/3 mx-auto'>
-         {/* <button onClick={()=> console.log(drink)}>Clickme</button> */}
-         <button onClick={()=> router.back()} className='m-2'>
-            <ChevronLeftIcon fontSize='large'/>
-         </button>
-
-         {showSuccess && (
-            <div>
-              <EditCartModal onClose={() => handleClose()} loading={loading} setLoading={setLoading} />
+     return (
+      <div className='text-black  lg:w-1/3 mx-auto'>
+    
+        {/* User not logged in */}
+        {!user && (
+          <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md w-fit mx-auto lg:w-full'>
+            <div className='mb-2'>
+              <div className='text-lg font-medium'>Signing in is required to edit drinks</div>
             </div>
-          )}
+            <button className="bg-red-800 w-full rounded-md py-2 px-4 text-white shadow-md" onClick={() => router.push('/signin')}>Sign in/Sign up</button>
+          </div>
+        )}
 
-      {showError && (
-          <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-4 rounded-lg shadow-lg text-center w-3/4">
-              <p className="text-red-500 mb-2">{errorMessage}</p>
-              <button onClick={() => setShowError(false)} className="block mx-auto bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700">Close</button>
+
+
+    
+        {/* Show if there is something wrong */}
+        {error && (
+          <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50  ">
+            <div className="bg-white p-4 rounded-lg shadow-lg text-center w-10/12 lg:w-1/4">
+              <p className="text-slate-700 mb-2 w-fit text-center mx-auto text-sm font-medium">Error Occurred : 404 {error}</p>
+              <button onClick={() => router.push('/menu')} className="block mx-auto bg-red-800 text-white py-2 w-full px-4 rounded hover:bg-red-700">Go to Menu</button>
             </div>
           </div>
         )}
 
-         <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
-            
-
-            {drink.drinkName && (
-
-            <ImageComponent imagePath={`${drink.drinkName}.png`}/>
-            )}
-
-            {!drink.drinkName &&
-               <div className='spinner'></div>
-            }
-
-         </div>
-
-         {/* Drink Details */}
-         <div className='flex justify-between mb-10 mx-5 border-b-2 border-black'>
-            <h1>{drink.drinkName}</h1>
-         </div>
-
-         {/* Render customization options here */}
 
 
-         <div>
-          
-
-          {/* Size Changes */}
-          <SizeSelector drink={drink} size={size} handleSizeChange={handleSizeChange}  ice={ice}/>
-
-          {/* Sugar Changes */}
-          <SugarSelector drink={drink} sugar={sugar} handleSugarChange={handleSugarChange}/>
-            
-
-          {/* Ice Changes */}
-          <IceSelector drink={drink} ice={ice} soy={soy} handleIceChange={handleIceChange}/>
-
-            
-
-        {/* End of Customization div */}
-        </div>
-
-
-         <div className='text-center'>
-            <p className='text-sm text-gray-700 underline'>Max 4 Additional Toppings</p>
-         </div>
-         {/* When adding toppings only have 4 max */}
-         {/* Display all toppings from DB */}
-        
-         <ToppingsList handleToppingChange={handleToppingChange} 
-         toppingCount={toppingCount} drink={drink} soy={soy} handleSoy={handleSoy}
-         />
-
-         <div>
-            <QuantityCounter quantity={quantity} setQuantity={setQuantity}/>
-          </div>
-
-          <button 
-        onClick={()=>handleSaveChanges()} 
-        className='flex justify-around items-center mb-10 mt-2 text-center 
-        bg-red-800
-      text-white rounded-md  w-3/4 mx-auto 
-      shadow-md'>
-          <button 
-            onClick={()=>handleSaveChanges()} 
-            className="bg-red-800 rounded-md py-2 px-4  "
-          >
-            Add to Cart 
-          </button>
-          <p>-</p>
-          <h1 className='py-2 px-4 font-semibold '>${(price.toFixed(2)* quantity).toFixed(2)}</h1>
-          
-          </button>
-
-
-
-
-         {/* Display the final Price after adjustments
-         <div className='flex justify-around items-center my-10 mx-auto '>
-            <h1 className='underline'>${price.toFixed(2)}</h1>
-            <button 
-               onClick={()=>handleSaveChanges()} 
-               className="bg-red-800 rounded-md py-2 px-4 text-white shadow-md"
-            >
-               Save Changes
+    
+        {/* Drink */}
+        {user && !error && (
+          <div>
+            <button onClick={() => router.back()} className='m-2'>
+              <ChevronLeftIcon fontSize='large'/>
             </button>
-            
-         </div> */}
-
-         <p>{error}</p>
-         </div>
-
-         
-   );
+    
+            {showSuccess && (
+              <div>
+                <EditCartModal onClose={() => handleClose()} loading={loading} setLoading={setLoading} />
+              </div>
+            )}
+    
+            <div className='w-1/2 mx-auto sm:w-64 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5'>
+              {drink.drinkName ? (
+                <ImageComponent imagePath={`${drink.drinkName}.png`}/>
+              ) : (
+                <div className='spinner'></div>
+              )}
+            </div>
+    
+            {/* Drink Details */}
+            <div className='flex justify-between mb-10 mx-5 border-b-2 border-black'>
+              <h1>{drink.drinkName}</h1>
+            </div>
+    
+            {/* Render customization options here */}
+            <div>
+              {/* Size Changes */}
+              <SizeSelector drink={drink} size={size} handleSizeChange={handleSizeChange} ice={ice} ref={sizeRef}/>
+    
+              {/* Sugar Changes */}
+              <SugarSelector drink={drink} sugar={sugar} handleSugarChange={handleSugarChange} ref={sugarRef}/>
+    
+              {/* Ice Changes */}
+              <IceSelector drink={drink} ice={ice} soy={soy} handleIceChange={handleIceChange} ref={IceSelector}/>
+            </div>
+    
+            <div className='text-center'>
+              <p className='text-sm text-gray-700 underline'>Max 4 Additional Toppings</p>
+            </div>
+    
+            {/* Toppings */}
+            <ToppingsList handleToppingChange={handleToppingChange} toppingCount={toppingCount} drink={drink} soy={soy} handleSoy={handleSoy}/>
+    
+            <div>
+              <QuantityCounter quantity={quantity} setQuantity={setQuantity}/>
+            </div>
+    
+            <button onClick={() => handleSaveChanges()} className='flex justify-around items-center mb-10 mt-2 text-center bg-red-800 text-white rounded-md w-3/4 mx-auto shadow-md'>
+              <button onClick={() => handleSaveChanges()} className="bg-red-800 rounded-md py-2 px-4">
+                Save Changes 
+              </button>
+              <p>-</p>
+              <h1 className='py-2 px-4 font-semibold'>${(price.toFixed(2) * quantity).toFixed(2)}</h1>
+            </button>
+          </div>
+        )}
+    
+      </div>
+    );
+    
    }
