@@ -51,3 +51,7 @@ const restrictionsMap = {
         </div>
     );
 });
+
+SugarSelector.displayName = 'SugarSelector';
+
+export default SugarSelector

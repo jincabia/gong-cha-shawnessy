@@ -57,3 +57,7 @@ export const IceSelector = forwardRef(({ drink, ice, soy, handleIceChange, initi
         </div>
     );
 });
+
+IceSelector.displayName = 'IceSelector';
+
+export default IceSelector

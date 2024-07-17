@@ -41,3 +41,6 @@ export const SizeSelector = forwardRef(({ drink, size, handleSizeChange, ice }, 
     );
 });
 
+SizeSelector.displayName = 'SizeSelector';
+
+export default SizeSelector
