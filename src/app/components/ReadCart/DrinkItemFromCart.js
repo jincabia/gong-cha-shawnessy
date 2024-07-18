@@ -53,7 +53,7 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
     }, {});
   
     return (
-      <div className="bg-white rounded-lg shadow-md p-4 mb-4 lg:w-1/2 lg:mx-auto">
+      <div className="bg-white rounded-lg shadow-md p-4 mb-4 w-11/12 mx-auto lg:w-1/2 lg:mx-auto">
         {deleting ? (
           <div className="flex text-center items-center justify-center">
             <div className="spinner mx-auto w-1/2" style={{ width: 100, height: 100 }}></div>
