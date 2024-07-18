@@ -20,9 +20,17 @@ import { Grow } from "@mui/material";
 
 
 export default function GongNav() {
+
+  // In Mobile if the NavBar is hidden or not
+  // It changes once the user clicks the hamburger menu
   const [hidden, setHidden] = useState(false);
 
+
+  // Checks if the user is authenticated
   const {user,signOut} = useAuth();
+
+
+  // These handle the routing for each component
 
   const router = useRouter();
 
