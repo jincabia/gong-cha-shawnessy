@@ -69,17 +69,6 @@ export default function GongNav() {
           } transition-opacity duration-300 ease-in-out bg-white max-h-screen max-x-screen`}
         >
           
-          {/* <div className="text-black"> Bruh bruh bruh</div> */}
-
-          {/* <Image
-              src="/logoWithTagline.png"
-              width={175}
-              height={175}
-              className="p-7"
-              alt="Gong Cha"
-              onClick={()=> router.push('/')}
-              priority
-            /> */}
 
           {/* Button to close the nav bar */}
           <div className="flex justify-between mt-5">
@@ -209,7 +198,7 @@ export default function GongNav() {
 
 
             </div>
-            
+
           </Grow>
 
 
