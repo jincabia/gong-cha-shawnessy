@@ -19,6 +19,9 @@ export default function Home() {
   return (
     <main className="flex flex-col">
 
+    <meta name="google-site-verification" 
+    content="jVTFJOBtuYt_NAw45ZXQ9dtejqQsqri4C3inWYHRY4o" />
+
 
     <script type="application/ld+json">
         {JSON.stringify({
