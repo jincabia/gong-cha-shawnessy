@@ -7,12 +7,15 @@ const MapComponent = dynamic(() => import('./map'), { ssr: false });
 export default function StorePage() {
     return (
         <main className="">
-            {/* <div className=" bg-cover bg-center" style={{ backgroundImage: "url('/GongchaBlogAUG2-1024x688.jpg')" }}>
-                <div className="flex flex-col items-center justify-center text-white text-center min-h-screen bg-black bg-opacity-50">
-                    <p className="text-red-800 tracking-widest">OUR STORE</p>
-                    <h1 className="text-4xl font-serif py-5">Where to find us</h1>
-                </div>
-            </div> */}
+           <title>Gong Cha Shawnessy - Store</title>
+
+        <meta name="description" 
+        content="Welcome to Gong Cha Shawnessy, find out where to find us and contact us." />
+
+        <meta name="keywords" 
+        content="bubble tea,boba, Gong Cha,Gong Cha Calgary,Gong Cha Shawnessy,
+        Gong Cha Canada, menu, store locations, story, Location" />
+        
             <Store/>
 
 

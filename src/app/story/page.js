@@ -4,18 +4,14 @@ import { Story } from "./story";
 export default function OurStory() {
     return (
         <div className="flex flex-col min-h-screen">
+            <title>Gong Cha Shawnessy - Story</title>
+        <meta name="description" content="Welcome to Gong Cha Shawnessy, take a look at out Story and the history of Gong Cha" />
+        <meta name="keywords" content="bubble tea,boba, Gong Cha,Gong Cha Calgary,Gong Cha Shawnessy,Gong Cha Canada, menu, store locations, story, history" />
             <Story />
             
             <div className="flex-grow flex items-center justify-center">
                 <div className="w-10/12 max-w-5xl mx-auto p-4">
                     <div className="relative -z-50">
-                        {/* <Image 
-                            src="/story.jpg" 
-                            alt="Our Story"
-                            layout="fill"
-                            objectFit="cover"
-                        /> */}
-
                         <Image 
                             src="/story.jpg" 
                             alt="Our Story"
