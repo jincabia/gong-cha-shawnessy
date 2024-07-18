@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+
+// Individual Component for the Menu Page
 const OurMenu = () => {
     const router = useRouter();
 

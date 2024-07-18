@@ -15,13 +15,22 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import { Grow } from "@mui/material";
 
-// TODO Start filling up pages
+
 
 export default function GongNav() {
+
+  // In Mobile if the NavBar is hidden or not
+  // It changes once the user clicks the hamburger menu
   const [hidden, setHidden] = useState(false);
 
+
+  // Checks if the user is authenticated
   const {user,signOut} = useAuth();
+
+
+  // These handle the routing for each component
 
   const router = useRouter();
 
@@ -60,22 +69,14 @@ export default function GongNav() {
     <header className="bg-white fixed top-0 left-0 w-full lg:z-10 z-40">
         {/* Mobile Nav bar */}
       {hidden ? (
+
+
         <div
           className={`fixed inset-0 z-10${
             hidden ? "opacity-100" : "opacity-0 pointer-events-none"
           } transition-opacity duration-300 ease-in-out bg-white max-h-screen max-x-screen`}
         >
-          {/* <div className="text-black"> Bruh bruh bruh</div> */}
-
-          {/* <Image
-              src="/logoWithTagline.png"
-              width={175}
-              height={175}
-              className="p-7"
-              alt="Gong Cha"
-              onClick={()=> router.push('/')}
-              priority
-            /> */}
+          
 
           {/* Button to close the nav bar */}
           <div className="flex justify-between mt-5">
@@ -105,104 +106,110 @@ export default function GongNav() {
 
           </div>
 
-          <div className="grid justify-items-start text-black">
+          <Grow in={hidden}>
 
-          {/* <div className="flex pl-5 py-5 space-x-5 h-32 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/')}>
-            <HomeIcon className=""/>
-            <h1 className="text-stone-900 w-full " >
+            <div className="grid justify-items-start text-black">
+
+            {/* <div className="flex pl-5 py-5 space-x-5 h-32 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/')}>
+              <HomeIcon className=""/>
+              <h1 className="text-stone-900 w-full " >
+                  Home
+              </h1>
+
+            </div> */}
+
+            <div
+              className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200"
+              onClick={() => handleNavigation('/')}
+            >
+              <HomeIcon className=""/>
+              <h1 className="text-stone-900">
                 Home
-            </h1>
+              </h1>
+            </div>
+  {/*             
 
-          </div> */}
+              <h1 className="text-stone-900 w-screen border-b border-black pl-5 py-5" onClick={()=>handleNavigation('/')}>
+                  Home
+              </h1> */}
 
-          <div
-            className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200"
-            onClick={() => handleNavigation('/')}
-          >
-            <HomeIcon className=""/>
-            <h1 className="text-stone-900">
-              Home
-            </h1>
-          </div>
-{/*             
+              <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/story')}>
+                <AutoStoriesIcon className=""/>
+                  <h1 className="text-stone-900 w-full " >
+                      Our Story
+                  </h1>
 
-            <h1 className="text-stone-900 w-screen border-b border-black pl-5 py-5" onClick={()=>handleNavigation('/')}>
-                Home
-            </h1> */}
+              </div>
 
-            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/story')}>
-              <AutoStoriesIcon className=""/>
+
+              
+
+
+              <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/menu')}>
+                <MenuBookIcon className=""/>
                 <h1 className="text-stone-900 w-full " >
-                    Our Story
+                    Our Menu
                 </h1>
 
-            </div>
+              </div>
 
+              <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/store')}>
+                <MapIcon className=""/>
+                <h1 className="text-stone-900 w-full " >
+                    Our Store
+                </h1>
 
-            
-
-
-            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/menu')}>
-              <MenuBookIcon className=""/>
-              <h1 className="text-stone-900 w-full " >
-                  Our Menu
-              </h1>
-
-            </div>
-
-            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/store')}>
-              <MapIcon className=""/>
-              <h1 className="text-stone-900 w-full " >
+              </div>
+  {/* 
+              <h1 className="text-stone-900 w-screen border-b border-black pl-5 py-5" onClick={()=>handleNavigation('/store')}>
                   Our Store
-              </h1>
+              </h1> */}
+
+              {user && (
+                <>
+
+              <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/cart')}>
+                <ShoppingCartIcon className=""/>
+                <h1 className="text-stone-900 w-full " >
+                    Your Cart
+                </h1>
+
+              </div>
+                </>)}
+
+
+                {/* If the user is not authenticated, and they attempt to check their cart
+                    it sends them to sign in using google
+                */}
+              {!user && (
+                <>
+              <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/signin')}>
+                <AccountBoxRoundedIcon className="" sx={{ color: grey[900] }}/>
+                <h1 className="text-stone-900 w-full " >
+                    Login/Signup
+                </h1>
+
+              </div>
+                
+                </>
+              )}
+
+              {user && (
+                <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={signOut}>
+                <LogoutRoundedIcon className="" sx={{ color: grey[900] }}/>
+                <h1 className="text-stone-900 w-full " >
+                    Sign Out
+                </h1>
+
+              </div>
+              )}
+
 
             </div>
-{/* 
-            <h1 className="text-stone-900 w-screen border-b border-black pl-5 py-5" onClick={()=>handleNavigation('/store')}>
-                Our Store
-            </h1> */}
 
-            {user && (
-              <>
-
-            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/cart')}>
-              <ShoppingCartIcon className=""/>
-              <h1 className="text-stone-900 w-full " >
-                  Your Cart
-              </h1>
-
-            </div>
-              </>)}
+          </Grow>
 
 
-              {/* If the user is not authenticated, and they attempt to check their cart
-                  it sends them to sign in using google
-              */}
-            {!user && (
-              <>
-            <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={()=>handleNavigation('/signin')}>
-               <AccountBoxRoundedIcon className="" sx={{ color: grey[900] }}/>
-               <h1 className="text-stone-900 w-full " >
-                  Login/Signup
-              </h1>
-
-            </div>
-              
-              </>
-            )}
-
-            {user && (
-              <div className="flex items-center justify-start pl-5 py-5 space-x-5 h-24 mx-auto w-screen border-b border-slate-200" onClick={signOut}>
-               <LogoutRoundedIcon className="" sx={{ color: grey[900] }}/>
-               <h1 className="text-stone-900 w-full " >
-                  Sign Out
-              </h1>
-
-            </div>
-            )}
-
-
-          </div>
 
 
 

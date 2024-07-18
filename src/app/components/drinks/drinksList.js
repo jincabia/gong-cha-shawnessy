@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getDrinks } from './retrieveDrink';
+import { getDrinks,addDrinksToCartData,getCartData } from './retrieveDrink';
 import DrinksCarousel from '../carousel/DrinksCarousel';
 import Drink from './drinks';
 import Filter from './filterDrinks';
@@ -24,7 +24,38 @@ const DrinksList = () => {
       }
     };
 
+
+    
+
+    const fetchCartData = async () =>
+      {
+        try{
+          const cartData = await getCartData();
+        }
+        catch(error)
+        {
+          console.error(error)
+        }
+
+      }
+
+    const addDrinks = async () =>
+    {
+      try{
+        console.log('hi')
+        await addDrinksToCartData();
+      }
+      catch(error)
+      {
+        console.log('wtf')
+        console.log(error)
+      }
+    }
+
     fetchDrinks();
+    addDrinks();
+    fetchCartData();
+
   }, []);
 
   const bestSellers = drinks.filter(drink => 

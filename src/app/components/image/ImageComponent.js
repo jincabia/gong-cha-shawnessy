@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { storage, ref, getDownloadURL } from "@/app/_utils/firebase";
 import Image from "next/image";
 
+
+// This helps read images from the firebase storage
+// Pass in the imagePath aka {drinkName}.png
 const ImageComponent = ({ imagePath }) => {
   const [imageUrl, setImageUrl] = useState("");
 

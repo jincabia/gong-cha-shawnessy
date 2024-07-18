@@ -18,7 +18,7 @@ import { SugarSelector } from './selectors/SugarSelector';
 import { IceSelector } from './selectors/IceSelector';
 import { ToppingsList } from './toppings/ToppingsList';
 import { QuantityCounter } from './quantityCounter';
-
+import { updateCartData } from '@/app/components/drinks/retrieveDrink';
 const restrictionsMap = {
   0: [],
   1: ['MediumSizeOnly'],
@@ -316,6 +316,7 @@ const CustomizeDrink = () => {
     
 
   updateUserCart(user.uid,customDrink);
+  updateCartData(drinkID);
 
   // Show success message and set timeout to hide it after 3 seconds
   setShowSuccess(true);

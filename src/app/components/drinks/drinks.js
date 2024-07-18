@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
 import { styled } from '@mui/system';
@@ -8,6 +8,7 @@ import { useAuth } from '@/app/authContext/AuthContext';
 import CloseIcon from '@mui/icons-material/Close';
 import { grey, red } from "@mui/material/colors";
 import Image from 'next/image';
+import { addDrinksToNewCollection } from './retrieveDrink';
 
 
 
@@ -70,6 +71,9 @@ const Drink = ({ name, price, id }) => {
       setPopup(true);
     }
   };
+
+
+  
 
   const handleSigninRedirect = () => {
     router.push('/signin');
