@@ -53,7 +53,6 @@ export default function CartPage() {
 
   const calculateSubtotal = (cartData) => {
     if (!cartData || cartData.length === 0) {
-      // console.log('fart')
       setSubtotal(0);
       setLoading(true)
       return;
@@ -66,19 +65,16 @@ export default function CartPage() {
     setSubtotal(total);
   };
 
-  // useEffect(() => {
-  //   //Runs only on the first render
-  //   calculateSubtotal();
-  // }, [cart]);
+
 
   const removeDrinkFromCart = async (index) => {
     try {
       await removeDrinkFromCartInFirebase(user.uid, index);
       const updatedCart = cart.filter((_, i) => i !== index);
-      setCart(updatedCart);
       calculateSubtotal(updatedCart);
       setLoading(false)
-
+      setCart(updatedCart);
+      
     } catch (error) {
       console.error('Error removing drink from cart:', error);
     }
