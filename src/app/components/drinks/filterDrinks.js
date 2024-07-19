@@ -1,8 +1,12 @@
-import React from 'react';
+'use client'
+import React, {useState,useEffect} from 'react';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { styled } from '@mui/system';
+import { ReadCategory } from './readCategory';
 
-const categories = ['All', 'Smoothie', 'Milk Tea', 'Fresh Milk', 'Fruit Tea', 'Milk Foam', 'Sparklings'];
+
+
+
 const CustomSelect = styled(Select)({
   backgroundColor: '#8B0000', // dark red background
   outline: 'none',
@@ -27,15 +31,38 @@ const CustomMenuItem = styled(MenuItem)({
 });
 
 const Filter = ({ selectedCategory, setSelectedCategory }) => {
+
+  // Have these as default categories
+  const [categories,setCategories] = useState(['All', 'Smoothie', 'Milk Tea', 'Fresh Milk', 'Fruit Tea', 'Milk Foam', 'Sparklings']);
+
+  const fetchCategories = async () => {
+    try {
+      const dbCategories = await ReadCategory();
+      
+      
+      const newCategories = ['All', ...dbCategories.map(c => c.name)];
+
+      setCategories(newCategories);
+
+    } catch (error) {
+      console.error('Error fetching drink:', error);
+    }
+  };
+
+ 
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+
   const handleChange = (event) => {
     setSelectedCategory(event.target.value);
   };
 
   return (
     <FormControl fullWidth >
-      {/* <InputLabel id="category-select-label" style={{ color: 'white' }}>Category</InputLabel> */}
       <CustomSelect
-        // labelId="category-select-label"
         value={selectedCategory}
         onChange={handleChange}
       >
