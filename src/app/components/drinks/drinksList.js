@@ -42,7 +42,6 @@ const DrinksList = () => {
     const addDrinks = async () =>
     {
       try{
-        console.log('hi')
         await addDrinksToCartData();
       }
       catch(error)
@@ -103,7 +102,6 @@ const DrinksList = () => {
       {/* Filter Component */}
 
       <div className='mb-10 lg:w-1/3 mx-auto '>
-      {/* <h1 className='text-start mt-10 text-black font-medium'>View:</h1> */}
 
         <Filter selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} className="" />
       </div>

@@ -50,6 +50,8 @@ export default function Home() {
         <meta name="description" content="Welcome to Gong Cha Shawnessy, your go-to place for the best bubble tea. Check out our story, menu, and store locations." />
         <meta name="keywords" content="bubble tea,boba, Gong Cha,Gong Cha Calgary,Gong Cha Shawnessy,Gong Cha Canada, menu, store locations, story" />
       <ProgressPopup open={open} handleClose={handleClose} />
+
+      
       <OurStory />
       <OurMenu />
       <OurStore />

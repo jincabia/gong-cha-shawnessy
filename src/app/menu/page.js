@@ -1,6 +1,7 @@
 import DrinksList from "../components/drinks/drinksList";
 import Image from "next/image";
 import SignUpDialog from "../components/popup/signinpopup";
+import NewAdditions from "./NewAdditions";
 
 export default function Menu() {
 
@@ -18,6 +19,7 @@ export default function Menu() {
       content="bubble tea,boba, Gong Cha,Gong Cha Calgary,Gong Cha Shawnessy,
       Gong Cha Canada, menu, store locations, story, Location, browse menu, drinks, favorite drinks, Alberta, Canada, Alberta Calgary" />
 
+      <NewAdditions/>
       <DrinksList/>
 
     </main>
