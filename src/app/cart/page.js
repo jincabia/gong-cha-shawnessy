@@ -13,6 +13,9 @@ import {  red } from "@mui/material/colors";
 import SignIn from "../signin/page";
 import { getCartData } from "../components/drinks/retrieveDrink";
 import { CircularProgress, Button, Box, Typography, Slide } from "@mui/material";
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
 
 export default function CartPage() {
   const [cart, setCart] = useState([]);
@@ -88,7 +91,49 @@ export default function CartPage() {
 
   return (
     <main className="text-black">
-      {!user && <SignIn />}
+      {!user &&  (
+          <div  className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50  ">
+            <div className="bg-white p-4 rounded-lg shadow-lg text-center w-10/12 lg:w-1/4">
+            <div className='flex flex-col'>
+
+              <p className="text-red-700 mb-2 w-fit text-center mx-auto  font-medium">You need to be logged in</p>
+
+            </div>
+
+
+              
+              <button className="flex items-center justify-center 
+              space-x-2  py-2 w-full rounded my-2
+              mx-auto  bg-red-800 text-white hover:bg-red-700" 
+              
+              onClick={()=>router.push('/menu')}>
+                <div className='text-left'>
+                <MenuBookIcon className=""/>
+
+                </div>
+                <h1 className="  text-right" >
+                     Browse the Menu
+                </h1>
+              </button>
+
+              <button className="flex items-center justify-center  
+              space-x-2  py-2 w-full rounded my-2
+              mx-auto  bg-red-800 text-white hover:bg-red-700" 
+              
+              onClick={()=>router.push('/signin')}>
+                <div className='text-left'>
+
+                  <AccountCircleOutlinedIcon className=""/>
+                </div>
+                <h1 className="text-right  " >
+                    Go Login/Sign in
+                </h1>
+              </button>
+              
+              
+            </div>
+          </div>
+        )}
       {user && (
         <Box>
           {!cart || cart.length === 0 ? (
