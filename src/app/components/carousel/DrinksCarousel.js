@@ -5,7 +5,7 @@ import Drink from '../drinks/drinks';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const DrinksCarousel = ({ drinks }) => {
+const   DrinksCarousel = ({ drinks }) => {
   const settings = {
     dots: true,
     infinite: true,

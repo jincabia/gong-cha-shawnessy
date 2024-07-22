@@ -18,6 +18,9 @@
    import { SugarSelector } from '@/app/components/drinks/selectors/SugarSelector';
    import { ToppingsList } from '@/app/components/drinks/toppings/ToppingsList';
    import { QuantityCounter } from '@/app/components/drinks/quantityCounter';
+   import MenuBookIcon from '@mui/icons-material/MenuBook';
+   import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+
 
    const restrictionsMap = {
       0: [],
@@ -99,7 +102,7 @@
       useEffect(() => {
          const fetchCartItem = async () => {
          if (!user || !user.uid) {
-            setError('User is not authenticated');
+            setError('You need to be logged in.');
             setLoading(false);
             return;
          }
@@ -333,7 +336,7 @@ const handleSaveChanges = async () => {
 
    try {
        if (!user || !user.uid) {
-           setError('User is not authenticated');
+           setError('User is not Logged in');
            
            
        }
@@ -419,14 +422,14 @@ const handleSoy = () => {
       <div className='text-black  lg:w-1/3 mx-auto'>
     
         {/* User not logged in */}
-        {!user && (
+        {/* {!user && (
           <div className='bg-gray-100 p-4 rounded-lg my-5 shadow-md w-fit mx-auto lg:w-full'>
             <div className='mb-2'>
               <div className='text-lg font-medium'>Signing in is required to edit drinks</div>
             </div>
             <button className="bg-red-800 w-full rounded-md py-2 px-4 text-white shadow-md" onClick={() => router.push('/signin')}>Sign in/Sign up</button>
           </div>
-        )}
+        )} */}
 
 
 
@@ -435,8 +438,44 @@ const handleSoy = () => {
         {error && (
           <div ref={errorRef} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50  ">
             <div className="bg-white p-4 rounded-lg shadow-lg text-center w-10/12 lg:w-1/4">
-              <p className="text-slate-700 mb-2 w-fit text-center mx-auto text-sm font-medium">Error Occurred : 404 {error}</p>
-              <button onClick={() => router.push('/menu')} className="block mx-auto bg-red-800 text-white py-2 w-full px-4 rounded hover:bg-red-700">Go to Menu</button>
+            <div className='flex flex-col'>
+
+              <p className="text-red-700 mb-2 w-fit text-center mx-auto  font-medium">Something went wrong! {`:(`}</p>
+              <p className="text-slate-700 mb-2 w-fit text-center mx-auto text-sm "> {error}</p>
+
+            </div>
+
+
+              
+              <button className="flex items-center justify-center 
+              space-x-2  py-2 w-full rounded my-2
+              mx-auto  bg-red-800 text-white hover:bg-red-700" 
+              
+              onClick={()=>router.push('/menu')}>
+                <div className='text-left'>
+                <MenuBookIcon className=""/>
+
+                </div>
+                <h1 className="  text-right" >
+                     Browse the Menu
+                </h1>
+              </button>
+
+              <button className="flex items-center justify-center  
+              space-x-2  py-2 w-full rounded my-2
+              mx-auto  bg-red-800 text-white hover:bg-red-700" 
+              
+              onClick={()=>router.push('/signin')}>
+                <div className='text-left'>
+
+                  <AccountCircleOutlinedIcon className=""/>
+                </div>
+                <h1 className="text-right  " >
+                    Go Login/Sign in
+                </h1>
+              </button>
+              
+              
             </div>
           </div>
         )}
