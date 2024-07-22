@@ -5,26 +5,27 @@ const NewAdditions = () =>
 {
 
     return(
-        <div className="mt-10">
+        <div className="">
 
-            <div className='text-center w-11/12 mx-auto'>
+            {/* <div className='text-center w-11/12 mx-auto mb-5'>
                 <div className='flex items-center justify-between pb-5'>
                 <div className='flex-grow border-t border-slate-300'></div>
                 <span className='mx-4 text-2xl text-red-800  font-serif'>New Additions</span>
                 <div className='flex-grow border-t border-slate-300'></div>
                 </div>
                 <h1 className='text-black'></h1>
-            </div>
+            </div> */}
 
-            <div className="mx-auto text-center justify-center w-9/12 ">
+            <div className="mx-auto text-center justify-center  " >
                 <Image
-                    src="/FF17.png"
+                    src="/Final-Fantasy_TV_EN-H-no-price.jpg"
                     layout="responsive"
                     objectFit="contain"
-                    width={300}
-                    height={300}
+                    width={200}
+                    height={200}
                     alt="Final Fantasy Collab"
                     priority
+                    style={{ width: 'auto', height: 'auto' }}
                 />
             </div>
 

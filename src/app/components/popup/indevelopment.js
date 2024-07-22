@@ -41,10 +41,13 @@ export const ProgressPopup = ({ open, handleClose }) => {
 
         <div className='flex flex-col mb-2 text-black '>
             
-            <p className='  w-full text-sm'> 
+            <p className='  w-full '> 
                 However, you are able to customize your drinks 
             </p>
-            <p className=' font-semibold text-md my-2'>then call {`(403) 453-4273`}  to order ahead. </p>
+
+            <p className='my-2'>
+              
+              then call <a href='tel:403-453-4273' className='underline font-semibold text-md'> {`(403) 453-4273`} </a>   to order ahead. </p>
         </div>
        Thank you for your understanding.
       </DialogContent>

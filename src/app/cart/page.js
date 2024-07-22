@@ -121,12 +121,49 @@ export default function CartPage() {
           ):(
             // If the price is not loading
             <div className="lg:w-1/2 lg:mx-auto h-1/2 mb-5">
-              <div className="flex justify-between  mx-4 text-large font-medium">
+
+
+            <div className="flex justify-between items-center  text-lg font-medium mx-4 lg:mx-0">
                 <h2>Subtotal</h2>
-                <h2 className=""> ${subtotal.toFixed(2)}</h2>
-              </div>
-              <p className="mx-4 text-sm text-slate-500 ">Tax Not Included</p>
+                <h2 className="  text-right">${(subtotal).toFixed(2)}</h2>
             </div>
+
+              <p className=" text-sm text-slate-500 mx-4 lg:mx-0">Tax Not Included</p>
+
+            
+            {window.innerWidth <= 768 ? (
+              <div>
+                 <div className="w-1/2 mx-auto justify-center text-center my-4">
+
+                      <button className=" bg-red-800 rounded-md py-2 px-4 text-white shadow-md w-fit" 
+                      >
+                        <a href='tel:403-453-4273' className=' font-semibold text-sm'> Call {`(403) 453-4273`} </a> 
+
+                      </button>
+
+                  </div>
+                
+              </div>
+              
+            )
+            :
+            (
+              <div className="w-fit mx-auto my-4">
+                                
+                  <p className=" text-sm font-semibold text-slate-500 mx-4 lg:mx-0"> Call {`(403) 453-4273`} </p>
+                  <p  className=" text-sm font-semibold text-slate-500 mx-4 lg:mx-0"> to place your order.</p>
+
+                
+              </div>
+            )}
+
+           
+
+              
+
+
+      </div>
+            
             
           )}
             </>
