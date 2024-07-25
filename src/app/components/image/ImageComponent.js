@@ -28,7 +28,7 @@ const ImageComponent = ({ imagePath,doneLoading = null }) => {
 
   const handleDoneLoading = () =>
   {
-    if(imageUrl)
+    if(imageUrl && doneLoading )
     {
       doneLoading(false);
     }
