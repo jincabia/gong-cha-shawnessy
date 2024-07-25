@@ -70,7 +70,7 @@ export default function GongNav() {
   
 
     // z index helps make stay in front when opened
-    <header className="bg-white fixed top-0 left-0 w-full lg:z-10 z-50">
+    <header className="bg-white fixed top-0 left-0 w-full lg:z-10 z-50 print:hidden">
         {/* Mobile Nav bar */}
       {hidden ? (
 
