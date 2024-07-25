@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { IconButton, Collapse } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -11,12 +11,37 @@ import updateCartQuantity from "./AdjustQuantity";
 import { useRouter } from "next/navigation";
 import ImageComponent from "../image/ImageComponent";
 
-export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, onQuantityChange }) {
+export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, onQuantityChange, printout=false, doneLoading= null }) {
     const { drinkName, ice, price, size, sugar, toppings, quantity,drinkID } = drink;
 
     const [quantityVar, setQuantityVar] = useState(quantity);
     const [deleting, setDeleting] = useState(false);
-    const [expand, setExpand] = useState(false);
+    const [expand, setExpand] = useState(printout);
+    const [loading,setLoading] = useState(true);
+
+    const handlePrint = () =>
+    {
+      if(printout !== false)
+      {
+        setExpand(true)
+      }
+    }
+
+    useEffect(() => {
+      handlePrint();
+      
+    }, []);
+
+
+    useEffect(()=>
+    {
+
+      if(loading === false && doneLoading !== null)
+      {
+        doneLoading(false)
+      }
+
+    },[loading]);
 
     const router = useRouter();
   
@@ -54,6 +79,9 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
   
     return (
       <div className="bg-white rounded-lg shadow-md p-4 mb-4 w-11/12 mx-auto lg:w-1/2 lg:mx-auto">
+
+
+
         {deleting ? (
           <div className="flex text-center items-center justify-center">
             <div className="spinner mx-auto w-1/2" style={{ width: 100, height: 100 }}></div>
@@ -61,19 +89,9 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
         ) : (
           <div className="flex flex-row items-center justify-evenly">
             <div className="w-1/3 sm:w-1/4 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5">
-              {/* {drinkName ? (
-                <Image
-                  src={`/${drinkName}.png`}
-                  width={100}
-                  height={100}
-                  className="sm:w-28 sm:h-38 md:w-32 md:h-48 lg:w-30 lg:h-48"
-                  alt={drinkName}
-                />
-              ) : (
-                <div className="spinner" style={{ width: 100, height: 100 }}></div>
-              )} */}
+              
 
-              <ImageComponent imagePath={`${drinkName}.png`}/>
+              <ImageComponent imagePath={`${drinkName}.png`} doneLoading={setLoading}/>
 
             </div>
             <div>
@@ -142,7 +160,7 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
             </div>
           </div>
 
-        <div className="text-center justify-center items-center pb-5">
+        <div className="text-center justify-center items-center pb-5 ">
           <button onClick={()=> router.push(`/cart/${index}`)} className="bg-slate-500 px-5 text-white rounded-full">Edit</button>
         </div>
 

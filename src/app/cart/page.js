@@ -15,6 +15,7 @@ import { getCartData } from "../components/drinks/retrieveDrink";
 import { CircularProgress, Button, Box, Typography, Slide } from "@mui/material";
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import PrintIcon from '@mui/icons-material/Print';
 
 
 export default function CartPage() {
@@ -24,6 +25,9 @@ export default function CartPage() {
   const { user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  const [printout,setPrintout] = useState(false);
+
 
   useEffect(() => {
     fetchUserCart();
@@ -89,6 +93,15 @@ export default function CartPage() {
     }
   };
 
+  const handlePrintout = () =>
+  {
+    setPrintout(true)
+    setTimeout(() => {
+      window.print();
+      setPrintout(false)
+    }, 1000);
+  }
+
   return (
     <main className="text-black">
       {!user &&  (
@@ -146,18 +159,50 @@ export default function CartPage() {
             )
           ) : (
             <>
-              {cart.map((drink, index) => (
-                <Slide direction="up" in={true} mountOnEnter unmountOnExit key={index}>
-                  <Box className="pt-4 even:py-6">
-                    <DrinkItemFromCart
-                      drink={drink}
-                      index={index}
-                      removeDrinkFromCart={removeDrinkFromCart}
-                      onQuantityChange={(newQuantity) => handleQuantityChange(index, newQuantity)}
-                    />
-                  </Box>
-                </Slide>
-              ))}
+
+              {printout && (
+                <div>
+
+                {cart.map((drink, index) => (
+                  <Slide direction="up" in={true} mountOnEnter unmountOnExit key={index}>
+                    <Box className="pt-4 even:py-6">
+                      <DrinkItemFromCart
+                        drink={drink}
+                        index={index}
+                        removeDrinkFromCart={removeDrinkFromCart}
+                        onQuantityChange={(newQuantity) => handleQuantityChange(index, newQuantity)}
+                        printout={true}
+                      />
+                    </Box>
+                  </Slide>
+                ))}
+
+                </div>
+              )}
+
+              {!printout && (
+                <div>
+
+                  {cart.map((drink, index) => (
+                    <Slide direction="up" in={true} mountOnEnter unmountOnExit key={index}>
+                      <Box className="pt-4 even:py-6">
+                        <DrinkItemFromCart
+                          drink={drink}
+                          index={index}
+                          removeDrinkFromCart={removeDrinkFromCart}
+                          onQuantityChange={(newQuantity) => handleQuantityChange(index, newQuantity)}
+                        />
+                      </Box>
+                    </Slide>
+                  ))}
+
+
+                </div>
+              )}
+
+              
+
+              {/* Price Rendering */}
               {priceLoading ? (
             // If it is loading play spinner
             <div className="flex text-center justify-center items-center  mx-auto mb-10 ">
@@ -176,12 +221,28 @@ export default function CartPage() {
               <p className=" text-sm text-slate-500 mx-4 lg:mx-0">Tax Not Included</p>
 
             
+
+
+              <button className=" bg-red-800 rounded-md py-2 px-4 text-white 
+              shadow-md text-right 
+              ml-4 lg:ml-0 my-4
+              print:hidden" 
+
+              onClick={()=>handlePrintout()}
+
+                  >
+                        
+                    <PrintIcon/> 
+
+                  </button>
+
+
+            
             {window.innerWidth <= 768 ? (
               <div>
-                 <div className="w-1/2 mx-auto justify-center text-center my-4">
+                 <div className="w-1/2 mx-auto justify-center text-center my-4 print:hidden">
 
-                      <button className=" bg-red-800 rounded-md py-2 px-4 text-white shadow-md w-fit" 
-                      >
+                      <button className=" bg-red-800 rounded-md py-2 px-4 text-white shadow-md w-fit" >
                         <a href='tel:403-453-4273' className=' font-semibold text-sm'> Call {`(403) 453-4273`} </a> 
 
                       </button>
@@ -193,7 +254,7 @@ export default function CartPage() {
             )
             :
             (
-              <div className="w-fit mx-auto my-4">
+              <div className="w-fit mx-auto my-4 print:hidden">
                                 
                   <p className=" text-sm font-semibold text-slate-500 mx-4 lg:mx-0"> Call {`(403) 453-4273`} </p>
                   <p  className=" text-sm font-semibold text-slate-500 mx-4 lg:mx-0"> to place your order.</p>
