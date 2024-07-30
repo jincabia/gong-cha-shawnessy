@@ -78,28 +78,34 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
     }, {});
   
     return (
-      <div className="bg-white rounded-lg shadow-md p-4 mb-4 w-11/12 mx-auto lg:w-1/2 lg:mx-auto">
+      <div className="bg-white rounded-lg shadow-md p-4 mb-4 w-11/12 mx-auto lg:w-1/2 lg:mx-auto ">
 
 
 
         {deleting ? (
-          <div className="flex text-center items-center justify-center">
+          <div className="flex text-center items-center justify-center ">
             <div className="spinner mx-auto w-1/2" style={{ width: 100, height: 100 }}></div>
           </div>
         ) : (
-          <div className="flex flex-row items-center justify-evenly">
-            <div className="w-1/3 sm:w-1/4 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5">
-              
+          <div className="flex flex-row items-center justify-evenly print:items-start">
+
+            {!printout && <>
+            
+              <div className="w-1/3 sm:w-1/4 h-fit p-4 rounded-lg shadow-lg flex items-center justify-center text-center hover:drop-shadow-xl my-5">
+                
 
               <ImageComponent imagePath={`${drinkName}.png`} doneLoading={setLoading}/>
 
-            </div>
-            <div>
-              <h1 className="text-sm font-semibold mx-auto w-fit  text-center my-5">{drinkName}</h1>
+              </div>
+            
+            </>}
+
+            <div className="">
+              <h1 className="text-sm font-semibold  mx-auto w-fit  text-center my-5">{drinkName}</h1>
               <div className="col-span-4 flex items-center justify-center">
                 {quantityVar === 1 && (
                   <button
-                    className="bg-slate-400 text-white rounded-full px-4 md:px-7"
+                    className="bg-slate-400 text-white rounded-full px-4 md:px-7 print:hidden"
                     onClick={handleRemove}
                   >
                     <DeleteOutlineIcon fontSize="small" />
@@ -107,15 +113,16 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
                 )}
                 {quantityVar > 1 && (
                   <button
-                    className="bg-slate-400 text-white rounded-full px-4 md:px-7"
+                    className="bg-slate-400 text-white rounded-full px-4 md:px-7 print:hidden"
                     onClick={handleSubtraction}
                   >
                     -
                   </button>
                 )}
+
                 <span className="mx-2 md:mx-4">{quantityVar}</span>
                 <button
-                  className="bg-slate-400 text-white rounded-full px-4 md:px-7"
+                  className="bg-slate-400 text-white rounded-full px-4 md:px-7 print:hidden"
                   onClick={handleAddition}
                 >
                   +
@@ -160,25 +167,37 @@ export default function DrinkItemFromCart({ drink, removeDrinkFromCart, index, o
             </div>
           </div>
 
-        <div className="text-center justify-center items-center pb-5 ">
-          <button onClick={()=> router.push(`/cart/${index}`)} className="bg-slate-500 px-5 text-white rounded-full">Edit</button>
-        </div>
+
+        {!printout && <>
+
+          <div className="text-center justify-center items-center pb-5 ">
+            <button onClick={()=> router.push(`/cart/${index}`)} className="bg-slate-500 px-5 text-white rounded-full">Edit</button>
+          </div>
+        
+        </>}
+
 
 
 
         </Collapse>
 
+
+        {!printout && <>
+        
+              <div
+                className="flex items-center justify-center text-center border-t-2 border-gray-50"
+                onClick={() => setExpand(!expand)}
+              >
+                {expand ? (
+                  <ExpandLessIcon sx={{ color: grey[900] }} />
+                ) : (
+                  <ExpandMoreIcon sx={{ color: grey[900] }} />
+                )}
+              </div>
+
+        </>}
+
   
-        <div
-          className="flex items-center justify-center text-center border-t-2 border-gray-50"
-          onClick={() => setExpand(!expand)}
-        >
-          {expand ? (
-            <ExpandLessIcon sx={{ color: grey[900] }} />
-          ) : (
-            <ExpandMoreIcon sx={{ color: grey[900] }} />
-          )}
-        </div>
       </div>
     );
   }
