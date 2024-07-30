@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "generate-sitemap": "node generate-sitemap.js"
+    
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -29,6 +31,7 @@
     "react-slick": "^0.30.2",
     "react-transition-group": "^4.4.5",
     "recharts": "^2.12.7",
+    "sitemap": "^8.0.0",
     "slick-carousel": "^1.8.1",
     "stripe": "^16.1.0"
   },
