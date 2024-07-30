@@ -36,12 +36,12 @@ export default function Home() {
       </script>
 
       <div>
-        <meta property="og:title" content="Gong Cha Shawnessy - Home" />
+        <meta property="og:title" content="Gong Cha Shawnessy" />
         <meta property="og:description" content="Welcome to Gong Cha Shawnessy, your go-to place for the best bubble tea." />
         <meta property="og:url" content="https://gongcha-shawnessy.vercel.app/" />
         <meta property="og:type" content="website" />
 
-        <meta name="instagram:title" content="Gong Cha Shawnessy - Home" />
+        <meta name="instagram:title" content="Gong Cha Shawnessy" />
         <meta name="instagram:description" content="Welcome to Gong Cha, your go-to place for the best bubble tea." />
       </div>
 
