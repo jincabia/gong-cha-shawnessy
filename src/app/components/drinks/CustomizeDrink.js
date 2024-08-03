@@ -2,10 +2,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState, useRef  } from 'react';
 import { getToppings } from '../../components/drinks/toppings/retrieveToppings';
-import Image from 'next/image';
 import { getDrinkById } from '@/app/components/drinks/retrieveDrink';
-import Toppings from '../topping/Topping';
-import ProtectedRoute from '../ProtectedRoutes/ProtectedRoute';
 import { useAuth } from '@/app/authContext/AuthContext';
 import updateUserCart from '../updateUsersCollection/updateUsersCart';
 import SignIn from '@/app/signin/page';
@@ -19,6 +16,9 @@ import { IceSelector } from './selectors/IceSelector';
 import { ToppingsList } from './toppings/ToppingsList';
 import { QuantityCounter } from './quantityCounter';
 import { updateCartData } from '@/app/components/drinks/retrieveDrink';
+
+
+
 const restrictionsMap = {
   0: [],
   1: ['MediumSizeOnly'],
@@ -36,10 +36,7 @@ const restrictionsMap = {
 /*
 PARAMETERS
 ID - we'll use the id to query through the database and show the info
-
-TODO 
- Add to cart
-  - Add an ID when writing to db so we can delete items properly 
+ 
 */
 
 const CustomizeDrink = () => {

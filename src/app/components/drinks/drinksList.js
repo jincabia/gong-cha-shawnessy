@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getDrinks,addDrinksToCartData,getCartData } from './retrieveDrink';
+import { getDrinks, addDrinksToCartData, getCartData } from './retrieveDrink';
 import DrinksCarousel from '../carousel/DrinksCarousel';
 import Drink from './drinks';
 import Filter from './filterDrinks';
@@ -24,45 +24,39 @@ const DrinksList = () => {
       }
     };
 
-
-    
-
-    const fetchCartData = async () =>
-      {
-        try{
-          const cartData = await getCartData();
-        }
-        catch(error)
-        {
-          console.error(error)
-        }
-
+    const fetchCartData = async () => {
+      try {
+        const cartData = await getCartData();
+      } catch (error) {
+        console.error(error);
       }
+    };
 
-    const addDrinks = async () =>
-    {
-      try{
+    const addDrinks = async () => {
+      try {
         await addDrinksToCartData();
+      } catch (error) {
+        console.error(error);
       }
-      catch(error)
-      {
-        console.log('wtf')
-        console.log(error)
-      }
-    }
+    };
 
     fetchDrinks();
     addDrinks();
     fetchCartData();
-
   }, []);
 
-  const bestSellers = drinks.filter(drink => 
+  const bestSellers = drinks.filter(drink =>
     ['Brown Sugar MT with Pearls', 'Milk Tea with Pearls', 'Panda Milk Foam'].includes(drink.product_name)
   );
 
-  const filteredDrinks = selectedCategory === 'All' 
-    ? drinks 
+  const categoryOrder = ['Milk Foam', 'Milk Tea', 'Fruit Tea', 'Smoothie', 'Fresh Milk', 'Sparklings'];
+
+  const sortDrinksByCategoryOrder = (drinksList) => {
+    return drinksList.sort((a, b) => categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category));
+  };
+
+  const filteredDrinks = selectedCategory === 'All'
+    ? sortDrinksByCategoryOrder(drinks)
     : drinks.filter(drink => drink.category === selectedCategory);
 
   if (loading) {
@@ -82,7 +76,7 @@ const DrinksList = () => {
       <div className='text-center'>
         <div className='flex items-center justify-between pb-5'>
           <div className='flex-grow border-t border-slate-300'></div>
-          <span className='mx-4 text-2xl text-red-800  font-serif'>Our top sellers</span>
+          <span className='mx-4 text-2xl text-red-800 font-serif'>Our top sellers</span>
           <div className='flex-grow border-t border-slate-300'></div>
         </div>
         <h1 className='text-black'></h1>
@@ -93,7 +87,7 @@ const DrinksList = () => {
       <div className='text-center pt-5'>
         <div className='flex items-center justify-between pb-5'>
           <div className='flex-grow border-t border-slate-300'></div>
-          <span className='mx-4 text-2xl text-red-800  font-serif'></span>
+          <span className='mx-4 text-2xl text-red-800 font-serif'></span>
           <div className='flex-grow border-t border-slate-300'></div>
         </div>
         <h1 className='text-black'></h1>
@@ -102,8 +96,7 @@ const DrinksList = () => {
       {/* Filter Component */}
 
       <div className='mb-10 lg:w-1/3 mx-auto '>
-
-        <Filter selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}  />
+        <Filter selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       </div>
 
       <ul className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 py-5">
