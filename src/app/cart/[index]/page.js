@@ -128,6 +128,7 @@
                setPrice(cartItemData.price);
                setSugar(cartItemData.sugar.slice(0,-1));
                setDrinkToppings(cartItemData.toppings)
+               console.log(cartItemData.soySubAllowed);
                console.log('this is the cartItem toppings', drinkToppings)
                
                const hasSoy = cartItemData.toppings.some(topping => topping.product_name === "Soy Milk Alternative");
@@ -290,7 +291,8 @@ const handleSaveChanges = async () => {
        sugar: sugar + '%',
        ice: ice,
        quantity: quantity,
-       drinkID: drink.drinkID
+       drinkID: drink.drinkID,
+       soySubAllowed:drink.soySubAllowed
    };
 
    if(soy)

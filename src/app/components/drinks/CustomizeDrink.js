@@ -265,7 +265,8 @@ const CustomizeDrink = () => {
       sugar: sugar + '%',
       ice: ice,
       quantity: quantity,
-      drinkID:drinkID
+      drinkID:drinkID,
+      soySubAllowed:drink.soySubAllowed
     };
 
     if(soy)
