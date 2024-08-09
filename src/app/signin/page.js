@@ -78,7 +78,7 @@ const SignIn = () => {
         } else {
           setError(null); // Clear any previous errors
           // console.log('Signed in user:', user);
-          router.push('/')
+          router.back();
           writeUserData(user);
         }
       })
