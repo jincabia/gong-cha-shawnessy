@@ -99,7 +99,7 @@ export default function CartPage() {
     setTimeout(() => {
       window.print();
       setPrintout(false)
-    }, 1000);
+    }, 3000);
   }
 
   return (
