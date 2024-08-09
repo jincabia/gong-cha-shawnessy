@@ -220,9 +220,9 @@ export default function CartPage() {
 
               <p className=" text-sm text-slate-500 mx-4 lg:mx-0">Tax Not Included</p>
 
-            
+              {window.innerWidth >= 768 && (
 
-
+                
               <button className=" bg-red-800 rounded-md py-2 px-4 text-white 
               shadow-md text-right 
               ml-4 lg:ml-0 my-4
@@ -235,6 +235,15 @@ export default function CartPage() {
                     <PrintIcon/> 
 
                   </button>
+
+              )}
+
+
+
+            
+
+
+             
 
 
             
@@ -255,6 +264,8 @@ export default function CartPage() {
             :
             (
               <div className="w-fit mx-auto my-4 print:hidden">
+
+                 
                                 
                   <p className=" text-sm font-semibold text-slate-500 mx-4 lg:mx-0"> Call {`(403) 453-4273`} </p>
                   <p  className=" text-sm font-semibold text-slate-500 mx-4 lg:mx-0"> to place your order.</p>
